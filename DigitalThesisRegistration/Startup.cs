@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DTRDAL.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -35,10 +36,10 @@ namespace DigitalThesisRegistration
 
             // Configure context
             services.AddSingleton(Configuration);
-            //if (Environment.IsDevelopment())
-            //    services.AddDbContext<VolunteerRegistrationContext>(opt => opt.UseInMemoryDatabase("VR"));
-            //else
-            //    services.AddDbContext<VolunteerRegistrationContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            if (Environment.IsDevelopment())
+                services.AddDbContext<DTRContext>(opt => opt.UseInMemoryDatabase("DTR"));
+            else
+                services.AddDbContext<DTRContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             // Add Dependencies
             //services.AddScoped<IUnitOfWork, UnitOfWork>();
