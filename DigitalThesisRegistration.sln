@@ -4,9 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DigitalThesisRegistration", "DigitalThesisRegistration\DigitalThesisRegistration.csproj", "{B1837571-8670-4573-9088-BA8EF7CAE579}"
-	ProjectSection(ProjectDependencies) = postProject
-		{CE8D8DF0-53E5-4028-AB50-D3287BD785EC} = {CE8D8DF0-53E5-4028-AB50-D3287BD785EC}
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTRBLL", "DTRBLL\DTRBLL.csproj", "{5A0A98EA-B0C0-47B6-8B3F-1F0162E87C0D}"
 EndProject
