@@ -10,4 +10,8 @@
     <Folder Include="Services\implementations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DTRDAL\DTRDAL.csproj" />
+  </ItemGroup>
+
 </Project>
