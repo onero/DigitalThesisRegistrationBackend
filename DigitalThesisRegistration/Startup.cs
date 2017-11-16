@@ -1,24 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DTRDAL.Context;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace DigitalThesisRegistration
 {
     public class Startup
     {
-        private IHostingEnvironment Environment { get; }
-
-        private IConfiguration Configuration { get; }
-
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -29,6 +18,10 @@ namespace DigitalThesisRegistration
             Environment = env;
         }
 
+        private IHostingEnvironment Environment { get; }
+
+        private IConfiguration Configuration { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -36,10 +29,10 @@ namespace DigitalThesisRegistration
 
             // Configure context
             services.AddSingleton(Configuration);
-            if (Environment.IsDevelopment())
-                services.AddDbContext<DTRContext>(opt => opt.UseInMemoryDatabase("DTR"));
-            else
-                services.AddDbContext<DTRContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //if (Environment.IsDevelopment())
+            //    services.AddDbContext<DTRContext>(opt => opt.UseInMemoryDatabase("DTR"));
+            //else
+            //    services.AddDbContext<DTRContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             // Add Dependencies
             //services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -49,9 +42,7 @@ namespace DigitalThesisRegistration
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
 
             // Add cors for Angular
             app.UseCors(builder => builder.WithOrigins("http://localhost:4200")
