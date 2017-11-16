@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="implementations\" />
+    <ProjectReference Include="..\DTRBLL\DTRBLL.csproj" />
   </ItemGroup>
 
 </Project>

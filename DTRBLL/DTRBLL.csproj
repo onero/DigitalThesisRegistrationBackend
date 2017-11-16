@@ -6,8 +6,8 @@
 
   <ItemGroup>
     <Folder Include="BusinessObjects\" />
-    <Folder Include="Converters\implementations\" />
-    <Folder Include="Services\implementations\" />
+    <Folder Include="Converters\Implementations\" />
+    <Folder Include="Services\Implementations\" />
   </ItemGroup>
 
   <ItemGroup>

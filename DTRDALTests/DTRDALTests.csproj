@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="implementations\" />
+    <ProjectReference Include="..\DTRDAL\DTRDAL.csproj" />
   </ItemGroup>
 
 </Project>
