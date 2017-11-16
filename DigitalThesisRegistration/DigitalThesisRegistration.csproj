@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DTRDAL\DTRDAL.csproj" />
+    <ProjectReference Include="..\DTRBLL\DTRBLL.csproj" />
   </ItemGroup>
 
 </Project>

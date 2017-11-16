@@ -16,4 +16,8 @@
     <Folder Include="implementations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DTRBLL\DTRBLL.csproj" />
+  </ItemGroup>
+
 </Project>
