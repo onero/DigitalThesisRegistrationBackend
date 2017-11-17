@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("DigitalThesisRegistration")]
+[assembly: InternalsVisibleTo("DTRDALTests")]
 namespace DTRDAL.Repositories
 {
     public interface IRespository<TEntity>
