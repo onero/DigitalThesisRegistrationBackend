@@ -6,7 +6,7 @@ install:
 - dotnet restore
 script:
 - dotnet build
-- dotnet test DTRGUITests/DTRGUITests.csproj
+- dotnet test DTRControllerTests/DTRControllerTests.csproj
 - dotnet test DTRDALTests/DTRDALTests.csproj
 - dotnet test DTRBLLTests/DTRBLLTests.csproj
 branches:

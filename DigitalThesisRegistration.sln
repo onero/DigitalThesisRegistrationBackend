@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTRBLLTests", "DTRBLLTests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTRDALTests", "DTRDALTests\DTRDALTests.csproj", "{E519D978-F73C-4006-ACFE-68DA83ED379B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTRGUITests", "DTRGUITests\DTRGUITests.csproj", "{56B16E8F-0B74-4944-9A60-11EF0F277AE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTRControllerTests", "DTRControllerTests\DTRControllerTests.csproj", "{56B16E8F-0B74-4944-9A60-11EF0F277AE9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

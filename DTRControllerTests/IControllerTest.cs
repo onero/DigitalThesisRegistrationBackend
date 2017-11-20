@@ -1,4 +1,4 @@
-﻿namespace DTRGUITests
+﻿namespace DTRControllerTests
 {
     public interface IControllerTest
     {
