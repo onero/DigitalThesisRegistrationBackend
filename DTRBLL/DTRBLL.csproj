@@ -5,8 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="BusinessObjects\" />
-    <Folder Include="Converters\Implementations\" />
     <Folder Include="Services\Implementations\" />
   </ItemGroup>
 
