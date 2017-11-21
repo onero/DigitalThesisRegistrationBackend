@@ -1,4 +1,5 @@
-﻿using DTRBLL.BusinessObjects;
+﻿using System.Collections.Generic;
+using DTRBLL.BusinessObjects;
 using DTRBLL.Services;
 using DTRBLL.Services.Implementations;
 using DTRDAL.Entities;
@@ -36,17 +37,27 @@ namespace DTRBLLTests.Implementations
         [Fact]
         public void GetOneByExistingId()
         {
-            throw new System.NotImplementedException();
+            _repo.Setup(r => r.Get(It.IsAny<int>())).Returns(new Student());
+
+            var entity = _service.Get(1);
+
+            Assert.NotNull(entity);
         }
         [Fact]
         public void NotGetOneByNonExistingId()
         {
-            throw new System.NotImplementedException();
+            var entity = _service.Get(0);
+            Assert.Null(entity);
         }
         [Fact]
         public void GetAll()
         {
-            throw new System.NotImplementedException();
+            _repo.Setup(r => r.GetAll()).Returns(new List<Student> {new Student()});
+
+            var entities = _service.GetAll();
+
+            Assert.NotNull(entities);
+            Assert.NotEmpty(entities);
         }
 
         public void DeleteByExistingId()
