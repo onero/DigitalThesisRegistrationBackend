@@ -28,7 +28,7 @@ namespace DTRDAL.Repositories.Implementations
 
         public IEnumerable<Student> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Students;
         }
 
         public bool Delete(int id)

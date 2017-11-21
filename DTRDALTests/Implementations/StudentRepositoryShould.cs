@@ -51,7 +51,10 @@ namespace DTRDALTests.Implementations
         [Fact]
         public void GetAll()
         {
-            throw new System.NotImplementedException();
+            CreateMockStudent();
+            var entities = _repository.GetAll();
+            Assert.NotNull(entities);
+            Assert.NotEmpty(entities);
         }
 
         public void DeleteByExistingId()
