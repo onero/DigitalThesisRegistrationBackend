@@ -36,13 +36,16 @@ namespace DTRDALTests.Implementations
         [Fact]
         public void GetOneByExistingId()
         {
-            throw new System.NotImplementedException();
+            var createdEntity = CreateMockStudent();
+            var entity = _repository.Get(createdEntity.Id);
+            Assert.NotNull(entity);
         }
 
         [Fact]
         public void NotGetOneByNonExistingId()
         {
-            throw new System.NotImplementedException();
+            var entity = _repository.Get(0);
+            Assert.Null(entity);
         }
 
         [Fact]
