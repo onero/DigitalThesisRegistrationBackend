@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("DTRDALTests")]
 
 namespace DTRDAL.Repositories
 {
