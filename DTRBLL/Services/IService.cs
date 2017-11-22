@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("DigitalThesisRegistration")]
 [assembly: InternalsVisibleTo("DTRBLLTests")]
+[assembly: InternalsVisibleTo("DTRControllerTests")]
 namespace DTRBLL.Services
 {
     public interface IService<TBusinessObject>
