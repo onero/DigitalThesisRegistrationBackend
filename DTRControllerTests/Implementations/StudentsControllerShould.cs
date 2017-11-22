@@ -1,5 +1,10 @@
+using System.Collections.Generic;
+using DigitalThesisRegistration.Controllers;
+using DTRBLL.BusinessObjects;
 using DTRBLL.Services;
+using DTRBLL.Services.Implementations;
 using DTRDAL.UOW;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
@@ -7,38 +12,53 @@ namespace DTRControllerTests.Implementations
 {
     public class StudentsControllerShould : IControllerTest
     {
-        private Mock<IUnitOfWork> uow = new Mock<IUnitOfWork>();
-        private IStudentService _service;
+        private Mock<IStudentService> _service = new Mock<IStudentService>();
+        private StudentsController _controller;
+        private readonly StudentBO _mockBo = new StudentBO{Id = 1, FirstName = "Test", LastName = "Test"};
 
         public StudentsControllerShould()
         {
-            _service = new StudentService(uow);
+            _controller = new StudentsController(_service.Object);
         }
+
+        [Fact]
         public void GetAll()
         {
-            throw new System.NotImplementedException();
+            _service.Setup(s => s.GetAll()).Returns(new List<StudentBO> {_mockBo});
+            var result = _controller.Get();
+            Assert.NotNull(result);
+            Assert.NotEmpty(result);
         }
 
+        [Fact]
         public void GetByExistingId()
         {
-            throw new System.NotImplementedException();
+            _service.Setup(s => s.Get(It.IsAny<int>())).Returns(_mockBo);
+            var result = _controller.Get(_mockBo.Id);
+            Assert.NotNull(result);
         }
 
+        [Fact]
         public void NotGetByNonExistingId_ReturnNotFound()
         {
-            throw new System.NotImplementedException();
+            _service.Setup(s => s.Get(0)).Returns(() => null);
+            var result = _controller.Get(0);
+            Assert.IsType<NotFoundResult>(result);
         }
 
+        [Fact]
         public void PostWithValidObject()
         {
             throw new System.NotImplementedException();
         }
 
+        [Fact]
         public void NotPostWithInvalidObject_ReturnBadRequest()
         {
             throw new System.NotImplementedException();
         }
 
+        [Fact]
         public void NotPostWithNull_ReturnBadRequest()
         {
             throw new System.NotImplementedException();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DTRBLL.BusinessObjects;
 using DTRBLL.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,34 +22,42 @@ namespace DigitalThesisRegistration.Controllers
 
         // GET: api/Students
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<StudentBO> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _service.GetAll();
         }
 
         // GET: api/Students/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [HttpGet("{id}", Name = "GetStudent")]
+        public IActionResult Get(int id)
         {
-            return "value";
+            var result = _service.Get(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return new OkObjectResult(result);
         }
         
         // POST: api/Students
         [HttpPost]
         public void Post([FromBody]string value)
         {
+            throw new NotImplementedException();
         }
         
         // PUT: api/Students/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {
+            throw new NotImplementedException();
         }
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            throw new NotImplementedException();
         }
     }
 }
