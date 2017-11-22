@@ -49,19 +49,25 @@ namespace DTRControllerTests.Implementations
         [Fact]
         public void PostWithValidObject()
         {
-            throw new System.NotImplementedException();
+            _service.Setup(s => s.Create(It.IsAny<StudentBO>())).Returns(_mockBo);
+            var result = _controller.Post(_mockBo);
+            Assert.NotNull(result);
         }
 
         [Fact]
         public void NotPostWithInvalidObject_ReturnBadRequest()
         {
-            throw new System.NotImplementedException();
+            _service.Setup(s => s.Create(It.IsAny<StudentBO>())).Returns(() => null);
+            _controller.ModelState.AddModelError("", "");
+            var result = _controller.Post(_mockBo);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
         [Fact]
         public void NotPostWithNull_ReturnBadRequest()
         {
-            throw new System.NotImplementedException();
+            var result = _controller.Post(null);
+            Assert.IsType<BadRequestResult>(result);
         }
 
         public void DeleteByExistingId_ReturnOk()

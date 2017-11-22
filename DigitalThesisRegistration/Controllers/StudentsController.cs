@@ -41,9 +41,11 @@ namespace DigitalThesisRegistration.Controllers
         
         // POST: api/Students
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]StudentBO value)
         {
-            throw new NotImplementedException();
+            if (value == null) return BadRequest();
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            return new OkObjectResult(_service.Create(value));
         }
         
         // PUT: api/Students/5
