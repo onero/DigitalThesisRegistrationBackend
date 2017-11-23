@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using DTRDAL.Context;
 using DTRDAL.Entities;
@@ -17,17 +18,17 @@ namespace DTRDAL.Repositories.Implementations
 
         public Company Create(Company ent)
         {
-            throw new NotImplementedException();
+            return _context.Companies.Add(ent).Entity;
         }
 
         public Company Get(int id)
         {
-            throw new NotImplementedException();
+            return _context.Companies.FirstOrDefault(c => c.Id == id);
         }
 
         public IEnumerable<Company> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Companies;
         }
 
         public bool Delete(int id)

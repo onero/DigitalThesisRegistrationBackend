@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 using DTRDAL.Context;
+using DTRDAL.Entities;
 using DTRDAL.Repositories;
 using DTRDAL.Repositories.Implementations;
 using DTRDALTests.implementations;
+using Xunit;
 
 namespace DTRDALTests.Implementations
 {
-    class CompanyRepositoryShould : IRepositoryTest
+    public class CompanyRepositoryShould : IRepositoryTest
     {
         private readonly DTRContext _context;
         private readonly CompanyRepository _repository;
@@ -19,24 +21,43 @@ namespace DTRDALTests.Implementations
             _repository = new CompanyRepository(_context);
         }
 
+        private Company CreateMockCompany()
+        {
+            var entity = new Company { Id = 1, Name = "Test" };
+            var createdEntity = _repository.Create(entity);
+            _context.SaveChanges();
+            return createdEntity;
+        }
+
+        [Fact]
         public void CreateOne()
         {
-            throw new NotImplementedException();
+            var createdEntity = CreateMockCompany();
+            Assert.NotNull(createdEntity);
         }
 
+        [Fact]
         public void GetOneByExistingId()
         {
-            throw new NotImplementedException();
+            var createdEntity = CreateMockCompany();
+            var entity = _repository.Get(createdEntity.Id);
+            Assert.NotNull(entity);
         }
 
+        [Fact]
         public void NotGetOneByNonExistingId()
         {
-            throw new NotImplementedException();
+            var entity = _repository.Get(0);
+            Assert.Null(entity);
         }
 
+        [Fact]
         public void GetAll()
         {
-            throw new NotImplementedException();
+            CreateMockCompany();
+            var entities = _repository.GetAll();
+            Assert.NotNull(entities);
+            Assert.NotEmpty(entities);
         }
 
         public void DeleteByExistingId()
