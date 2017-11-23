@@ -18,6 +18,7 @@ namespace DTRControllerTests.Implementations
             _controller = new GroupsController(_service.Object);
         }
 
+
         [Fact]
         public void GetAll()
         {
@@ -45,17 +46,23 @@ namespace DTRControllerTests.Implementations
         [Fact]
         public void PostWithValidObject()
         {
-            throw new System.NotImplementedException();
+            _service.Setup(r => r.Create(It.IsAny<GroupBO>())).Returns(new GroupBO());
+
+            var result = _controller.Post(new GroupBO {Id = 1, Name = "D4FF", ContactEmail = "Test", Students = new List<StudentBO>(), StudentIds = new List<int>()});
+            Assert.IsType<OkObjectResult>(result);
         }
         [Fact]
         public void NotPostWithInvalidObject_ReturnBadRequest()
         {
-            throw new System.NotImplementedException();
+            _controller.ModelState.AddModelError("", "");
+            var result = _controller.Post(new GroupBO());
+            Assert.IsType<BadRequestResult>(result);
         }
         [Fact]
         public void NotPostWithNull_ReturnBadRequest()
         {
-            throw new System.NotImplementedException();
+            var result = _controller.Post(null);
+            Assert.Null(result);
         }
 
         public void DeleteByExistingId_ReturnOk()

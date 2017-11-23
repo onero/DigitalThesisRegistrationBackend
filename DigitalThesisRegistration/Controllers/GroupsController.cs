@@ -41,8 +41,12 @@ namespace DigitalThesisRegistration.Controllers
 
         // POST: api/Groups
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]GroupBO value)
         {
+            if (value == null) return null;
+            var createdEntity = _service.Create(value);
+            if (!ModelState.IsValid) return BadRequest();
+            return new OkObjectResult(createdEntity);
         }
         
         // PUT: api/Groups/5
