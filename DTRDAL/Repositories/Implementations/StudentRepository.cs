@@ -34,7 +34,7 @@ namespace DTRDAL.Repositories.Implementations
 
         public IEnumerable<Student> GetByIds(List<int> ids)
         {
-            return _context.Students.Include(s => s.Group).Where(s => ids.Contains(s.Id));
+            return _context.Students.Where(s => ids.Contains(s.Id));
         }
 
         public bool Delete(int id)

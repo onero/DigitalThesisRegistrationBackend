@@ -27,8 +27,7 @@ namespace DTRBLLTests.Implementations
             Id = 1,
             Name = "D4FF",
             ContactEmail = "Test",
-            Students = new List<StudentBO>{new StudentBO()},
-            StudentIds = new List<int>()
+            Students = new List<StudentBO>{new StudentBO()}
         };
 
         private GroupBO CreateMockGroupBO()

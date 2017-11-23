@@ -22,7 +22,8 @@ namespace DTRDAL.Context
             // Define Student relation with Group
             modelBuilder.Entity<Student>()
                 .HasOne(s => s.Group)
-                .WithMany(g => g.Students);
+                .WithMany(g => g.Students)
+                .HasForeignKey(g => g.GroupId);
         }
     }
 }

@@ -11,16 +11,25 @@ namespace DTRDALTests.Implementations
     {
         private readonly DTRContext _context;
         private readonly StudentRepository _repository;
+        private readonly GroupRepository _groupRepository;
 
         public StudentRepositoryShould()
         {
             _context = TestContext.Context;
             _repository = new StudentRepository(_context);
+            _groupRepository = new GroupRepository(_context);
         }
 
         private Student CreateMockStudent()
         {
-            var entity = new Student {Id = 1, FirstName = "Test", LastName = "Test"};
+            _groupRepository.Create(new Group {Id = 1});
+            var entity = new Student
+            {
+                Id = 1,
+                FirstName = "Test",
+                LastName = "Test",
+                GroupId = 1
+            };
             var createdEntity = _repository.Create(entity);
             _context.SaveChanges();
             return createdEntity;

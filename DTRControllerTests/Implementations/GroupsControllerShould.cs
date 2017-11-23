@@ -48,21 +48,21 @@ namespace DTRControllerTests.Implementations
         {
             _service.Setup(r => r.Create(It.IsAny<GroupBO>())).Returns(new GroupBO());
 
-            var result = _controller.Post(new GroupBO {Id = 1, Name = "D4FF", ContactEmail = "Test", Students = new List<StudentBO>(), StudentIds = new List<int>()});
+            var result = _controller.Post(new GroupBO {Id = 1, Name = "D4FF", ContactEmail = "Test", Students = new List<StudentBO>()});
             Assert.IsType<OkObjectResult>(result);
         }
         [Fact]
         public void NotPostWithInvalidObject_ReturnBadRequest()
         {
             _controller.ModelState.AddModelError("", "");
-            var result = _controller.Post(new GroupBO());
-            Assert.IsType<BadRequestResult>(result);
+            var result = _controller.Post(new GroupBO{Id = 1});
+            Assert.IsType<BadRequestObjectResult>(result);
         }
         [Fact]
         public void NotPostWithNull_ReturnBadRequest()
         {
             var result = _controller.Post(null);
-            Assert.Null(result);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
         public void DeleteByExistingId_ReturnOk()

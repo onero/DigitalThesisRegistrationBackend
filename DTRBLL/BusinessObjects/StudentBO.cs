@@ -1,4 +1,6 @@
-﻿namespace DTRBLL.BusinessObjects
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace DTRBLL.BusinessObjects
 {
     public class StudentBO : PersonBO
     {

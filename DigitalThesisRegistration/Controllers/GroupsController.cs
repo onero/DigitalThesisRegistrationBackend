@@ -43,7 +43,7 @@ namespace DigitalThesisRegistration.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]GroupBO value)
         {
-            if (value == null) return null;
+            if (value == null) return BadRequest(value);
             var createdEntity = _service.Create(value);
             if (!ModelState.IsValid) return BadRequest(ModelState);
             return new OkObjectResult(createdEntity);

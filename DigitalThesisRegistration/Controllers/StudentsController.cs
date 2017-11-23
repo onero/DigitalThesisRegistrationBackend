@@ -43,7 +43,8 @@ namespace DigitalThesisRegistration.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]StudentBO value)
         {
-            if (value == null) return BadRequest();
+            if (value == null) return BadRequest(value);
+            if (value.GroupId == 0) return BadRequest(value);
             if (!ModelState.IsValid) return BadRequest(ModelState);
             return new OkObjectResult(_service.Create(value));
         }
