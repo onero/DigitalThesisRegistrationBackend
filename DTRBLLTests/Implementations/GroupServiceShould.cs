@@ -49,17 +49,25 @@ namespace DTRBLLTests.Implementations
         [Fact]
         public void GetOneByExistingId()
         {
-            throw new System.NotImplementedException();
+            _repo.Setup(r => r.Get(It.IsAny<int>())).Returns(new Group());
+
+            var entity = _service.Get(1);
+            Assert.NotNull(entity);
         }
         [Fact]
         public void NotGetOneByNonExistingId()
         {
-            throw new System.NotImplementedException();
+            var entity = _service.Get(0);
+            Assert.Null(entity);
         }
         [Fact]
         public void GetAll()
         {
-            throw new System.NotImplementedException();
+            _repo.Setup(r => r.GetAll()).Returns(new List<Group>{new Group()});
+
+            var entities = _service.GetAll();
+            Assert.NotNull(entities);
+            Assert.NotEmpty(entities);
         }
 
         public void DeleteByExistingId()

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using DTRBLL.BusinessObjects;
 using DTRBLL.Converters.Implementations;
 using DTRDAL.UOW;
@@ -29,12 +30,19 @@ namespace DTRBLL.Services.Implementations
 
         public GroupBO Get(int id)
         {
-            throw new System.NotImplementedException();
+            using (var unitOfWork = _uow)
+            {
+                var entityFromDB = unitOfWork.GroupRepository.Get(id);
+                return _converter.Convert(entityFromDB);
+            }
         }
 
         public IList<GroupBO> GetAll()
         {
-            throw new System.NotImplementedException();
+            using (var unitOfWork = _uow)
+            {
+                return unitOfWork.GroupRepository.GetAll().Select(_converter.Convert).ToList();
+            }
         }
 
         public bool Delete(int id)
