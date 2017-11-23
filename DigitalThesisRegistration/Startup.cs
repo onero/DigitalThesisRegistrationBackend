@@ -46,6 +46,7 @@ namespace DigitalThesisRegistration
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<IGroupService, GroupService>();
             services.AddScoped<ICompanyService, CompanyService>();
+            services.AddScoped<ISupervisorService, SupervisorService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
