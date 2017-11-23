@@ -39,7 +39,9 @@ namespace DTRBLL.Services.Implementations
         {
             using (var unitOfWork = _uow)
             {
-                return unitOfWork.StudentRepository.GetAll().Select(_converter.Convert).ToList();
+                return unitOfWork.StudentRepository.GetAll()
+                    .Select(_converter.Convert)
+                    .ToList();
             }
         }
 

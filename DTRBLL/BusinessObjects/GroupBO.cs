@@ -12,7 +12,6 @@ namespace DTRBLL.BusinessObjects
         [Required]
         [MinLength(2)]
         public string ContactEmail { get; set; }
-        public List<int> StudentIds { get; set; }
         public List<StudentBO> Students { get; set; }
     }
 }

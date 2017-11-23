@@ -29,7 +29,6 @@ namespace DTRBLL.Converters.Implementations
                 Id = entity.Id,
                 Name = entity.Name,
                 ContactEmail = entity.ContactEmail,
-                StudentIds = entity.Students?.Select(s => s.Id).ToList(),
                 Students = entity.Students?.Select(_studentConverter.Convert).ToList()
             };
         }
