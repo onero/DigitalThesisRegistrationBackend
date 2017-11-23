@@ -4,6 +4,7 @@ using DTRDAL.Repositories;
 
 [assembly: InternalsVisibleTo("DigitalThesisRegistration")]
 [assembly: InternalsVisibleTo("DTRDALTests")]
+
 namespace DTRDAL.UOW
 {
     public interface IUnitOfWork : IDisposable
@@ -13,7 +14,9 @@ namespace DTRDAL.UOW
         /// </summary>
         void Complete();
 
-        IStudentRepository StudentRepository { get;  }
-        ICompanyRepository CompanyRepository { get;  }
+        IStudentRepository StudentRepository { get; }
+        IGroupRepository GroupRepository { get; }
+
+        ICompanyRepository CompanyRepository { get; }
     }
 }

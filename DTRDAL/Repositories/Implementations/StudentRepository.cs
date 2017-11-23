@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DTRDAL.Context;
 using DTRDAL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace DTRDAL.Repositories.Implementations
 {
@@ -23,12 +24,17 @@ namespace DTRDAL.Repositories.Implementations
 
         public Student Get(int id)
         {
-            return _context.Students.FirstOrDefault(s => s.Id == id);
+            return _context.Students.Include(s => s.Group).FirstOrDefault(s => s.Id == id);
         }
 
         public IEnumerable<Student> GetAll()
         {
-            return _context.Students;
+            return _context.Students.Include(s => s.Group);
+        }
+
+        public IEnumerable<Student> GetByIds(List<int> ids)
+        {
+            return _context.Students.Where(s => ids.Contains(s.Id));
         }
 
         public bool Delete(int id)

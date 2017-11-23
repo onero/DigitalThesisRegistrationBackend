@@ -9,12 +9,14 @@ namespace DTRDAL.UOW.Implementations
         private readonly DTRContext _context;
 
         public IStudentRepository StudentRepository { get; }
+        public IGroupRepository GroupRepository { get; }
         public ICompanyRepository CompanyRepository { get; }
 
         public UnitOfWork(DTRContext context)
         {
             _context = context;
             StudentRepository = new StudentRepository(_context);
+            GroupRepository = new GroupRepository(_context);
             CompanyRepository = new CompanyRepository(_context);
         }
 

@@ -43,6 +43,8 @@ namespace DigitalThesisRegistration
 
             // Add Dependencies
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IStudentService, StudentService>();
+            services.AddScoped<IGroupService, GroupService>();
             services.AddScoped<ICompanyService, CompanyService>();
         }
 

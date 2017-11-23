@@ -12,7 +12,8 @@ namespace DTRBLL.Converters.Implementations
             {
                 Id = bo.Id,
                 FirstName = bo.FirstName,
-                LastName = bo.LastName
+                LastName = bo.LastName,
+                GroupId = bo.GroupId
             };
         }
 
@@ -23,7 +24,8 @@ namespace DTRBLL.Converters.Implementations
             {
                 Id = entity.Id,
                 FirstName = entity.FirstName,
-                LastName = entity.LastName
+                LastName = entity.LastName,
+                GroupId = entity.GroupId
             };
         }
     }
