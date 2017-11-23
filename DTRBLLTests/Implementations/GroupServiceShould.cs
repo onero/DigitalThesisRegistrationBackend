@@ -27,7 +27,7 @@ namespace DTRBLLTests.Implementations
             Id = 1,
             Name = "D4FF",
             ContactEmail = "Test",
-            Students = new List<StudentBO>(),
+            Students = new List<StudentBO>{new StudentBO()},
             StudentIds = new List<int>()
         };
 
@@ -49,10 +49,27 @@ namespace DTRBLLTests.Implementations
         [Fact]
         public void GetOneByExistingId()
         {
-            _repo.Setup(r => r.Get(It.IsAny<int>())).Returns(new Group());
+            _repo.Setup(r => r.Get(It.IsAny<int>())).Returns(new Group
+            {
+                Id = 1,
+                Name = "Test",
+                ContactEmail = "Test",
+                Students = new List<Student>
+                {
+                    new Student
+                    {
+                        Id = 1,
+                        FirstName = "Test",
+                        GroupId = 1,
+                        LastName = "Test"
+                    }
+                }
+            });
 
             var entity = _service.Get(1);
             Assert.NotNull(entity);
+            Assert.NotNull(entity.Students);
+            Assert.NotEmpty(entity.Students);
         }
         [Fact]
         public void NotGetOneByNonExistingId()

@@ -46,6 +46,8 @@ namespace DTRDALTests.Implementations
             var createdEntity = CreateMockGroup();
             var entity = _repository.Get(createdEntity.Id);
             Assert.NotNull(entity);
+            Assert.NotNull(entity.Students);
+            Assert.NotEmpty(entity.Students);
         }
         [Fact]
         public void NotGetOneByNonExistingId()

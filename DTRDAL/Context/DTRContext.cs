@@ -19,10 +19,10 @@ namespace DTRDAL.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Define Group relation with Student
-            modelBuilder.Entity<Group>()
-                .HasMany(g => g.Students)
-                .WithOne(s => s.Group);
+            // Define Student relation with Group
+            modelBuilder.Entity<Student>()
+                .HasOne(s => s.Group)
+                .WithMany(g => g.Students);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace DTRBLL.Converters.Implementations
                 Id = bo.Id,
                 Name = bo.Name,
                 ContactEmail = bo.ContactEmail,
-                Students = bo?.Students.Select(_studentConverter.Convert).ToList()
+                Students = bo.Students?.Select(_studentConverter.Convert).ToList()
             };
         }
 
@@ -29,8 +29,8 @@ namespace DTRBLL.Converters.Implementations
                 Id = entity.Id,
                 Name = entity.Name,
                 ContactEmail = entity.ContactEmail,
-                Students = entity.Students?.Select(_studentConverter.Convert).ToList(),
-                StudentIds = entity.Students?.Select(s => s.Id).ToList()
+                StudentIds = entity.Students?.Select(s => s.Id).ToList(),
+                Students = entity.Students?.Select(_studentConverter.Convert).ToList()
             };
         }
     }

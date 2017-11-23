@@ -1,4 +1,5 @@
-﻿using DTRDAL.Entities;
+﻿using System.Collections.Generic;
+using DTRDAL.Entities;
 
 namespace DTRDAL.Repositories
 {

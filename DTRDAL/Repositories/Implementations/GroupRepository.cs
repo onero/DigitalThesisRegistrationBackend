@@ -22,12 +22,12 @@ namespace DTRDAL.Repositories.Implementations
 
         public Group Get(int id)
         {
-            return _context.Groups.FirstOrDefault(g => g.Id == id);
+            return _context.Groups.Include(g => g.Students).FirstOrDefault(g => g.Id == id);
         }
 
         public IEnumerable<Group> GetAll()
         {
-            return _context.Groups;
+            return _context.Groups.Include(g => g.Students);
         }
 
         public bool Delete(int id)
