@@ -15,5 +15,6 @@ namespace DTRDAL.UOW
 
         IStudentRepository StudentRepository { get;  }
         ICompanyRepository CompanyRepository { get;  }
+        ISupervisorRepository SupervisorRepository { get;  }
     }
 }

@@ -10,12 +10,14 @@ namespace DTRDAL.UOW.Implementations
 
         public IStudentRepository StudentRepository { get; }
         public ICompanyRepository CompanyRepository { get; }
+        public ISupervisorRepository SupervisorRepository { get;  }
 
         public UnitOfWork(DTRContext context)
         {
             _context = context;
             StudentRepository = new StudentRepository(_context);
             CompanyRepository = new CompanyRepository(_context);
+            SupervisorRepository = new SupervisorRepository(_context);
         }
 
         public void Dispose()

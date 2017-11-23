@@ -7,6 +7,7 @@ namespace DTRDAL.Context
     {
         public DbSet<Student> Students { get; set; }
         public DbSet<Company> Companies { get; set; }
+        public DbSet<Supervisor> Supervisors { get; set; }
 
         public DTRContext(DbContextOptions<DTRContext> options) : base(options)
         {
