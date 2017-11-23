@@ -9,6 +9,7 @@ namespace DTRDAL.UOW.Implementations
         private readonly DTRContext _context;
 
         public IStudentRepository StudentRepository { get; }
+        public IGroupRepository GroupRepository { get; }
         public ICompanyRepository CompanyRepository { get; }
         public ISupervisorRepository SupervisorRepository { get;  }
 
@@ -16,6 +17,7 @@ namespace DTRDAL.UOW.Implementations
         {
             _context = context;
             StudentRepository = new StudentRepository(_context);
+            GroupRepository = new GroupRepository(_context);
             CompanyRepository = new CompanyRepository(_context);
             SupervisorRepository = new SupervisorRepository(_context);
         }

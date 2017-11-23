@@ -6,42 +6,42 @@ using DTRDAL.UOW;
 
 namespace DTRBLL.Services.Implementations
 {
-    internal class StudentService : IStudentService
+    internal class GroupService : IGroupService
     {
         private readonly IUnitOfWork _uow;
-        private readonly StudentConverter _converter;
+        private readonly GroupConverter _converter;
 
-        public StudentService(IUnitOfWork uow)
+        public GroupService(IUnitOfWork uow)
         {
             _uow = uow;
-            _converter = new StudentConverter();
+            _converter = new GroupConverter();
         }
-        public StudentBO Create(StudentBO bo)
+
+        public GroupBO Create(GroupBO bo)
         {
             using (var unitOfWork = _uow)
             {
-                var convertedEntity = _converter.Convert(bo);
-                var createdEntity = unitOfWork.StudentRepository.Create(convertedEntity);
+                var convertedBO = _converter.Convert(bo);
+                var createdEntity = unitOfWork.GroupRepository.Create(convertedBO);
                 unitOfWork.Complete();
                 return _converter.Convert(createdEntity);
             }
         }
 
-        public StudentBO Get(int id)
+        public GroupBO Get(int id)
         {
             using (var unitOfWork = _uow)
             {
-                return _converter.Convert(unitOfWork.StudentRepository.Get(id));
+                var entityFromDB = unitOfWork.GroupRepository.Get(id);
+                return _converter.Convert(entityFromDB);
             }
         }
 
-        public IList<StudentBO> GetAll()
+        public IList<GroupBO> GetAll()
         {
             using (var unitOfWork = _uow)
             {
-                return unitOfWork.StudentRepository.GetAll()
-                    .Select(_converter.Convert)
-                    .ToList();
+                return unitOfWork.GroupRepository.GetAll().Select(_converter.Convert).ToList();
             }
         }
 
@@ -50,7 +50,7 @@ namespace DTRBLL.Services.Implementations
             throw new System.NotImplementedException();
         }
 
-        public StudentBO Update(StudentBO bo)
+        public GroupBO Update(GroupBO bo)
         {
             throw new System.NotImplementedException();
         }
