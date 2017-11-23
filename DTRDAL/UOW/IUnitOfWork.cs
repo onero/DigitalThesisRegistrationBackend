@@ -14,5 +14,6 @@ namespace DTRDAL.UOW
         void Complete();
 
         IStudentRepository StudentRepository { get;  }
+        ICompanyRepository CompanyRepository { get;  }
     }
 }
