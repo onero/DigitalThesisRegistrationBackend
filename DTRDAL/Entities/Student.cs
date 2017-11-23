@@ -6,5 +6,6 @@ namespace DTRDAL.Entities
 {
     public class Student: Person
     {
+        public Group Group { get; set; }
     }
 }

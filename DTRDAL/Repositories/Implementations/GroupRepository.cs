@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using DTRDAL.Context;
 using DTRDAL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace DTRDAL.Repositories.Implementations
 {
@@ -15,17 +17,17 @@ namespace DTRDAL.Repositories.Implementations
 
         public Group Create(Group ent)
         {
-            throw new System.NotImplementedException();
+            return _context.Groups.Add(ent).Entity;
         }
 
         public Group Get(int id)
         {
-            throw new System.NotImplementedException();
+            return _context.Groups.FirstOrDefault(g => g.Id == id);
         }
 
         public IEnumerable<Group> GetAll()
         {
-            throw new System.NotImplementedException();
+            return _context.Groups;
         }
 
         public bool Delete(int id)

@@ -26,7 +26,7 @@ namespace DTRDALTests.Implementations
                 Id = 1,
                 Name = "D4FF",
                 ContactEmail = "Test",
-                StudentIds = new List<int> { 1}
+                Students = new List<Student> { new Student()}
             };
             _repository.Create(group);
             _context.SaveChanges();
@@ -43,17 +43,23 @@ namespace DTRDALTests.Implementations
         [Fact]
         public void GetOneByExistingId()
         {
-            throw new System.NotImplementedException();
+            var createdEntity = CreateMockGroup();
+            var entity = _repository.Get(createdEntity.Id);
+            Assert.NotNull(entity);
         }
         [Fact]
         public void NotGetOneByNonExistingId()
         {
-            throw new System.NotImplementedException();
+            var entity = _repository.Get(0);
+            Assert.Null(entity);
         }
         [Fact]
         public void GetAll()
         {
-            throw new System.NotImplementedException();
+            CreateMockGroup();
+            var entities = _repository.GetAll();
+            Assert.NotNull(entities);
+            Assert.NotEmpty(entities);
         }
 
         public void DeleteByExistingId()

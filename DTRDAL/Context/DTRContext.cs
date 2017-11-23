@@ -1,4 +1,5 @@
-﻿using DTRDAL.Entities;
+﻿using System;
+using DTRDAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DTRDAL.Context
@@ -14,6 +15,14 @@ namespace DTRDAL.Context
             //Comment deleted back in when updating DB
             //Database.EnsureDeleted();
             Database.EnsureCreated();
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Define Group relation with Student
+            modelBuilder.Entity<Group>()
+                .HasMany(g => g.Students)
+                .WithOne(s => s.Group);
         }
     }
 }
