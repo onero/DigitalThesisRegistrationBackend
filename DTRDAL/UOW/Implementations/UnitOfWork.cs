@@ -21,6 +21,7 @@ namespace DTRDAL.UOW.Implementations
             GroupRepository = new GroupRepository(_context);
             CompanyRepository = new CompanyRepository(_context);
             SupervisorRepository = new SupervisorRepository(_context);
+            ContractRepository = new ContractRepository(_context);
         }
 
         public void Dispose()
