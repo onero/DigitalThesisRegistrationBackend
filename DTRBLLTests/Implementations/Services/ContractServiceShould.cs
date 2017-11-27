@@ -8,7 +8,7 @@ using DTRDAL.UOW;
 using Moq;
 using Xunit;
 
-namespace DTRBLLTests.Implementations
+namespace DTRBLLTests.Implementations.Services
 {
     public class ContractServiceShould : IServiceTest
     {

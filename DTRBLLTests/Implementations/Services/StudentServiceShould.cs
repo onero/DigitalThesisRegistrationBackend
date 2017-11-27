@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using DTRBLL.BusinessObjects;
 using DTRBLL.Services;
 using DTRBLL.Services.Implementations;
@@ -10,51 +8,51 @@ using DTRDAL.UOW;
 using Moq;
 using Xunit;
 
-namespace DTRBLLTests.Implementations
+namespace DTRBLLTests.Implementations.Services
 {
-    public class CompanyServiceShould : IServiceTest
+    public class StudentServiceShould : IServiceTest
     {
         private readonly Mock<IUnitOfWork> _uow = new Mock<IUnitOfWork>();
-        private readonly Mock<ICompanyRepository> _repo = new Mock<ICompanyRepository>();
-        private readonly ICompanyService _service;
+        private readonly Mock<IStudentRepository> _repo = new Mock<IStudentRepository>();
+        private readonly IStudentService _service;
+        
 
-        public CompanyServiceShould()
+        public StudentServiceShould()
         {
-            _uow.SetupGet(r => r.CompanyRepository).Returns(_repo.Object);
-            _service = new CompanyService(_uow.Object);
+            _uow.SetupGet(r => r.StudentRepository).Returns(_repo.Object);
+            _service = new StudentService(_uow.Object);
         }
+
 
         [Fact]
         public void CreateOne()
         {
-            _repo.Setup(r => r.Create(It.IsAny<Company>())).Returns(new Company());
+            _repo.Setup(r => r.Create(It.IsAny<Student>())).Returns(new Student());
 
-            var entity = _service.Create(new CompanyBO());
+            var entity = _service.Create(new StudentBO());
 
             Assert.NotNull(entity);
-        }
 
+        }
         [Fact]
         public void GetOneByExistingId()
         {
-            _repo.Setup(r => r.Get(It.IsAny<int>())).Returns(new Company());
+            _repo.Setup(r => r.Get(It.IsAny<int>())).Returns(new Student());
 
             var entity = _service.Get(1);
 
             Assert.NotNull(entity);
         }
-
         [Fact]
         public void NotGetOneByNonExistingId()
         {
             var entity = _service.Get(0);
             Assert.Null(entity);
         }
-
         [Fact]
         public void GetAll()
         {
-            _repo.Setup(r => r.GetAll()).Returns(new List<Company> { new Company() });
+            _repo.Setup(r => r.GetAll()).Returns(new List<Student> {new Student()});
 
             var entities = _service.GetAll();
 
@@ -64,22 +62,22 @@ namespace DTRBLLTests.Implementations
 
         public void DeleteByExistingId()
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
 
         public void NotDeleteByNonExistingId()
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
 
         public void UpdateByExistingId()
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
 
         public void NotUpdateByNonExistingId()
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
     }
 }
