@@ -20,7 +20,7 @@ namespace DTRDAL.UOW.Implementations
             GroupRepository = new GroupRepository(_context);
             CompanyRepository = new CompanyRepository(_context);
             SupervisorRepository = new SupervisorRepository(_context);
-        }
+        }       
 
         public void Dispose()
         {
@@ -29,7 +29,7 @@ namespace DTRDAL.UOW.Implementations
 
         public void Complete()
         {
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
     }
 }

@@ -48,7 +48,7 @@ namespace DTRControllerTests.Implementations
         {
             _service.Setup(r => r.Create(It.IsAny<GroupBO>())).Returns(new GroupBO());
 
-            var result = _controller.Post(new GroupBO {Id = 1, Name = "D4FF", ContactEmail = "Test", Students = new List<StudentBO>()});
+            var result = _controller.Post(new GroupBO {Id = 1, ContactEmail = "Test", Students = new List<StudentBO>()});
             Assert.IsType<OkObjectResult>(result);
         }
         [Fact]
