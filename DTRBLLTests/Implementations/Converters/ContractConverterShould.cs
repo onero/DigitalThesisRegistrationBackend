@@ -3,7 +3,7 @@ using DTRBLL.Converters.Implementations;
 using DTRDAL.Entities;
 using Xunit;
 
-namespace DTRBLLTests.Implementations
+namespace DTRBLLTests.Implementations.Converters
 {
     public class ContractConverterShould : IConverterTest
     {
