@@ -10,6 +10,7 @@ namespace DTRDAL.Context
         public DbSet<Group> Groups { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Supervisor> Supervisors { get; set; }
+        public DbSet<Project> Projects { get; set; }
 
         public DTRContext(DbContextOptions<DTRContext> options) : base(options)
         {
@@ -26,6 +27,8 @@ namespace DTRDAL.Context
                 .HasOne(s => s.Group)
                 .WithMany(g => g.Students)
                 .HasForeignKey(g => g.GroupId);
+
+
         }
     }
 }
