@@ -69,35 +69,43 @@ namespace DTRControllerTests.Implementations
         {
             throw new System.NotImplementedException();
         }
-
         public void NotDeleteByNonExistingId_ReturnNotFound()
         {
             throw new System.NotImplementedException();
         }
-
+        [Fact]
         public void UpdateWithValidObject_ReturnOk()
         {
-            throw new System.NotImplementedException();
+            _service.Setup(r => r.Update(It.IsAny<GroupBO>())).Returns((GroupBO group) => group);
+            var result = _controller.Put(1, new GroupBO{Id = 1, ContactEmail = "D4FF"});
+            Assert.IsType<OkObjectResult>(result);
         }
-
+        [Fact]
         public void NotUpdateWithNull_ReturnBadRequest()
         {
-            throw new System.NotImplementedException();
+            _service.Setup(r => r.Update(It.IsAny<GroupBO>())).Returns(() => null);
+            var result = _controller.Put(0, null);
+            Assert.IsType<BadRequestResult>(result);
         }
-
+        [Fact]
         public void NotUpdateWithMisMatchingIds_ReturnBadRequest()
         {
-            throw new System.NotImplementedException();
+            var result = _controller.Put(0, new GroupBO {Id = 1});
+            Assert.IsType<BadRequestResult>(result);
         }
-
+        [Fact]
         public void NotUpdateWithInvalidObject_ReturnBadRequest()
         {
-            throw new System.NotImplementedException();
+            _controller.ModelState.AddModelError("", "");
+            var result = _controller.Put(1, new GroupBO());
+            Assert.IsType<BadRequestObjectResult>(result);
         }
-
+        [Fact]
         public void NotUpdateWithNonExistingId_ReturnNotFound()
         {
-            throw new System.NotImplementedException();
+            _service.Setup(r => r.Get(0)).Returns(() => null);
+            var result = _controller.Put(0, new GroupBO{Id = 0, ContactEmail = "D4ff"});
+            Assert.IsType<NotFoundObjectResult>(result);
         }
     }
 }

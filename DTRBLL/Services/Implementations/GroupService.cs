@@ -61,10 +61,7 @@ namespace DTRBLL.Services.Implementations
                 if (entityFromDB == null) return null;
 
                 entityFromDB.ContactEmail = bo.ContactEmail;
-                if (bo.Students != null)
-                {
-                    entityFromDB.Students = bo.Students.Select(_studentConverter.Convert).ToList();
-                }
+                
                 unitOfWork.Complete();
                 return bo;
             }
