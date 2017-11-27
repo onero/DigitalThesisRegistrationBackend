@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using DTRBLL.BusinessObjects;
 using DTRBLL.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DigitalThesisRegistration.Controllers
@@ -13,7 +10,7 @@ namespace DigitalThesisRegistration.Controllers
     [Route("api/Students")]
     public class StudentsController : Controller
     {
-        private IStudentService _service;
+        private readonly IStudentService _service;
 
         public StudentsController(IStudentService service)
         {
@@ -33,29 +30,32 @@ namespace DigitalThesisRegistration.Controllers
         {
             var result = _service.Get(id);
             if (result == null)
-            {
                 return NotFound();
-            }
             return new OkObjectResult(result);
         }
-        
+
         // POST: api/Students
         [HttpPost]
-        public IActionResult Post([FromBody]StudentBO value)
+        public IActionResult Post([FromBody] StudentBO value)
         {
             if (value == null) return BadRequest(value);
             if (value.GroupId == 0) return BadRequest(value);
             if (!ModelState.IsValid) return BadRequest(ModelState);
             return new OkObjectResult(_service.Create(value));
         }
-        
+
         // PUT: api/Students/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody] StudentBO value)
         {
-            throw new NotImplementedException();
+            if (value == null) return new BadRequestResult();
+            if (id != value.Id) return new BadRequestResult();
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
+            var result = _service.Update(value);
+            if (result == null) return new NotFoundObjectResult(result);
+            return new OkObjectResult(result);
         }
-        
+
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)

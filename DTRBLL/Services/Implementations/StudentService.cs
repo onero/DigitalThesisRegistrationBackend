@@ -52,7 +52,16 @@ namespace DTRBLL.Services.Implementations
 
         public StudentBO Update(StudentBO bo)
         {
-            throw new System.NotImplementedException();
+            using (var unitOfWork = _uow)
+            {
+                var convertedStudent = _converter.Convert(bo);
+                var studentFromDB = _uow.StudentRepository.Get(convertedStudent.Id);
+                if (studentFromDB == null) return null;
+
+                studentFromDB.IsInGroup = convertedStudent.GroupId != 0;
+                unitOfWork.Complete();
+                return _converter.Convert(studentFromDB);
+            }
         }
     }
 }
