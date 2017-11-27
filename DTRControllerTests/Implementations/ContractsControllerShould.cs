@@ -8,61 +8,57 @@ using Xunit;
 
 namespace DTRControllerTests.Implementations
 {
-    public class GroupsControllerShould : IControllerTest
+    public class ContractsControllerShould : IControllerTest
     {
-        private readonly Mock<IGroupService> _service = new Mock<IGroupService>();
-        private readonly GroupsController _controller;
+        private readonly Mock<IContractService> _service = new Mock<IContractService>();
+        private readonly ContractsController _controller;
 
-        public GroupsControllerShould()
+        public ContractsControllerShould()
         {
-            _controller = new GroupsController(_service.Object);
+            _controller = new ContractsController(_service.Object);
         }
-
 
         [Fact]
         public void GetAll()
         {
-            _service.Setup(r => r.GetAll()).Returns(new List<GroupBO>{new GroupBO()});
-
+            _service.Setup(s => s.GetAll()).Returns(new List<ContractBO> {new ContractBO()});
             var result = _controller.Get();
-
             Assert.NotNull(result);
             Assert.NotEmpty(result);
         }
         [Fact]
         public void GetByExistingId()
         {
-            _service.Setup(r => r.Get(It.IsAny<int>())).Returns(new GroupBO());
-
-            var result = _controller.Get(1);
+            _service.Setup(s => s.Get(1, 1, 1)).Returns(new ContractBO());
+            var result = _controller.Get(1, 1, 1);
             Assert.IsType<OkObjectResult>(result);
         }
         [Fact]
         public void NotGetByNonExistingId_ReturnNotFound()
         {
-            var result = _controller.Get(0);
+            _service.Setup(s => s.Get(0, 0, 0)).Returns(() => null);
+            var result = _controller.Get(0, 0, 0);
             Assert.IsType<NotFoundObjectResult>(result);
         }
         [Fact]
         public void PostWithValidObject()
         {
-            _service.Setup(r => r.Create(It.IsAny<GroupBO>())).Returns(new GroupBO());
-
-            var result = _controller.Post(new GroupBO {Id = 1, ContactEmail = "Test", Students = new List<StudentBO>()});
+            _service.Setup(r => r.Create(It.IsAny<ContractBO>())).Returns(new ContractBO());
+            var result = _controller.Post(new ContractBO());
             Assert.IsType<OkObjectResult>(result);
         }
         [Fact]
         public void NotPostWithInvalidObject_ReturnBadRequest()
         {
             _controller.ModelState.AddModelError("", "");
-            var result = _controller.Post(new GroupBO{Id = 1});
+            var result = _controller.Post(new ContractBO());
             Assert.IsType<BadRequestObjectResult>(result);
         }
         [Fact]
         public void NotPostWithNull_ReturnBadRequest()
         {
             var result = _controller.Post(null);
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<BadRequestResult>(result);
         }
 
         public void DeleteByExistingId_ReturnOk()

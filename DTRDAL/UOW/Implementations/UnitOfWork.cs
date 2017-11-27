@@ -10,7 +10,9 @@ namespace DTRDAL.UOW.Implementations
 
         public IStudentRepository StudentRepository { get; }
         public IGroupRepository GroupRepository { get; }
+        public IContractRepository ContractRepository { get; }
         public ICompanyRepository CompanyRepository { get; }
+        public ISupervisorRepository SupervisorRepository { get;  }
 
         public UnitOfWork(DTRContext context)
         {
@@ -18,6 +20,8 @@ namespace DTRDAL.UOW.Implementations
             StudentRepository = new StudentRepository(_context);
             GroupRepository = new GroupRepository(_context);
             CompanyRepository = new CompanyRepository(_context);
+            SupervisorRepository = new SupervisorRepository(_context);
+            ContractRepository = new ContractRepository(_context);
         }
 
         public void Dispose()
@@ -27,7 +31,7 @@ namespace DTRDAL.UOW.Implementations
 
         public void Complete()
         {
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
     }
 }

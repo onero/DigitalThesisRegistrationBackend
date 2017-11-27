@@ -25,7 +25,6 @@ namespace DTRBLLTests.Implementations
         private readonly GroupBO MockGroupBO = new GroupBO
         {
             Id = 1,
-            Name = "D4FF",
             ContactEmail = "Test",
             Students = new List<StudentBO>{new StudentBO()}
         };
@@ -51,7 +50,6 @@ namespace DTRBLLTests.Implementations
             _repo.Setup(r => r.Get(It.IsAny<int>())).Returns(new Group
             {
                 Id = 1,
-                Name = "Test",
                 ContactEmail = "Test",
                 Students = new List<Student>
                 {

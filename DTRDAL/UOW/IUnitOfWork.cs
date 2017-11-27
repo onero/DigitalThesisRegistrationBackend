@@ -13,10 +13,11 @@ namespace DTRDAL.UOW
         /// Complete UnitOfWork
         /// </summary>
         void Complete();
-
-        IStudentRepository StudentRepository { get; }
+        
+        IStudentRepository StudentRepository { get;  }
+        ICompanyRepository CompanyRepository { get;  }
+        ISupervisorRepository SupervisorRepository { get;  }
         IGroupRepository GroupRepository { get; }
-
-        ICompanyRepository CompanyRepository { get; }
+        IContractRepository ContractRepository { get; }
     }
 }
