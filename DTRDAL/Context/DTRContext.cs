@@ -11,6 +11,8 @@ namespace DTRDAL.Context
         public DbSet<Company> Companies { get; set; }
         public DbSet<Supervisor> Supervisors { get; set; }
 
+        public DbSet<Contract> Contracts { get; set; }
+
         public DTRContext(DbContextOptions<DTRContext> options) : base(options)
         {
             //Ensure DB states
@@ -26,6 +28,10 @@ namespace DTRDAL.Context
                 .HasOne(s => s.Group)
                 .WithMany(g => g.Students)
                 .HasForeignKey(g => g.GroupId);
+
+            // Define contract relation with Group, Company, Project
+            modelBuilder.Entity<Contract>()
+                .HasKey(c => new {c.GroupId, c.CompanyId, c.ProjectId});
         }
     }
 }
