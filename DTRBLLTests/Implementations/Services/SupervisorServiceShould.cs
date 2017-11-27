@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DTRBLL.BusinessObjects;
 using DTRBLL.Services;
 using DTRBLL.Services.Implementations;
@@ -8,28 +9,28 @@ using DTRDAL.UOW;
 using Moq;
 using Xunit;
 
-namespace DTRBLLTests.Implementations
+namespace DTRBLLTests.Implementations.Services
 {
-    public class StudentServiceShould : IServiceTest
+    public class SupervisorServiceShould : IServiceTest
     {
         private readonly Mock<IUnitOfWork> _uow = new Mock<IUnitOfWork>();
-        private readonly Mock<IStudentRepository> _repo = new Mock<IStudentRepository>();
-        private readonly IStudentService _service;
-        
+        private readonly Mock<ISupervisorRepository> _repo = new Mock<ISupervisorRepository>();
+        private readonly ISupervisorService _service;
 
-        public StudentServiceShould()
+
+        public SupervisorServiceShould()
         {
-            _uow.SetupGet(r => r.StudentRepository).Returns(_repo.Object);
-            _service = new StudentService(_uow.Object);
+            _uow.SetupGet(r => r.SupervisorRepository).Returns(_repo.Object);
+            _service = new SupervisorService(_uow.Object);
         }
 
 
         [Fact]
         public void CreateOne()
         {
-            _repo.Setup(r => r.Create(It.IsAny<Student>())).Returns(new Student());
+            _repo.Setup(r => r.Create(It.IsAny<Supervisor>())).Returns(new Supervisor());
 
-            var entity = _service.Create(new StudentBO());
+            var entity = _service.Create(new SupervisorBO());
 
             Assert.NotNull(entity);
 
@@ -37,7 +38,7 @@ namespace DTRBLLTests.Implementations
         [Fact]
         public void GetOneByExistingId()
         {
-            _repo.Setup(r => r.Get(It.IsAny<int>())).Returns(new Student());
+            _repo.Setup(r => r.Get(It.IsAny<int>())).Returns(new Supervisor());
 
             var entity = _service.Get(1);
 
@@ -52,7 +53,7 @@ namespace DTRBLLTests.Implementations
         [Fact]
         public void GetAll()
         {
-            _repo.Setup(r => r.GetAll()).Returns(new List<Student> {new Student()});
+            _repo.Setup(r => r.GetAll()).Returns(new List<Supervisor> { new Supervisor() });
 
             var entities = _service.GetAll();
 
@@ -72,12 +73,12 @@ namespace DTRBLLTests.Implementations
 
         public void UpdateByExistingId()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void NotUpdateByNonExistingId()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

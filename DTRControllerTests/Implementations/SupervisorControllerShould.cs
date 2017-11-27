@@ -1,30 +1,30 @@
+﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using DigitalThesisRegistration.Controllers;
 using DTRBLL.BusinessObjects;
 using DTRBLL.Services;
-using DTRBLL.Services.Implementations;
-using DTRDAL.UOW;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
 namespace DTRControllerTests.Implementations
 {
-    public class StudentsControllerShould : IControllerTest
+    public class SupervisorControllerShould : IControllerTest
     {
-        private Mock<IStudentService> _service = new Mock<IStudentService>();
-        private StudentsController _controller;
-        private readonly StudentBO _mockBo = new StudentBO{Id = 1, FirstName = "Test", LastName = "Test"};
+        private Mock<ISupervisorService> _service = new Mock<ISupervisorService>();
+        private SupervisorsController _controller;
+        private readonly SupervisorBO _mockBo = new SupervisorBO { Id = 1, FirstName = "Test", LastName = "Test" };
 
-        public StudentsControllerShould()
+        public SupervisorControllerShould()
         {
-            _controller = new StudentsController(_service.Object);
+            _controller = new SupervisorsController(_service.Object);
         }
 
         [Fact]
         public void GetAll()
         {
-            _service.Setup(s => s.GetAll()).Returns(new List<StudentBO> {_mockBo});
+            _service.Setup(s => s.GetAll()).Returns(new List<SupervisorBO> { _mockBo });
             var result = _controller.Get();
             Assert.NotNull(result);
             Assert.NotEmpty(result);
@@ -49,7 +49,7 @@ namespace DTRControllerTests.Implementations
         [Fact]
         public void PostWithValidObject()
         {
-            _service.Setup(s => s.Create(It.IsAny<StudentBO>())).Returns(_mockBo);
+            _service.Setup(s => s.Create(It.IsAny<SupervisorBO>())).Returns(_mockBo);
             var result = _controller.Post(_mockBo);
             Assert.NotNull(result);
         }
@@ -57,7 +57,7 @@ namespace DTRControllerTests.Implementations
         [Fact]
         public void NotPostWithInvalidObject_ReturnBadRequest()
         {
-            _service.Setup(s => s.Create(It.IsAny<StudentBO>())).Returns(() => null);
+            _service.Setup(s => s.Create(It.IsAny<SupervisorBO>())).Returns(() => null);
             _controller.ModelState.AddModelError("", "");
             var result = _controller.Post(_mockBo);
             Assert.IsType<BadRequestObjectResult>(result);
@@ -67,42 +67,42 @@ namespace DTRControllerTests.Implementations
         public void NotPostWithNull_ReturnBadRequest()
         {
             var result = _controller.Post(null);
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<BadRequestResult>(result);
         }
 
         public void DeleteByExistingId_ReturnOk()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void NotDeleteByNonExistingId_ReturnNotFound()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void UpdateWithValidObject_ReturnOk()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void NotUpdateWithNull_ReturnBadRequest()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void NotUpdateWithMisMatchingIds_ReturnBadRequest()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void NotUpdateWithInvalidObject_ReturnBadRequest()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void NotUpdateWithNonExistingId_ReturnNotFound()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

@@ -6,40 +6,47 @@ using DTRDAL.UOW;
 
 namespace DTRBLL.Services.Implementations
 {
-    internal class StudentService : IStudentService
+    internal class ContractService : IContractService
     {
         private readonly IUnitOfWork _uow;
-        private readonly StudentConverter _converter;
+        private readonly ContractConverter _converter;
 
-        public StudentService(IUnitOfWork uow)
+        public ContractService(IUnitOfWork uow)
         {
             _uow = uow;
-            _converter = new StudentConverter();
+            _converter = new ContractConverter();
         }
-        public StudentBO Create(StudentBO bo)
+
+        public ContractBO Create(ContractBO bo)
         {
             using (var unitOfWork = _uow)
             {
                 var convertedEntity = _converter.Convert(bo);
-                var createdEntity = unitOfWork.StudentRepository.Create(convertedEntity);
+                var createdEntity = unitOfWork.ContractRepository.Create(convertedEntity);
                 unitOfWork.Complete();
                 return _converter.Convert(createdEntity);
             }
         }
 
-        public StudentBO Get(int id)
+        public ContractBO Get(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public ContractBO Get(int projectId, int groupId, int companyId)
         {
             using (var unitOfWork = _uow)
             {
-                return _converter.Convert(unitOfWork.StudentRepository.Get(id));
+                var result = unitOfWork.ContractRepository.Get(projectId, groupId, companyId);
+                return _converter.Convert(result);
             }
         }
 
-        public IList<StudentBO> GetAll()
+        public IList<ContractBO> GetAll()
         {
             using (var unitOfWork = _uow)
             {
-                return unitOfWork.StudentRepository.GetAll()
+                return unitOfWork.ContractRepository.GetAll()
                     .Select(_converter.Convert)
                     .ToList();
             }
@@ -50,7 +57,7 @@ namespace DTRBLL.Services.Implementations
             throw new System.NotImplementedException();
         }
 
-        public StudentBO Update(StudentBO bo)
+        public ContractBO Update(ContractBO bo)
         {
             throw new System.NotImplementedException();
         }

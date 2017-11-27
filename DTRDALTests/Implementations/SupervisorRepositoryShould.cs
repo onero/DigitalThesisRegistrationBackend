@@ -1,35 +1,25 @@
-using DTRDAL.Context;
+﻿using DTRDAL.Context;
 using DTRDAL.Entities;
-using DTRDAL.Repositories;
 using DTRDAL.Repositories.Implementations;
 using DTRDALTests.implementations;
 using Xunit;
 
 namespace DTRDALTests.Implementations
 {
-    public class StudentRepositoryShould: IRepositoryTest
+    public class SupervisorRepositoryShould : IRepositoryTest
     {
         private readonly DTRContext _context;
-        private readonly StudentRepository _repository;
-        private readonly GroupRepository _groupRepository;
+        private readonly SupervisorRepository _repository;
 
-        public StudentRepositoryShould()
+        public SupervisorRepositoryShould()
         {
             _context = TestContext.Context;
-            _repository = new StudentRepository(_context);
-            _groupRepository = new GroupRepository(_context);
+            _repository = new SupervisorRepository(_context);
         }
 
-        private Student CreateMockStudent()
+        private Supervisor CreateMockSupervisor()
         {
-            _groupRepository.Create(new Group {Id = 1});
-            var entity = new Student
-            {
-                Id = 1,
-                FirstName = "Test",
-                LastName = "Test",
-                GroupId = 1
-            };
+            var entity = new Supervisor { Id = 1, FirstName = "Test", LastName = "Test" };
             var createdEntity = _repository.Create(entity);
             _context.SaveChanges();
             return createdEntity;
@@ -38,14 +28,14 @@ namespace DTRDALTests.Implementations
         [Fact]
         public void CreateOne()
         {
-            var createdEntity = CreateMockStudent();
+            var createdEntity = CreateMockSupervisor();
             Assert.NotNull(createdEntity);
         }
 
         [Fact]
         public void GetOneByExistingId()
         {
-            var createdEntity = CreateMockStudent();
+            var createdEntity = CreateMockSupervisor();
             var entity = _repository.Get(createdEntity.Id);
             Assert.NotNull(entity);
         }
@@ -60,7 +50,7 @@ namespace DTRDALTests.Implementations
         [Fact]
         public void GetAll()
         {
-            CreateMockStudent();
+            CreateMockSupervisor();
             var entities = _repository.GetAll();
             Assert.NotNull(entities);
             Assert.NotEmpty(entities);

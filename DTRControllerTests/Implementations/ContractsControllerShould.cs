@@ -1,73 +1,64 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using DigitalThesisRegistration.Controllers;
 using DTRBLL.BusinessObjects;
 using DTRBLL.Services;
-using DTRBLL.Services.Implementations;
-using DTRDAL.UOW;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
 namespace DTRControllerTests.Implementations
 {
-    public class StudentsControllerShould : IControllerTest
+    public class ContractsControllerShould : IControllerTest
     {
-        private Mock<IStudentService> _service = new Mock<IStudentService>();
-        private StudentsController _controller;
-        private readonly StudentBO _mockBo = new StudentBO{Id = 1, FirstName = "Test", LastName = "Test"};
+        private readonly Mock<IContractService> _service = new Mock<IContractService>();
+        private readonly ContractsController _controller;
 
-        public StudentsControllerShould()
+        public ContractsControllerShould()
         {
-            _controller = new StudentsController(_service.Object);
+            _controller = new ContractsController(_service.Object);
         }
 
         [Fact]
         public void GetAll()
         {
-            _service.Setup(s => s.GetAll()).Returns(new List<StudentBO> {_mockBo});
+            _service.Setup(s => s.GetAll()).Returns(new List<ContractBO> {new ContractBO()});
             var result = _controller.Get();
             Assert.NotNull(result);
             Assert.NotEmpty(result);
         }
-
         [Fact]
         public void GetByExistingId()
         {
-            _service.Setup(s => s.Get(It.IsAny<int>())).Returns(_mockBo);
-            var result = _controller.Get(_mockBo.Id);
-            Assert.NotNull(result);
+            _service.Setup(s => s.Get(1, 1, 1)).Returns(new ContractBO());
+            var result = _controller.Get(1, 1, 1);
+            Assert.IsType<OkObjectResult>(result);
         }
-
         [Fact]
         public void NotGetByNonExistingId_ReturnNotFound()
         {
-            _service.Setup(s => s.Get(0)).Returns(() => null);
-            var result = _controller.Get(0);
-            Assert.IsType<NotFoundResult>(result);
+            _service.Setup(s => s.Get(0, 0, 0)).Returns(() => null);
+            var result = _controller.Get(0, 0, 0);
+            Assert.IsType<NotFoundObjectResult>(result);
         }
-
         [Fact]
         public void PostWithValidObject()
         {
-            _service.Setup(s => s.Create(It.IsAny<StudentBO>())).Returns(_mockBo);
-            var result = _controller.Post(_mockBo);
-            Assert.NotNull(result);
+            _service.Setup(r => r.Create(It.IsAny<ContractBO>())).Returns(new ContractBO());
+            var result = _controller.Post(new ContractBO());
+            Assert.IsType<OkObjectResult>(result);
         }
-
         [Fact]
         public void NotPostWithInvalidObject_ReturnBadRequest()
         {
-            _service.Setup(s => s.Create(It.IsAny<StudentBO>())).Returns(() => null);
             _controller.ModelState.AddModelError("", "");
-            var result = _controller.Post(_mockBo);
+            var result = _controller.Post(new ContractBO());
             Assert.IsType<BadRequestObjectResult>(result);
         }
-
         [Fact]
         public void NotPostWithNull_ReturnBadRequest()
         {
             var result = _controller.Post(null);
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.IsType<BadRequestResult>(result);
         }
 
         public void DeleteByExistingId_ReturnOk()

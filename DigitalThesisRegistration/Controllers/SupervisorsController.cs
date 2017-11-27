@@ -10,25 +10,25 @@ using Microsoft.AspNetCore.Mvc;
 namespace DigitalThesisRegistration.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Students")]
-    public class StudentsController : Controller
+    [Route("api/Supervisors")]
+    public class SupervisorsController : Controller
     {
-        private IStudentService _service;
+        private ISupervisorService _service;
 
-        public StudentsController(IStudentService service)
+        public SupervisorsController(ISupervisorService service)
         {
             _service = service;
         }
 
-        // GET: api/Students
+        // GET: api/Supervisors
         [HttpGet]
-        public IEnumerable<StudentBO> Get()
+        public IEnumerable<SupervisorBO> Get()
         {
             return _service.GetAll();
         }
 
-        // GET: api/Students/5
-        [HttpGet("{id}", Name = "GetStudent")]
+        // GET: api/Supervisors/5
+        [HttpGet("{id}", Name = "GetSupervisor")]
         public IActionResult Get(int id)
         {
             var result = _service.Get(id);
@@ -38,29 +38,26 @@ namespace DigitalThesisRegistration.Controllers
             }
             return new OkObjectResult(result);
         }
-        
-        // POST: api/Students
+
+        // POST: api/Supervisors
         [HttpPost]
-        public IActionResult Post([FromBody]StudentBO value)
+        public IActionResult Post([FromBody]SupervisorBO value)
         {
-            if (value == null) return BadRequest(value);
-            if (value.GroupId == 0) return BadRequest(value);
+            if (value == null) return BadRequest();
             if (!ModelState.IsValid) return BadRequest(ModelState);
             return new OkObjectResult(_service.Create(value));
         }
-        
-        // PUT: api/Students/5
+
+        // PUT: api/Supervisors/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {
-            throw new NotImplementedException();
         }
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            throw new NotImplementedException();
         }
     }
 }

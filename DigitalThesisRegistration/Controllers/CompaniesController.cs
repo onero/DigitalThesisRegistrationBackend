@@ -4,31 +4,32 @@ using System.Linq;
 using System.Threading.Tasks;
 using DTRBLL.BusinessObjects;
 using DTRBLL.Services;
+using DTRBLL.Services.Implementations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DigitalThesisRegistration.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Students")]
-    public class StudentsController : Controller
+    [Route("api/Companies")]
+    public class CompaniesController : Controller
     {
-        private IStudentService _service;
+        private ICompanyService _service;
 
-        public StudentsController(IStudentService service)
+        public CompaniesController(ICompanyService service)
         {
             _service = service;
         }
 
-        // GET: api/Students
+        // GET: api/Companies
         [HttpGet]
-        public IEnumerable<StudentBO> Get()
+        public IEnumerable<CompanyBO> Get()
         {
             return _service.GetAll();
         }
 
-        // GET: api/Students/5
-        [HttpGet("{id}", Name = "GetStudent")]
+        // GET: api/Companies/5
+        [HttpGet("{id}", Name = "GetCompany")]
         public IActionResult Get(int id)
         {
             var result = _service.Get(id);
@@ -39,17 +40,16 @@ namespace DigitalThesisRegistration.Controllers
             return new OkObjectResult(result);
         }
         
-        // POST: api/Students
+        // POST: api/Companies
         [HttpPost]
-        public IActionResult Post([FromBody]StudentBO value)
+        public IActionResult Post([FromBody]CompanyBO value)
         {
-            if (value == null) return BadRequest(value);
-            if (value.GroupId == 0) return BadRequest(value);
+            if (value == null) return BadRequest();
             if (!ModelState.IsValid) return BadRequest(ModelState);
             return new OkObjectResult(_service.Create(value));
         }
         
-        // PUT: api/Students/5
+        // PUT: api/Companies/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {

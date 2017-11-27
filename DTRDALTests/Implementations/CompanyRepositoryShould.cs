@@ -1,3 +1,6 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using DTRDAL.Context;
 using DTRDAL.Entities;
 using DTRDAL.Repositories;
@@ -7,29 +10,20 @@ using Xunit;
 
 namespace DTRDALTests.Implementations
 {
-    public class StudentRepositoryShould: IRepositoryTest
+    public class CompanyRepositoryShould : IRepositoryTest
     {
         private readonly DTRContext _context;
-        private readonly StudentRepository _repository;
-        private readonly GroupRepository _groupRepository;
+        private readonly CompanyRepository _repository;
 
-        public StudentRepositoryShould()
+        public CompanyRepositoryShould()
         {
             _context = TestContext.Context;
-            _repository = new StudentRepository(_context);
-            _groupRepository = new GroupRepository(_context);
+            _repository = new CompanyRepository(_context);
         }
 
-        private Student CreateMockStudent()
+        private Company CreateMockCompany()
         {
-            _groupRepository.Create(new Group {Id = 1});
-            var entity = new Student
-            {
-                Id = 1,
-                FirstName = "Test",
-                LastName = "Test",
-                GroupId = 1
-            };
+            var entity = new Company { Id = 1, Name = "Test" };
             var createdEntity = _repository.Create(entity);
             _context.SaveChanges();
             return createdEntity;
@@ -38,14 +32,14 @@ namespace DTRDALTests.Implementations
         [Fact]
         public void CreateOne()
         {
-            var createdEntity = CreateMockStudent();
+            var createdEntity = CreateMockCompany();
             Assert.NotNull(createdEntity);
         }
 
         [Fact]
         public void GetOneByExistingId()
         {
-            var createdEntity = CreateMockStudent();
+            var createdEntity = CreateMockCompany();
             var entity = _repository.Get(createdEntity.Id);
             Assert.NotNull(entity);
         }
@@ -60,7 +54,7 @@ namespace DTRDALTests.Implementations
         [Fact]
         public void GetAll()
         {
-            CreateMockStudent();
+            CreateMockCompany();
             var entities = _repository.GetAll();
             Assert.NotNull(entities);
             Assert.NotEmpty(entities);
@@ -68,12 +62,12 @@ namespace DTRDALTests.Implementations
 
         public void DeleteByExistingId()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void NotDeleteByNonExistingId()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

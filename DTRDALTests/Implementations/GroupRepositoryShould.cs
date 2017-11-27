@@ -1,3 +1,4 @@
+﻿using System.Collections.Generic;
 using DTRDAL.Context;
 using DTRDAL.Entities;
 using DTRDAL.Repositories;
@@ -7,60 +8,56 @@ using Xunit;
 
 namespace DTRDALTests.Implementations
 {
-    public class StudentRepositoryShould: IRepositoryTest
+    public class GroupRepositoryShould : IRepositoryTest
     {
         private readonly DTRContext _context;
-        private readonly StudentRepository _repository;
-        private readonly GroupRepository _groupRepository;
+        private readonly IGroupRepository _repository;
 
-        public StudentRepositoryShould()
+        public GroupRepositoryShould()
         {
             _context = TestContext.Context;
-            _repository = new StudentRepository(_context);
-            _groupRepository = new GroupRepository(_context);
+            _repository = new GroupRepository(_context);
         }
 
-        private Student CreateMockStudent()
+        private Group CreateMockGroup()
         {
-            _groupRepository.Create(new Group {Id = 1});
-            var entity = new Student
+            var group = new Group
             {
                 Id = 1,
-                FirstName = "Test",
-                LastName = "Test",
-                GroupId = 1
+                ContactEmail = "Test",
+                Students = new List<Student> { new Student()}
             };
-            var createdEntity = _repository.Create(entity);
+            _repository.Create(group);
             _context.SaveChanges();
-            return createdEntity;
+            return group;
         }
 
         [Fact]
         public void CreateOne()
         {
-            var createdEntity = CreateMockStudent();
+            var createdEntity = CreateMockGroup();
             Assert.NotNull(createdEntity);
         }
 
         [Fact]
         public void GetOneByExistingId()
         {
-            var createdEntity = CreateMockStudent();
+            var createdEntity = CreateMockGroup();
             var entity = _repository.Get(createdEntity.Id);
             Assert.NotNull(entity);
+            Assert.NotNull(entity.Students);
+            Assert.NotEmpty(entity.Students);
         }
-
         [Fact]
         public void NotGetOneByNonExistingId()
         {
             var entity = _repository.Get(0);
             Assert.Null(entity);
         }
-
         [Fact]
         public void GetAll()
         {
-            CreateMockStudent();
+            CreateMockGroup();
             var entities = _repository.GetAll();
             Assert.NotNull(entities);
             Assert.NotEmpty(entities);
