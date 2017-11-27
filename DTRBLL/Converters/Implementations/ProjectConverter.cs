@@ -14,9 +14,12 @@ namespace DTRBLL.Converters.Implementations
             if (bo == null) return null;
             return new Project
             {
-                Id = bo.Id, AssignedSuporvisorId = bo.AssignedSuporvisorId,
-                Description = bo.Description, Title = bo.Title,
-                Start = bo.Start, WantedSuporvisorId = bo.WantedSuporvisorId,
+                Id = bo.Id,
+                AssignedSuporvisorId = bo.AssignedSuporvisorId,
+                Description = bo.Description,
+                Title = bo.Title,
+                Start = bo.Start,
+                WantedSuporvisorId = bo.WantedSuporvisorId,
                 End = bo.End
             };
         }

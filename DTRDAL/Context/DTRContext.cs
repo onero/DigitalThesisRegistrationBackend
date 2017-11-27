@@ -28,6 +28,15 @@ namespace DTRDAL.Context
                 .WithMany(g => g.Students)
                 .HasForeignKey(g => g.GroupId);
 
+            modelBuilder.Entity<Project>()
+                .HasOne(p => p.AssignedSupervisor)
+                .WithMany(s => s.AssignedProjects)
+                .HasForeignKey(s => s.AssignedSuporvisorId);
+
+            modelBuilder.Entity<Project>()
+                .HasOne(p => p.WantedSupervisor)
+                .WithMany(s => s.WantedProjects)
+                .HasForeignKey(s => s.WantedSuporvisorId);
 
         }
     }

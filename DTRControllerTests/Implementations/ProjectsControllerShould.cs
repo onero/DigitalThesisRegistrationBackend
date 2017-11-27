@@ -10,21 +10,30 @@ using Xunit;
 
 namespace DTRControllerTests.Implementations
 {
-    public class SupervisorControllerShould : IControllerTest
+    public class ProjectsControllerShould : IControllerTest
     {
-        private Mock<ISupervisorService> _service = new Mock<ISupervisorService>();
-        private SuporvisorsController _controller;
-        private readonly SupervisorBO _mockBo = new SupervisorBO { Id = 1, FirstName = "Test", LastName = "Test" };
-
-        public SupervisorControllerShould()
+        private Mock<IProjectService> _service = new Mock<IProjectService>();
+        private ProjectsController _controller;
+        private readonly ProjectBO _mockBo = new ProjectBO()
         {
-            _controller = new SuporvisorsController(_service.Object);
+            Id = 1,
+            Description = "Test",
+            End = new DateTime(2017, 1, 2, 1, 1, 1),
+            Start = new DateTime(2017, 1, 1, 1, 1, 1),
+            Title = "Test",
+            WantedSuporvisorId = 1,
+            AssignedSuporvisorId = 1
+        };
+
+        public ProjectsControllerShould()
+        {
+            _controller = new ProjectsController(_service.Object);
         }
 
         [Fact]
         public void GetAll()
         {
-            _service.Setup(s => s.GetAll()).Returns(new List<SupervisorBO> { _mockBo });
+            _service.Setup(s => s.GetAll()).Returns(new List<ProjectBO> { _mockBo });
             var result = _controller.Get();
             Assert.NotNull(result);
             Assert.NotEmpty(result);
@@ -49,7 +58,7 @@ namespace DTRControllerTests.Implementations
         [Fact]
         public void PostWithValidObject()
         {
-            _service.Setup(s => s.Create(It.IsAny<SupervisorBO>())).Returns(_mockBo);
+            _service.Setup(s => s.Create(It.IsAny<ProjectBO>())).Returns(_mockBo);
             var result = _controller.Post(_mockBo);
             Assert.NotNull(result);
         }
@@ -57,7 +66,7 @@ namespace DTRControllerTests.Implementations
         [Fact]
         public void NotPostWithInvalidObject_ReturnBadRequest()
         {
-            _service.Setup(s => s.Create(It.IsAny<SupervisorBO>())).Returns(() => null);
+            _service.Setup(s => s.Create(It.IsAny<ProjectBO>())).Returns(() => null);
             _controller.ModelState.AddModelError("", "");
             var result = _controller.Post(_mockBo);
             Assert.IsType<BadRequestObjectResult>(result);
