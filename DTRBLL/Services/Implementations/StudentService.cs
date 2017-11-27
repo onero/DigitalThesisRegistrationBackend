@@ -57,8 +57,8 @@ namespace DTRBLL.Services.Implementations
                 var convertedStudent = _converter.Convert(bo);
                 var studentFromDB = _uow.StudentRepository.Get(convertedStudent.Id);
                 if (studentFromDB == null) return null;
-
                 studentFromDB.IsInGroup = convertedStudent.GroupId != 0;
+                studentFromDB.GroupId = convertedStudent.GroupId;
                 unitOfWork.Complete();
                 return _converter.Convert(studentFromDB);
             }

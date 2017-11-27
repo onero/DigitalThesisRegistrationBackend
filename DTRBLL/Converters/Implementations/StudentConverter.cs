@@ -14,7 +14,7 @@ namespace DTRBLL.Converters.Implementations
                 FirstName = bo.FirstName,
                 LastName = bo.LastName,
                 GroupId = bo.GroupId,
-                IsInGroup = true
+                IsInGroup = bo.IsInGroup
             };
         }
 
@@ -27,7 +27,7 @@ namespace DTRBLL.Converters.Implementations
                 FirstName = entity.FirstName,
                 LastName = entity.LastName,
                 GroupId = entity.GroupId,
-                IsInGroup = true
+                IsInGroup = entity.IsInGroup
             };
         }
     }
