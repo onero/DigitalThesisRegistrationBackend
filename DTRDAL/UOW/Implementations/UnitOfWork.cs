@@ -10,6 +10,7 @@ namespace DTRDAL.UOW.Implementations
 
         public IStudentRepository StudentRepository { get; }
         public IGroupRepository GroupRepository { get; }
+        public IContractRepository ContractRepository { get; }
         public ICompanyRepository CompanyRepository { get; }
         public ISupervisorRepository SupervisorRepository { get;  }
 
@@ -20,6 +21,7 @@ namespace DTRDAL.UOW.Implementations
             GroupRepository = new GroupRepository(_context);
             CompanyRepository = new CompanyRepository(_context);
             SupervisorRepository = new SupervisorRepository(_context);
+            ContractRepository = new ContractRepository(_context);
         }
 
         public void Dispose()
