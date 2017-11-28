@@ -6,6 +6,7 @@ namespace DTRDAL.Entities
     {
         public int Id { get; set; }
         public string ContactEmail { get; set; }
+
         public List<Student> Students { get; set; }
     }
 }

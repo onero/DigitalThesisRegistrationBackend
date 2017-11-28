@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using DTRDAL.Context;
 using DTRDAL.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace DTRDAL.Repositories.Implementations
 {
-    class StudentRepository: IStudentRepository
+    internal class StudentRepository : IStudentRepository
     {
         private readonly DTRContext _context;
 

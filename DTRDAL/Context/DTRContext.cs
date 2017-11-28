@@ -40,7 +40,7 @@ namespace DTRDAL.Context
                 .WithMany(s => s.WantedProjects)
                 .HasForeignKey(s => s.WantedSuporvisorId);
 
-            // Define contract relation with Group, Company, Project
+            // Define contract primary key
             modelBuilder.Entity<Contract>()
                 .HasKey(c => new {c.GroupId, c.CompanyId, c.ProjectId});
         }
