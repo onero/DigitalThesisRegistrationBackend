@@ -32,11 +32,11 @@ namespace DTRDAL.Context
             
             // Define Project relation with Supervisor
             modelBuilder.Entity<Project>()
-                .HasOne(p => p.AssignedSupervisor)
+                .HasOne(p => p.AssignedSuporvisor)
                 .WithMany(s => s.AssignedProjects)
                 .HasForeignKey(p => p.AssignedSuporvisorId);
             modelBuilder.Entity<Project>()
-                .HasOne(p => p.WantedSupervisor)
+                .HasOne(p => p.WantedSuporvisor)
                 .WithMany(s => s.WantedProjects)
                 .HasForeignKey(p => p.WantedSuporvisorId);
 

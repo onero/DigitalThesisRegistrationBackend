@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using DTRBLL.BusinessObjects;
 using DTRBLL.Converters.Implementations;
 using DTRDAL.Entities;
 using Xunit;
 
-namespace DTRBLLTests.Implementations
+namespace DTRBLLTests.Implementations.Services
 {
     public class ProjectConverterShould : IConverterTest
     {
