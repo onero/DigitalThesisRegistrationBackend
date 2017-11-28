@@ -11,5 +11,14 @@ namespace DTRBLL.BusinessObjects
         [Required]
         [MinLength(2)]
         public string Name { get; set; }
+        [Required]
+        [MinLength(2)]
+        public string ContactName { get; set; }
+        [Required]
+        [MinLength(2)]
+        public string ContactEmail { get; set; }
+        [Required]
+        [MinLength(2)]
+        public string ContactPhone { get; set; }
     }
 }
