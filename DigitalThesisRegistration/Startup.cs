@@ -47,6 +47,7 @@ namespace DigitalThesisRegistration
             services.AddScoped<IGroupService, GroupService>();
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<ISupervisorService, SupervisorService>();
+            services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IContractService, ContractService>();
         }
 

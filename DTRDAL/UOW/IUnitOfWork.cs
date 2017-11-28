@@ -18,6 +18,7 @@ namespace DTRDAL.UOW
         ICompanyRepository CompanyRepository { get;  }
         ISupervisorRepository SupervisorRepository { get;  }
         IGroupRepository GroupRepository { get; }
+        IProjectRepository ProjectRepository { get; }
         IContractRepository ContractRepository { get; }
     }
 }
