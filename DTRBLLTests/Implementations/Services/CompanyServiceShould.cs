@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using DTRBLL.BusinessObjects;
 using DTRBLL.Services;
 using DTRBLL.Services.Implementations;
@@ -10,7 +9,7 @@ using DTRDAL.UOW;
 using Moq;
 using Xunit;
 
-namespace DTRBLLTests.Implementations
+namespace DTRBLLTests.Implementations.Services
 {
     public class CompanyServiceShould : IServiceTest
     {

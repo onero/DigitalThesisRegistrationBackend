@@ -39,7 +39,9 @@ namespace DTRBLL.Services.Implementations
         {
             using (var unitOfWork = _uow)
             {
-                return unitOfWork.StudentRepository.GetAll().Select(_converter.Convert).ToList();
+                return unitOfWork.StudentRepository.GetAll()
+                    .Select(_converter.Convert)
+                    .ToList();
             }
         }
 
@@ -50,7 +52,16 @@ namespace DTRBLL.Services.Implementations
 
         public StudentBO Update(StudentBO bo)
         {
-            throw new System.NotImplementedException();
+            using (var unitOfWork = _uow)
+            {
+                var convertedStudent = _converter.Convert(bo);
+                var studentFromDB = _uow.StudentRepository.Get(convertedStudent.Id);
+                if (studentFromDB == null) return null;
+                studentFromDB.IsInGroup = convertedStudent.GroupId != null;
+                studentFromDB.GroupId = convertedStudent.GroupId;
+                unitOfWork.Complete();
+                return _converter.Convert(studentFromDB);
+            }
         }
     }
 }

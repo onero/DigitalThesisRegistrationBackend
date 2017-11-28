@@ -1,56 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using DTRBLL.BusinessObjects;
 using DTRBLL.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DigitalThesisRegistration.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Students")]
-    public class StudentsController : Controller
+    [Route("api/Groups")]
+    public class GroupsController : Controller
     {
-        private readonly IStudentService _service;
+        private readonly IGroupService _service;
 
-        public StudentsController(IStudentService service)
+        public GroupsController(IGroupService service)
         {
             _service = service;
         }
 
-        // GET: api/Students
+        // GET: api/Groups
         [HttpGet]
-        public IEnumerable<StudentBO> Get()
+        public IEnumerable<GroupBO> Get()
         {
             return _service.GetAll();
         }
 
-        // GET: api/Students/5
-        [HttpGet("{id}", Name = "GetStudent")]
+        // GET: api/Groups/5
+        [HttpGet("{id}", Name = "GetGroup")]
         public IActionResult Get(int id)
         {
             var result = _service.Get(id);
             if (result == null)
-                return NotFound();
+            {
+                return new NotFoundObjectResult(result);
+            }
             return new OkObjectResult(result);
         }
 
-        // POST: api/Students
+        // POST: api/Groups
         [HttpPost]
-        public IActionResult Post([FromBody] StudentBO value)
+        public IActionResult Post([FromBody]GroupBO value)
         {
             if (value == null) return BadRequest(value);
-            //if (value.GroupId == 0) return BadRequest(value);
+            var createdEntity = _service.Create(value);
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            return new OkObjectResult(_service.Create(value));
+            return new OkObjectResult(createdEntity);
         }
-
-        // PUT: api/Students/5
+        
+        // PUT: api/Groups/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] StudentBO value)
+        public IActionResult Put(int id, [FromBody]GroupBO value)
         {
             if (value == null) return new BadRequestResult();
-            if (id != value.Id) return new BadRequestResult();
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
+            if (id != value.Id) return new BadRequestResult();
             var result = _service.Update(value);
             if (result == null) return new NotFoundObjectResult(result);
             return new OkObjectResult(result);
@@ -58,7 +63,7 @@ namespace DigitalThesisRegistration.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
             throw new NotImplementedException();
         }
