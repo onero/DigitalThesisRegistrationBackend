@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DTRDAL.Context;
 using DTRDAL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace DTRDAL.Repositories.Implementations
 {
@@ -23,12 +24,12 @@ namespace DTRDAL.Repositories.Implementations
 
         public Supervisor Get(int id)
         {
-            return _context.Supervisors.FirstOrDefault(s => s.Id == id);
+            return _context.Supervisors.Include(s => s.WantedProjects).Include(s => s.AssignedProjects).FirstOrDefault(s => s.Id == id);
         }
 
         public IEnumerable<Supervisor> GetAll()
         {
-            return _context.Supervisors;
+            return _context.Supervisors.Include(s => s.WantedProjects).Include(s => s.AssignedProjects);
         }
 
         public bool Delete(int id)
