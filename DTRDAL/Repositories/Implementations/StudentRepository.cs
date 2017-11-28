@@ -24,12 +24,12 @@ namespace DTRDAL.Repositories.Implementations
 
         public Student Get(int id)
         {
-            return _context.Students.Include(s => s.Group).FirstOrDefault(s => s.Id == id);
+            return _context.Students.FirstOrDefault(s => s.Id == id);
         }
 
         public IEnumerable<Student> GetAll()
         {
-            return _context.Students.Include(s => s.Group);
+            return _context.Students;
         }
 
         public IEnumerable<Student> GetByIds(List<int> ids)
