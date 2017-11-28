@@ -53,7 +53,32 @@ namespace DTRBLL.Services.Implementations
 
         public ProjectBO Update(ProjectBO bo)
         {
-            throw new NotImplementedException();
+            if (bo == null) return null;
+            using (var unitOfWork = _uow)
+            {
+                var convertedProject = _converter.Convert(bo);
+                var projectFromDB = _uow.ProjectRepository.Get(convertedProject.Id);
+                if (projectFromDB == null) return null;
+                
+                if (convertedProject.AssignedSuporvisorId != null)
+                    projectFromDB.AssignedSuporvisorId = convertedProject.AssignedSuporvisorId;
+                
+                if (convertedProject.WantedSuporvisorId != null)
+                    projectFromDB.WantedSuporvisorId = convertedProject.WantedSuporvisorId;
+
+                if (convertedProject.Title != null)
+                    projectFromDB.Title = convertedProject.Title;
+                if (convertedProject.Description != null)
+                    projectFromDB.Description = convertedProject.Description;
+                
+                if (convertedProject.Start != null)
+                    projectFromDB.Start = convertedProject.Start;
+                if (convertedProject.End != null)
+                    projectFromDB.End = convertedProject.End;
+
+                unitOfWork.Complete();
+                return _converter.Convert(projectFromDB);
+            }
         }
     }
 }
