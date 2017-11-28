@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using DTRDAL.Context;
+﻿using DTRDAL.Context;
 using DTRDAL.Entities;
 using DTRDAL.Repositories;
 using DTRDAL.Repositories.Implementations;
@@ -8,56 +7,54 @@ using Xunit;
 
 namespace DTRDALTests.Implementations
 {
-    public class GroupRepositoryShould : IRepositoryTest
+    public class ContractRepositoryShould : IRepositoryTest
     {
         private readonly DTRContext _context;
-        private readonly IGroupRepository _repository;
+        private readonly IContractRepository _repository;
 
-        public GroupRepositoryShould()
+        public ContractRepositoryShould()
         {
             _context = TestContext.Context;
-            _repository = new GroupRepository(_context);
+            _repository = new ContractRepository(_context);
         }
 
-        private Group CreateMockGroup()
+        private Contract createMockContract()
         {
-            var group = new Group
+            var entity = new Contract
             {
-                Id = 1,
-                ContactEmail = "Test",
-                Students = new List<Student> { new Student()}
+                GroupId = 1,
+                CompanyId = 1,
+                ProjectId = 1,
+                IsApproved = true
             };
-            _repository.Create(group);
+            _repository.Create(entity);
             _context.SaveChanges();
-            return group;
-        }
+            return entity;
+        } 
 
         [Fact]
         public void CreateOne()
         {
-            var createdEntity = CreateMockGroup();
+            var createdEntity = createMockContract();
             Assert.NotNull(createdEntity);
         }
-
         [Fact]
         public void GetOneByExistingId()
         {
-            var createdEntity = CreateMockGroup();
-            var entity = _repository.Get(createdEntity.Id);
-            Assert.NotNull(entity);
-            Assert.NotNull(entity.Students);
-            Assert.NotEmpty(entity.Students);
+            var createdEntity = createMockContract();
+            var entityToGet = _repository.Get(createdEntity.ProjectId, createdEntity.GroupId, createdEntity.CompanyId);
+            Assert.NotNull(entityToGet);
         }
         [Fact]
         public void NotGetOneByNonExistingId()
         {
-            var entity = _repository.Get(0);
-            Assert.Null(entity);
+            var entityToGet = _repository.Get(0, 0, 0);
+            Assert.Null(entityToGet);
         }
         [Fact]
         public void GetAll()
         {
-            CreateMockGroup();
+            createMockContract();
             var entities = _repository.GetAll();
             Assert.NotNull(entities);
             Assert.NotEmpty(entities);
