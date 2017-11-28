@@ -18,7 +18,7 @@ namespace DTRDAL.Context
         {
             //Ensure DB states
             //Comment deleted back in when updating DB
-            //Database.EnsureDeleted();
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 

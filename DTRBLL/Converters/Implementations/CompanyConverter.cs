@@ -14,7 +14,10 @@ namespace DTRBLL.Converters.Implementations
             return new Company
             {
                 Id = bo.Id,
-                Name = bo.Name
+                Name = bo.Name,
+                ContactName = bo.ContactName,
+                ContactEmail = bo.ContactEmail,
+                ContactPhone = bo.ContactPhone
             };
         }
 
@@ -24,7 +27,10 @@ namespace DTRBLL.Converters.Implementations
             return new CompanyBO
             {
                 Id = entity.Id,
-                Name = entity.Name
+                Name = entity.Name,
+                ContactName = entity.ContactName,
+                ContactEmail = entity.ContactEmail,
+                ContactPhone = entity.ContactPhone
             };
         }
     }
