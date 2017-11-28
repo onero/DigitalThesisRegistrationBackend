@@ -15,7 +15,7 @@ namespace DTRBLLTests.Implementations.Services
         private readonly Mock<IUnitOfWork> _uow = new Mock<IUnitOfWork>();
         private readonly Mock<IStudentRepository> _repo = new Mock<IStudentRepository>();
         private readonly IStudentService _service;
-        
+
 
         public StudentServiceShould()
         {
@@ -32,8 +32,8 @@ namespace DTRBLLTests.Implementations.Services
             var entity = _service.Create(new StudentBO());
 
             Assert.NotNull(entity);
-
         }
+
         [Fact]
         public void GetOneByExistingId()
         {
@@ -43,12 +43,14 @@ namespace DTRBLLTests.Implementations.Services
 
             Assert.NotNull(entity);
         }
+
         [Fact]
         public void NotGetOneByNonExistingId()
         {
             var entity = _service.Get(0);
             Assert.Null(entity);
         }
+
         [Fact]
         public void GetAll()
         {
@@ -70,14 +72,32 @@ namespace DTRBLLTests.Implementations.Services
             throw new System.NotImplementedException();
         }
 
+        [Fact]
         public void UpdateByExistingId()
         {
-            throw new System.NotImplementedException();
+            _repo.Setup(r => r.Get(It.IsAny<int>())).Returns(new Student());
+            var studentToUpdate = new StudentBO
+            {
+                FirstName = "Test",
+                LastName = "Test",
+                GroupId = 1
+            };
+            var result = _service.Update(studentToUpdate);
+            Assert.NotNull(result);
+            Assert.True(result.IsInGroup);
         }
 
+        [Fact]
         public void NotUpdateByNonExistingId()
         {
-            throw new System.NotImplementedException();
+            _repo.Setup(r => r.Get(0)).Returns(() => null);
+            var result = _service.Update(new StudentBO
+            {
+                Id = 0,
+                FirstName = "Test",
+                LastName = "Test"
+            });
+            Assert.Null(result);
         }
     }
 }

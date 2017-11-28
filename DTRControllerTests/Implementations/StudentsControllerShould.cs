@@ -1,9 +1,8 @@
+using System;
 using System.Collections.Generic;
 using DigitalThesisRegistration.Controllers;
 using DTRBLL.BusinessObjects;
 using DTRBLL.Services;
-using DTRBLL.Services.Implementations;
-using DTRDAL.UOW;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
@@ -12,13 +11,67 @@ namespace DTRControllerTests.Implementations
 {
     public class StudentsControllerShould : IControllerTest
     {
-        private Mock<IStudentService> _service = new Mock<IStudentService>();
-        private StudentsController _controller;
-        private readonly StudentBO _mockBo = new StudentBO{Id = 1, FirstName = "Test", LastName = "Test"};
-
         public StudentsControllerShould()
         {
             _controller = new StudentsController(_service.Object);
+        }
+
+        private readonly Mock<IStudentService> _service = new Mock<IStudentService>();
+        private readonly StudentsController _controller;
+        private readonly StudentBO _mockBo = new StudentBO {Id = 1, FirstName = "Test", LastName = "Test"};
+
+        public void DeleteByExistingId_ReturnOk()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void NotDeleteByNonExistingId_ReturnNotFound()
+        {
+            throw new NotImplementedException();
+        }
+        [Fact]
+        public void UpdateWithValidObject_ReturnOk()
+        {
+            _service.Setup(r => r.Update(It.IsAny<StudentBO>())).Returns((StudentBO student) => student);
+            var result = _controller.Put(1, new StudentBO
+            {
+                Id = 1,
+                FirstName = "Test",
+                LastName = "Test",
+                GroupId = 1
+            });
+            Assert.IsType<OkObjectResult>(result);
+        }
+        [Fact]
+        public void NotUpdateWithNull_ReturnBadRequest()
+        {
+            var result = _controller.Put(1, null);
+            Assert.IsType<BadRequestResult>(result);
+        }
+        [Fact]
+        public void NotUpdateWithMisMatchingIds_ReturnBadRequest()
+        {
+            var result = _controller.Put(0, new StudentBO
+            {
+                Id = 1,
+                FirstName = "Test",
+                LastName = "Test"
+            });
+            Assert.IsType<BadRequestResult>(result);
+        }
+        [Fact]
+        public void NotUpdateWithInvalidObject_ReturnBadRequest()
+        {
+            _controller.ModelState.AddModelError("", "");
+            var result = _controller.Put(1, new StudentBO{Id = 1});
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+        [Fact]
+        public void NotUpdateWithNonExistingId_ReturnNotFound()
+        {
+            _service.Setup(r => r.Update(It.IsAny<StudentBO>())).Returns(() => null);
+            var result = _controller.Put(1, new StudentBO {Id = 1});
+            Assert.IsType<NotFoundObjectResult>(result);
         }
 
         [Fact]
@@ -47,14 +100,6 @@ namespace DTRControllerTests.Implementations
         }
 
         [Fact]
-        public void PostWithValidObject()
-        {
-            _service.Setup(s => s.Create(It.IsAny<StudentBO>())).Returns(_mockBo);
-            var result = _controller.Post(_mockBo);
-            Assert.NotNull(result);
-        }
-
-        [Fact]
         public void NotPostWithInvalidObject_ReturnBadRequest()
         {
             _service.Setup(s => s.Create(It.IsAny<StudentBO>())).Returns(() => null);
@@ -70,39 +115,12 @@ namespace DTRControllerTests.Implementations
             Assert.IsType<BadRequestObjectResult>(result);
         }
 
-        public void DeleteByExistingId_ReturnOk()
+        [Fact]
+        public void PostWithValidObject()
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void NotDeleteByNonExistingId_ReturnNotFound()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void UpdateWithValidObject_ReturnOk()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void NotUpdateWithNull_ReturnBadRequest()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void NotUpdateWithMisMatchingIds_ReturnBadRequest()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void NotUpdateWithInvalidObject_ReturnBadRequest()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void NotUpdateWithNonExistingId_ReturnNotFound()
-        {
-            throw new System.NotImplementedException();
+            _service.Setup(s => s.Create(It.IsAny<StudentBO>())).Returns(_mockBo);
+            var result = _controller.Post(_mockBo);
+            Assert.NotNull(result);
         }
     }
 }

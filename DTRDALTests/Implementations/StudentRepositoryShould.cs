@@ -28,7 +28,8 @@ namespace DTRDALTests.Implementations
                 Id = 1,
                 FirstName = "Test",
                 LastName = "Test",
-                GroupId = 1
+                GroupId = 1,
+                IsInGroup = true
             };
             var createdEntity = _repository.Create(entity);
             _context.SaveChanges();
