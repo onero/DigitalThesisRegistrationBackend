@@ -11,7 +11,7 @@ namespace DTRBLL.BusinessObjects
         public DateTime? Start { get; set; }
         public DateTime? End { get; set; }
         public string Title { get; set; }
-        public int WantedSuporvisorId { get; set; }
-        public int AssignedSuporvisorId { get; set; }
+        public int? WantedSuporvisorId { get; set; }
+        public int? AssignedSuporvisorId { get; set; }
     }
 }
