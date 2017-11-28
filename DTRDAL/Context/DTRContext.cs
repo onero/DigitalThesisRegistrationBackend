@@ -30,15 +30,15 @@ namespace DTRDAL.Context
                 .WithMany(g => g.Students)
                 .HasForeignKey(g => g.GroupId);
             
+            // Define Project relation with Supervisor
             modelBuilder.Entity<Project>()
                 .HasOne(p => p.AssignedSupervisor)
                 .WithMany(s => s.AssignedProjects)
-                .HasForeignKey(s => s.AssignedSuporvisorId);
-
+                .HasForeignKey(p => p.AssignedSuporvisorId);
             modelBuilder.Entity<Project>()
                 .HasOne(p => p.WantedSupervisor)
                 .WithMany(s => s.WantedProjects)
-                .HasForeignKey(s => s.WantedSuporvisorId);
+                .HasForeignKey(p => p.WantedSuporvisorId);
 
             // Define contract primary key
             modelBuilder.Entity<Contract>()
