@@ -21,8 +21,8 @@ namespace DTRControllerTests.Implementations
             End = new DateTime(2017, 1, 2, 1, 1, 1),
             Start = new DateTime(2017, 1, 1, 1, 1, 1),
             Title = "Test",
-            WantedSuporvisorId = 1,
-            AssignedSuporvisorId = 1
+            WantedSupervisorId = 1,
+            AssignedSupervisorId = 1
         };
 
         public ProjectsControllerShould()
@@ -95,8 +95,8 @@ namespace DTRControllerTests.Implementations
             var result = _controller.Put(1, new ProjectBO
             {
                 Id = 1,
-                WantedSuporvisorId = 1,
-                AssignedSuporvisorId = 1,
+                WantedSupervisorId = 1,
+                AssignedSupervisorId = 1,
                 Title = "Test",
                 Description = "Test",
                 Start = new DateTime(2017, 1, 1, 1, 1, 1),
@@ -118,8 +118,8 @@ namespace DTRControllerTests.Implementations
             var result = _controller.Put(0, new ProjectBO
             {
                 Id = 1,
-                WantedSuporvisorId = 1,
-                AssignedSuporvisorId = 1,
+                WantedSupervisorId = 1,
+                AssignedSupervisorId = 1,
                 Title = "Test",
                 Description = "Test",
                 Start = new DateTime(2017, 1, 1, 1, 1, 1),

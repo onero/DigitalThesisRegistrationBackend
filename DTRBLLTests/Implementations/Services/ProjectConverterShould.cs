@@ -16,8 +16,8 @@ namespace DTRBLLTests.Implementations.Services
             End = new DateTime(2017, 1, 2, 1, 1, 1),
             Start = new DateTime(2017, 1, 1, 1, 1, 1),
             Title = "Test",
-            WantedSuporvisorId = 1,
-            AssignedSuporvisorId = 1
+            WantedSupervisorId = 1,
+            AssignedSupervisorId = 1
         };
 
         private ProjectBO _mockProjectBo = new ProjectBO
@@ -27,8 +27,8 @@ namespace DTRBLLTests.Implementations.Services
             End = new DateTime(2017, 1, 2, 1, 1, 1),
             Start = new DateTime(2017, 1, 1, 1, 1, 1),
             Title = "TestBO",
-            WantedSuporvisorId = 1,
-            AssignedSuporvisorId = 1
+            WantedSupervisorId = 1,
+            AssignedSupervisorId = 1
         };
 
         public ProjectConverterShould()
