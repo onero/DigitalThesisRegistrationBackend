@@ -26,7 +26,7 @@ namespace DTRDALTests.Implementations
             var entity = new Project() {Id = 1,
                 Description = "Test", End = DateTime.Now.AddDays(1),
                 Start = DateTime.Now, Title = "Test",
-                WantedSuporvisorId = 1, AssignedSuporvisorId = 1};
+                WantedSupervisorId = 1, AssignedSupervisorId = 1};
             var createdEntity = _repository.Create(entity);
             _context.SaveChanges();
             return createdEntity;

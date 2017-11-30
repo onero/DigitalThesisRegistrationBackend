@@ -10,24 +10,24 @@ using Microsoft.AspNetCore.Mvc;
 namespace DigitalThesisRegistration.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Suporvisors")]
-    public class SuporvisorsController : Controller
+    [Route("api/Supervisors")]
+    public class SupervisorsController : Controller
     {
         private ISupervisorService _service;
 
-        public SuporvisorsController(ISupervisorService service)
+        public SupervisorsController(ISupervisorService service)
         {
             _service = service;
         }
 
-        // GET: api/Suporvisors
+        // GET: api/Supervisors
         [HttpGet]
         public IEnumerable<SupervisorBO> Get()
         {
             return _service.GetAll();
         }
 
-        // GET: api/Suporvisors/5
+        // GET: api/Supervisors/5
         [HttpGet("{id}", Name = "GetSupervisor")]
         public IActionResult Get(int id)
         {
@@ -39,7 +39,7 @@ namespace DigitalThesisRegistration.Controllers
             return new OkObjectResult(result);
         }
 
-        // POST: api/Suporvisors
+        // POST: api/Supervisors
         [HttpPost]
         public IActionResult Post([FromBody]SupervisorBO value)
         {
@@ -48,7 +48,7 @@ namespace DigitalThesisRegistration.Controllers
             return new OkObjectResult(_service.Create(value));
         }
 
-        // PUT: api/Suporvisors/5
+        // PUT: api/Supervisors/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {

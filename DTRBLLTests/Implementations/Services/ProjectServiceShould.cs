@@ -81,9 +81,9 @@ namespace DTRBLLTests.Implementations.Services
             {
                 Id = projectFromDB.Id,
                 Title = "Test",
-                AssignedSuporvisorId = 1,
+                AssignedSupervisorId = 1,
                 Description = "Test",
-                WantedSuporvisorId = 1,
+                WantedSupervisorId = 1,
                 Start = new DateTime(2017, 1, 1, 1, 1, 1),
                 End = new DateTime(2017, 1, 1, 1, 1, 1)
             };
@@ -91,8 +91,8 @@ namespace DTRBLLTests.Implementations.Services
             Assert.NotNull(result);
             Assert.Contains(updatedProject.Title, result.Title);
             Assert.Contains(updatedProject.Description, result.Description);
-            Assert.Equal(updatedProject.AssignedSuporvisorId, result.AssignedSuporvisorId);
-            Assert.Equal(updatedProject.WantedSuporvisorId, result.WantedSuporvisorId);
+            Assert.Equal(updatedProject.AssignedSupervisorId, result.AssignedSupervisorId);
+            Assert.Equal(updatedProject.WantedSupervisorId, result.WantedSupervisorId);
             Assert.Equal(updatedProject.Start, result.Start);
             Assert.Equal(updatedProject.End, result.End);
 
