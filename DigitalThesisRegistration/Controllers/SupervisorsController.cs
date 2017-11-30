@@ -11,11 +11,11 @@ namespace DigitalThesisRegistration.Controllers
 {
     [Produces("application/json")]
     [Route("api/Suporvisors")]
-    public class SuporvisorsController : Controller
+    public class SupervisorsController : Controller
     {
         private ISupervisorService _service;
 
-        public SuporvisorsController(ISupervisorService service)
+        public SupervisorsController(ISupervisorService service)
         {
             _service = service;
         }
