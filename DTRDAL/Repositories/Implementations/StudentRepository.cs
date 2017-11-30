@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using DTRDAL.Context;
 using DTRDAL.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace DTRDAL.Repositories.Implementations
 {
-    class StudentRepository: IStudentRepository
+    internal class StudentRepository : IStudentRepository
     {
         private readonly DTRContext _context;
 
@@ -24,12 +22,12 @@ namespace DTRDAL.Repositories.Implementations
 
         public Student Get(int id)
         {
-            return _context.Students.Include(s => s.Group).FirstOrDefault(s => s.Id == id);
+            return _context.Students.FirstOrDefault(s => s.Id == id);
         }
 
         public IEnumerable<Student> GetAll()
         {
-            return _context.Students.Include(s => s.Group);
+            return _context.Students;
         }
 
         public IEnumerable<Student> GetByIds(List<int> ids)

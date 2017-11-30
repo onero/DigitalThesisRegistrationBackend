@@ -24,7 +24,6 @@ namespace DTRDALTests.Implementations
             var group = new Group
             {
                 Id = 1,
-                Name = "D4FF",
                 ContactEmail = "Test",
                 Students = new List<Student> { new Student()}
             };

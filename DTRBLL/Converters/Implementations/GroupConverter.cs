@@ -15,7 +15,6 @@ namespace DTRBLL.Converters.Implementations
             return new Group
             {
                 Id = bo.Id,
-                Name = bo.Name,
                 ContactEmail = bo.ContactEmail,
                 Students = bo.Students?.Select(_studentConverter.Convert).ToList()
             };
@@ -27,7 +26,6 @@ namespace DTRBLL.Converters.Implementations
             return new GroupBO
             {
                 Id = entity.Id,
-                Name = entity.Name,
                 ContactEmail = entity.ContactEmail,
                 Students = entity.Students?.Select(_studentConverter.Convert).ToList()
             };

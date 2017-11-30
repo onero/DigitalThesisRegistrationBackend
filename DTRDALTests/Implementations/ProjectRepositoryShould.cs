@@ -1,3 +1,6 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using DTRDAL.Context;
 using DTRDAL.Entities;
 using DTRDAL.Repositories;
@@ -7,30 +10,23 @@ using Xunit;
 
 namespace DTRDALTests.Implementations
 {
-    public class StudentRepositoryShould: IRepositoryTest
+    public class ProjectRepositoryShould : IRepositoryTest
     {
         private readonly DTRContext _context;
-        private readonly StudentRepository _repository;
-        private readonly GroupRepository _groupRepository;
+        private readonly ProjectRepository _repository;
 
-        public StudentRepositoryShould()
+        public ProjectRepositoryShould()
         {
             _context = TestContext.Context;
-            _repository = new StudentRepository(_context);
-            _groupRepository = new GroupRepository(_context);
+            _repository = new ProjectRepository(_context);
         }
 
-        private Student CreateMockStudent()
+        private Project CreateMockProject()
         {
-            _groupRepository.Create(new Group {Id = 1});
-            var entity = new Student
-            {
-                Id = 1,
-                FirstName = "Test",
-                LastName = "Test",
-                GroupId = 1,
-                IsInGroup = true
-            };
+            var entity = new Project() {Id = 1,
+                Description = "Test", End = DateTime.Now.AddDays(1),
+                Start = DateTime.Now, Title = "Test",
+                WantedSuporvisorId = 1, AssignedSuporvisorId = 1};
             var createdEntity = _repository.Create(entity);
             _context.SaveChanges();
             return createdEntity;
@@ -39,18 +35,18 @@ namespace DTRDALTests.Implementations
         [Fact]
         public void CreateOne()
         {
-            var createdEntity = CreateMockStudent();
+            var createdEntity = CreateMockProject();
             Assert.NotNull(createdEntity);
         }
 
         [Fact]
         public void GetOneByExistingId()
         {
-            var createdEntity = CreateMockStudent();
+            var createdEntity = CreateMockProject();
             var entity = _repository.Get(createdEntity.Id);
             Assert.NotNull(entity);
         }
-
+        
         [Fact]
         public void NotGetOneByNonExistingId()
         {
@@ -61,20 +57,20 @@ namespace DTRDALTests.Implementations
         [Fact]
         public void GetAll()
         {
-            CreateMockStudent();
+            CreateMockProject();
             var entities = _repository.GetAll();
             Assert.NotNull(entities);
             Assert.NotEmpty(entities);
         }
-
+        
         public void DeleteByExistingId()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void NotDeleteByNonExistingId()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

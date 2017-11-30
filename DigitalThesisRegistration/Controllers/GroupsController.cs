@@ -53,7 +53,12 @@ namespace DigitalThesisRegistration.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]GroupBO value)
         {
-            throw new NotImplementedException();
+            if (value == null) return new BadRequestResult();
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
+            if (id != value.Id) return new BadRequestResult();
+            var result = _service.Update(value);
+            if (result == null) return new NotFoundObjectResult(result);
+            return new OkObjectResult(result);
         }
 
         // DELETE: api/ApiWithActions/5

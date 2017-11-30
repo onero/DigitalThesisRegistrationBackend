@@ -13,12 +13,12 @@ namespace DTRControllerTests.Implementations
     public class SupervisorControllerShould : IControllerTest
     {
         private Mock<ISupervisorService> _service = new Mock<ISupervisorService>();
-        private SupervisorsController _controller;
+        private SuporvisorsController _controller;
         private readonly SupervisorBO _mockBo = new SupervisorBO { Id = 1, FirstName = "Test", LastName = "Test" };
 
         public SupervisorControllerShould()
         {
-            _controller = new SupervisorsController(_service.Object);
+            _controller = new SuporvisorsController(_service.Object);
         }
 
         [Fact]

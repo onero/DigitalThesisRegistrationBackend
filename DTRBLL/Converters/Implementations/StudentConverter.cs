@@ -13,7 +13,8 @@ namespace DTRBLL.Converters.Implementations
                 Id = bo.Id,
                 FirstName = bo.FirstName,
                 LastName = bo.LastName,
-                GroupId = bo.GroupId
+                GroupId = bo.GroupId,
+                IsInGroup = bo.IsInGroup
             };
         }
 
@@ -25,7 +26,8 @@ namespace DTRBLL.Converters.Implementations
                 Id = entity.Id,
                 FirstName = entity.FirstName,
                 LastName = entity.LastName,
-                GroupId = entity.GroupId
+                GroupId = entity.GroupId,
+                IsInGroup = entity.IsInGroup
             };
         }
     }
