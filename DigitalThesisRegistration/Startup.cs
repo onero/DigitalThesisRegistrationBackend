@@ -1,4 +1,6 @@
-﻿using DTRDAL.Context;
+﻿using DTRBLL.Services;
+using DTRBLL.Services.Implementations;
+using DTRDAL.Context;
 using DTRDAL.UOW;
 using DTRDAL.UOW.Implementations;
 using Microsoft.AspNetCore.Builder;
@@ -41,6 +43,12 @@ namespace DigitalThesisRegistration
 
             // Add Dependencies
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IStudentService, StudentService>();
+            services.AddScoped<IGroupService, GroupService>();
+            services.AddScoped<ICompanyService, CompanyService>();
+            services.AddScoped<ISupervisorService, SupervisorService>();
+            services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<IContractService, ContractService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
