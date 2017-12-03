@@ -1,4 +1,5 @@
-﻿using DTRBLL.Services;
+﻿using System.IO;
+using DTRBLL.Services;
 using DTRBLL.Services.Implementations;
 using DTRDAL.Context;
 using DTRDAL.UOW;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.PlatformAbstractions;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace DigitalThesisRegistration
@@ -55,7 +57,13 @@ namespace DigitalThesisRegistration
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+
+                // Set the comments path for the Swagger JSON and UI.
+                var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+                var xmlPath = Path.Combine(basePath, "DigitalThesisRegistration.xml");
+                c.IncludeXmlComments(xmlPath);
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
