@@ -1,15 +1,19 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using DigitalThesisRegistration.Helpers;
 using DTRBLL.Services;
 using DTRBLL.Services.Implementations;
 using DTRDAL.Context;
 using DTRDAL.UOW;
 using DTRDAL.UOW.Implementations;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace DigitalThesisRegistration
@@ -28,6 +32,7 @@ namespace DigitalThesisRegistration
                 .AddJsonFile("appsettings.json", false, true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+            JwtSecurityKey.SetSecret("a secret that needs to be at least 16 characters long");
             // Define Environment
             Environment = env;
         }
@@ -36,6 +41,22 @@ namespace DigitalThesisRegistration
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            // Add JWT based authentication
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateAudience = false,
+                    //ValidAudience = "TodoApiClient",
+                    ValidateIssuer = false,
+                    //ValidIssuer = "TodoApi",
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = JwtSecurityKey.Key,
+                    ValidateLifetime = true, //validate the expiration and not before values in the token
+                    ClockSkew = TimeSpan.FromMinutes(5) //5 minute tolerance for the expiration date
+                };
+            });
 
             // Configure context
             services.AddSingleton(Configuration);
@@ -86,6 +107,9 @@ namespace DigitalThesisRegistration
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
+
+            // Use authentication
+            app.UseAuthentication();
 
 
             app.UseMvc();
