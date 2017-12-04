@@ -16,6 +16,7 @@ namespace DigitalThesisRegistration.Controllers
     {
         private readonly IGroupService _groupService;
 
+        private const string Group = "Group";
         private const string GroupPassword = "1234";
         private const string Supervisor = "Supervisor";
         private const string SupervisorPassword = "supervisorSecret";
@@ -48,7 +49,7 @@ namespace DigitalThesisRegistration.Controllers
                 default:
                     var group = _groupService.Get(user.Username);
                     if (group == null) return Unauthorized();
-                    return HandleGroupLogin(user);
+                    return HandleGroupLogin(user, group);
             }
         }
 
@@ -56,11 +57,17 @@ namespace DigitalThesisRegistration.Controllers
         /// Verify group password
         /// </summary>
         /// <param name="user"></param>
+        /// <param name="group"></param>
         /// <returns></returns>
-        private IActionResult HandleGroupLogin(UserBO user)
+        private IActionResult HandleGroupLogin(UserBO user, GroupBO group)
         {
             if (user.Password.Equals(GroupPassword))
-                return Ok(GenerateToken(user));
+                return Ok(new
+                {
+                    token = GenerateToken(user),
+                    role = Group,
+                    group
+                });
             return Unauthorized();
         }
 
@@ -97,7 +104,7 @@ namespace DigitalThesisRegistration.Controllers
                     claims.Add(new Claim(ClaimTypes.Role, "Administrator"));
                     break;
                 default:
-                    claims.Add(new Claim(ClaimTypes.Role, "Group"));
+                    claims.Add(new Claim(ClaimTypes.Role, Group));
                     break;
             }
 
