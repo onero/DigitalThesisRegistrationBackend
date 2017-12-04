@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using DigitalThesisRegistration.Helpers;
 using DTRBLL.BusinessObjects;
 using DTRBLL.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DigitalThesisRegistration.Controllers
@@ -13,8 +11,8 @@ namespace DigitalThesisRegistration.Controllers
     [Route("api/Contracts")]
     public class ContractsController : Controller
     {
-        private readonly IContractService _service;
         private readonly IProjectService _projectService;
+        private readonly IContractService _service;
 
         public ContractsController(IContractService service, IProjectService projectService)
         {
@@ -22,6 +20,10 @@ namespace DigitalThesisRegistration.Controllers
             _projectService = projectService;
         }
 
+        /// <summary>
+        /// GET all contracts
+        /// </summary>
+        /// <returns>Collection of ContractBOs</returns>
         // GET: api/Contracts
         [HttpGet]
         public IEnumerable<ContractBO> Get()
@@ -29,36 +31,56 @@ namespace DigitalThesisRegistration.Controllers
             return _service.GetAll();
         }
 
+        /// <summary>
+        /// GET a contract by id
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <param name="groupId"></param>
+        /// <param name="companyId"></param>
+        /// <returns>ContractBO, if id exists</returns>
         // GET: api/Contracts/5
         [HttpGet("{id}", Name = "GetContract")]
         public IActionResult Get(int projectId, int groupId, int companyId)
         {
             var result = _service.Get(projectId, groupId, companyId);
-            if (result == null) return new NotFoundObjectResult(result);
+            if (result == null) return new NotFoundObjectResult(ErrorMessages.NotFoundString);
             return new OkObjectResult(result);
         }
-        
+
+        /// <summary>
+        /// POST a new contract
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>Created ContractBO, if correct format is used</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST api/Contracts
+        ///     {
+        ///        "projectId": 1,
+        ///        "groupId": 1,
+        ///        "companyId": 1
+        ///     }
+        ///
+        /// </remarks>
         // POST: api/Contracts
         [HttpPost]
-        public IActionResult Post([FromBody]ContractBO value)
+        public IActionResult Post([FromBody] ContractBO value)
         {
-            if (value == null) return new BadRequestResult();
+            if (value == null) return new BadRequestObjectResult(ErrorMessages.InvalidEntityString);
             var result = _service.Create(value);
             if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            if (value.ProjectId == 0)
-            {
-                var project = _projectService.Create(new ProjectBO());
-                value.ProjectId = project.Id;
-            }
+                return new BadRequestObjectResult(ModelState);
+            if (value.ProjectId != 0) return new OkObjectResult(result);
+
+            var project = _projectService.Create(new ProjectBO());
+            value.ProjectId = project.Id;
             return new OkObjectResult(result);
         }
 
         // PUT: api/Contracts/5
         [HttpPut("{id}")]
-        public IActionResult Put(int projectId, int groupId, int companyId, [FromBody]ContractBO value)
+        public IActionResult Put(int projectId, int groupId, int companyId, [FromBody] ContractBO value)
         {
             throw new NotImplementedException();
         }

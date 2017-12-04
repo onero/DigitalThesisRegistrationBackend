@@ -1,4 +1,5 @@
-﻿using DTRBLL.Services;
+﻿using System.IO;
+using DTRBLL.Services;
 using DTRBLL.Services.Implementations;
 using DTRDAL.Context;
 using DTRDAL.UOW;
@@ -8,6 +9,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.PlatformAbstractions;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace DigitalThesisRegistration
 {
@@ -49,6 +52,18 @@ namespace DigitalThesisRegistration
             services.AddScoped<ISupervisorService, SupervisorService>();
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IContractService, ContractService>();
+
+            // Register the Swagger generator, defining one or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+
+                // Set the comments path for the Swagger JSON and UI.
+                var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+                var xmlPath = Path.Combine(basePath, "DigitalThesisRegistration.xml");
+                c.IncludeXmlComments(xmlPath);
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,6 +77,16 @@ namespace DigitalThesisRegistration
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials());
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
 
             app.UseMvc();
         }

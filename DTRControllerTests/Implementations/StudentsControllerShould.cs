@@ -46,7 +46,7 @@ namespace DTRControllerTests.Implementations
         public void NotUpdateWithNull_ReturnBadRequest()
         {
             var result = _controller.Put(1, null);
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
         [Fact]
         public void NotUpdateWithMisMatchingIds_ReturnBadRequest()
@@ -57,7 +57,7 @@ namespace DTRControllerTests.Implementations
                 FirstName = "Test",
                 LastName = "Test"
             });
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
         [Fact]
         public void NotUpdateWithInvalidObject_ReturnBadRequest()
@@ -96,7 +96,7 @@ namespace DTRControllerTests.Implementations
         {
             _service.Setup(s => s.Get(0)).Returns(() => null);
             var result = _controller.Get(0);
-            Assert.IsType<NotFoundResult>(result);
+            Assert.IsType<NotFoundObjectResult>(result);
         }
 
         [Fact]

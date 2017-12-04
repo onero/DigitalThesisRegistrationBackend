@@ -13,7 +13,7 @@ namespace DigitalThesisRegistration.Controllers
     [Route("api/Projects")]
     public class ProjectsController : Controller
     {
-        private IProjectService _service;
+        private readonly IProjectService _service;
 
         public ProjectsController(IProjectService service)
         {
@@ -44,7 +44,7 @@ namespace DigitalThesisRegistration.Controllers
         public IActionResult Post([FromBody]ProjectBO value)
         {
             if (value == null) return BadRequest();
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
             return new OkObjectResult(_service.Create(value));
         }
         
