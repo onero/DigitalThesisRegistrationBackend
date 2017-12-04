@@ -97,11 +97,11 @@ namespace DigitalThesisRegistration.Controllers
 
             switch (user.Username)
             {
-                case "supervisor":
-                    claims.Add(new Claim(ClaimTypes.Role, "Supervisor"));
+                case Supervisor:
+                    claims.Add(new Claim(ClaimTypes.Role, Supervisor));
                     break;
-                case "admin":
-                    claims.Add(new Claim(ClaimTypes.Role, "Administrator"));
+                case Administrator:
+                    claims.Add(new Claim(ClaimTypes.Role, Administrator));
                     break;
                 default:
                     claims.Add(new Claim(ClaimTypes.Role, Group));
