@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using DTRBLL.BusinessObjects;
 using DTRBLL.Services;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DigitalThesisRegistration.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/Supervisors")]
     public class SupervisorsController : Controller
     {
-        private ISupervisorService _service;
+        private readonly ISupervisorService _service;
 
         public SupervisorsController(ISupervisorService service)
         {
@@ -33,15 +31,13 @@ namespace DigitalThesisRegistration.Controllers
         {
             var result = _service.Get(id);
             if (result == null)
-            {
                 return NotFound();
-            }
             return new OkObjectResult(result);
         }
 
         // POST: api/Supervisors
         [HttpPost]
-        public IActionResult Post([FromBody]SupervisorBO value)
+        public IActionResult Post([FromBody] SupervisorBO value)
         {
             if (value == null) return BadRequest();
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -50,10 +46,10 @@ namespace DigitalThesisRegistration.Controllers
 
         // PUT: api/Supervisors/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody] string value)
         {
         }
-        
+
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)

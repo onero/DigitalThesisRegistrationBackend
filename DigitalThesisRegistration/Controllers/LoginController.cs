@@ -125,7 +125,7 @@ namespace DigitalThesisRegistration.Controllers
         /// <summary>
         /// Verify admin password
         /// </summary>
-        /// <param name="password"></param>
+        /// <param user="user"></param>
         /// <returns></returns>
         private IActionResult HandleAdminLogin(UserBO user)
         {
