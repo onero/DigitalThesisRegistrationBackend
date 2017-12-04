@@ -28,9 +28,15 @@ namespace DTRBLL.Services.Implementations
             }
         }
 
-        public ContractBO Get(int id)
+        public ContractBO Get(int groupId)
         {
-            throw new System.NotImplementedException();
+            using (var unitOfWork = _uow)
+            {
+                var resultFromDB = unitOfWork.ContractRepository.Get(groupId);
+                return resultFromDB == null ? 
+                    null : 
+                    _converter.Convert(resultFromDB);
+            }
         }
 
         public ContractBO Get(int projectId, int groupId, int companyId)

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using DigitalThesisRegistration.Helpers;
 using DTRBLL.BusinessObjects;
 using DTRBLL.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DigitalThesisRegistration.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/Contracts")]
     public class ContractsController : Controller
@@ -39,10 +41,23 @@ namespace DigitalThesisRegistration.Controllers
         /// <param name="companyId"></param>
         /// <returns>ContractBO, if id exists</returns>
         // GET: api/Contracts/5
-        [HttpGet("{id}", Name = "GetContract")]
+        [HttpGet("{projectId}, {groupId}, {companyId}", Name = "GetContract")]
         public IActionResult Get(int projectId, int groupId, int companyId)
         {
             var result = _service.Get(projectId, groupId, companyId);
+            if (result == null) return new NotFoundObjectResult(ErrorMessages.NotFoundString);
+            return new OkObjectResult(result);
+        }
+
+        /// <summary>
+        /// GET a contract by groupId
+        /// </summary>
+        /// <param name="groupId"></param>
+        /// <returns>ContractBO, if id exists</returns>
+        [HttpGet("{groupId}", Name = "GetContractByGroupId")]
+        public IActionResult Get(int groupId)
+        {
+            var result = _service.Get(groupId);
             if (result == null) return new NotFoundObjectResult(ErrorMessages.NotFoundString);
             return new OkObjectResult(result);
         }

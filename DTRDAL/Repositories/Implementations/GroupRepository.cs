@@ -25,6 +25,13 @@ namespace DTRDAL.Repositories.Implementations
             return _context.Groups.Include(g => g.Students).FirstOrDefault(g => g.Id == id);
         }
 
+        public Group Get(string contactEmail)
+        {
+            return _context.Groups
+                .Include(g => g.Students)
+                .FirstOrDefault(g => g.ContactEmail.Equals(contactEmail));
+        }
+
         public IEnumerable<Group> GetAll()
         {
             return _context.Groups.Include(g => g.Students);

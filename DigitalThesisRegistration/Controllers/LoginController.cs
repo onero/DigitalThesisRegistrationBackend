@@ -14,7 +14,7 @@ namespace DigitalThesisRegistration.Controllers
     [Route("Login")]
     public class LoginController : Controller
     {
-        private IGroupService _groupService;
+        private readonly IGroupService _groupService;
 
         private const string GroupPassword = "1234";
         private const string Supervisor = "Supervisor";
@@ -44,7 +44,8 @@ namespace DigitalThesisRegistration.Controllers
                     // Handle admin login
                     return HandleAdminLogin(user.Password);
                 default:
-                    // Handle group login
+                    var group = _groupService.Get(user.Username);
+                    if (group == null) return Unauthorized();
                     return HandleGroupLogin(user);
             }
         }
@@ -56,7 +57,6 @@ namespace DigitalThesisRegistration.Controllers
         /// <returns></returns>
         private IActionResult HandleGroupLogin(UserBO user)
         {
-            // TODO ALH: Fix!
             if (user.Password.Equals(GroupPassword))
                 return Ok(GenerateToken(user));
             return Unauthorized();
@@ -111,6 +111,7 @@ namespace DigitalThesisRegistration.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
 
         /// <summary>
         /// Verify admin password
