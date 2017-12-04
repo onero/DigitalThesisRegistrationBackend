@@ -64,7 +64,7 @@ namespace DigitalThesisRegistration.Controllers
         public IActionResult Post([FromBody] StudentBO value)
         {
             if (value == null) return BadRequest(ErrorMessages.InvalidEntityString);
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
             return new OkObjectResult(_service.Create(value));
         }
 
