@@ -35,6 +35,8 @@ namespace DigitalThesisRegistration.Controllers
         [HttpPost]
         public IActionResult Login([FromBody] UserBO user)
         {
+            if (user == null) return new BadRequestObjectResult(ErrorMessages.InvalidEntityString);
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
             switch (user.Username)
             {
                 case Supervisor:
@@ -42,7 +44,7 @@ namespace DigitalThesisRegistration.Controllers
                     return HandleSupervisorLogin(user);
                 case Administrator:
                     // Handle admin login
-                    return HandleAdminLogin(user.Password);
+                    return HandleAdminLogin(user);
                 default:
                     var group = _groupService.Get(user.Username);
                     if (group == null) return Unauthorized();
@@ -118,13 +120,10 @@ namespace DigitalThesisRegistration.Controllers
         /// </summary>
         /// <param name="password"></param>
         /// <returns></returns>
-        private IActionResult HandleAdminLogin(string password)
+        private IActionResult HandleAdminLogin(UserBO user)
         {
-            if (password.Equals(AdminPassword))
-            {
-                //Handle authorized login
-                return Ok();
-            }
+            if (user.Password.Equals(AdminPassword))
+                return Ok(GenerateToken(user));
             return Unauthorized();
         }
     }
