@@ -70,7 +70,7 @@ namespace DigitalThesisRegistration.Controllers
             if (value == null) return new BadRequestObjectResult(ErrorMessages.InvalidEntityString);
             var result = _service.Create(value);
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                return new BadRequestObjectResult(ModelState);
             if (value.ProjectId != 0) return new OkObjectResult(result);
 
             var project = _projectService.Create(new ProjectBO());

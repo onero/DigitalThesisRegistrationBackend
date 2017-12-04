@@ -64,7 +64,7 @@ namespace DigitalThesisRegistration.Controllers
         {
             if (value == null) return BadRequest(ErrorMessages.InvalidEntityString);
             var createdEntity = _service.Create(value);
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
             return new OkObjectResult(createdEntity);
         }
 
