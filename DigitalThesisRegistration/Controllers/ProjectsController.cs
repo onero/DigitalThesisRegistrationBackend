@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using DigitalThesisRegistration.Helpers;
 using DTRBLL.BusinessObjects;
 using DTRBLL.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DigitalThesisRegistration.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/Projects")]
     public class ProjectsController : Controller
