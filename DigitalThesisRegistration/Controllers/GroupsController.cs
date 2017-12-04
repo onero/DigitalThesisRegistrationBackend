@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using DigitalThesisRegistration.Helpers;
 using DTRBLL.BusinessObjects;
 using DTRBLL.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DigitalThesisRegistration.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/Groups")]
     public class GroupsController : Controller
@@ -59,6 +61,7 @@ namespace DigitalThesisRegistration.Controllers
         ///
         /// </remarks>
         // POST: api/Groups
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult Post([FromBody] GroupBO value)
         {
