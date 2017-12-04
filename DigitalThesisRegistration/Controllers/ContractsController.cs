@@ -14,10 +14,12 @@ namespace DigitalThesisRegistration.Controllers
     public class ContractsController : Controller
     {
         private readonly IContractService _service;
+        private readonly IProjectService _projectService;
 
-        public ContractsController(IContractService service)
+        public ContractsController(IContractService service, IProjectService projectService)
         {
             _service = service;
+            _projectService = projectService;
         }
 
         // GET: api/Contracts
@@ -45,6 +47,11 @@ namespace DigitalThesisRegistration.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+            if (value.ProjectId == 0)
+            {
+                var project = _projectService.Create(new ProjectBO());
+                value.ProjectId = project.Id;
             }
             return new OkObjectResult(result);
         }

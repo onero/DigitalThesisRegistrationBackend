@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using DTRBLL.BusinessObjects;
 using DTRBLL.Converters.Implementations;
 using DTRDAL.Entities;
 using Xunit;
 
-namespace DTRBLLTests.Implementations
+namespace DTRBLLTests.Implementations.Services
 {
     public class ProjectConverterShould : IConverterTest
     {
@@ -18,8 +16,8 @@ namespace DTRBLLTests.Implementations
             End = new DateTime(2017, 1, 2, 1, 1, 1),
             Start = new DateTime(2017, 1, 1, 1, 1, 1),
             Title = "Test",
-            WantedSuporvisorId = 1,
-            AssignedSuporvisorId = 1
+            WantedSupervisorId = 1,
+            AssignedSupervisorId = 1
         };
 
         private ProjectBO _mockProjectBo = new ProjectBO
@@ -29,8 +27,8 @@ namespace DTRBLLTests.Implementations
             End = new DateTime(2017, 1, 2, 1, 1, 1),
             Start = new DateTime(2017, 1, 1, 1, 1, 1),
             Title = "TestBO",
-            WantedSuporvisorId = 1,
-            AssignedSuporvisorId = 1
+            WantedSupervisorId = 1,
+            AssignedSupervisorId = 1
         };
 
         public ProjectConverterShould()

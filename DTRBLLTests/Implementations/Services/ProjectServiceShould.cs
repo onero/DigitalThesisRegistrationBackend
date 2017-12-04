@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using DTRBLL.BusinessObjects;
 using DTRBLL.Services;
 using DTRBLL.Services.Implementations;
@@ -8,9 +7,10 @@ using DTRDAL.Entities;
 using DTRDAL.Repositories;
 using DTRDAL.UOW;
 using Moq;
+using Remotion.Linq.Parsing.Structure.IntermediateModel;
 using Xunit;
 
-namespace DTRBLLTests.Implementations
+namespace DTRBLLTests.Implementations.Services
 {
     public class ProjectServiceShould : IServiceTest
     {
@@ -72,14 +72,39 @@ namespace DTRBLLTests.Implementations
             throw new NotImplementedException();
         }
         
+        [Fact]
         public void UpdateByExistingId()
         {
-            throw new NotImplementedException();
+            _repo.Setup(r => r.Get(It.IsAny<int>())).Returns(new Project{Id = 1});
+            var projectFromDB = _service.Get(1);
+            var updatedProject = new ProjectBO
+            {
+                Id = projectFromDB.Id,
+                Title = "Test",
+                AssignedSupervisorId = 1,
+                Description = "Test",
+                WantedSupervisorId = 1,
+                Start = new DateTime(2017, 1, 1, 1, 1, 1),
+                End = new DateTime(2017, 1, 1, 1, 1, 1)
+            };
+            var result = _service.Update(updatedProject);
+            Assert.NotNull(result);
+            Assert.Contains(updatedProject.Title, result.Title);
+            Assert.Contains(updatedProject.Description, result.Description);
+            Assert.Equal(updatedProject.AssignedSupervisorId, result.AssignedSupervisorId);
+            Assert.Equal(updatedProject.WantedSupervisorId, result.WantedSupervisorId);
+            Assert.Equal(updatedProject.Start, result.Start);
+            Assert.Equal(updatedProject.End, result.End);
+
         }
 
+        [Fact]
         public void NotUpdateByNonExistingId()
         {
-            throw new NotImplementedException();
+            _repo.Setup(r => r.Get(It.IsAny<int>())).Returns(() => null);
+            var projectFromDB = _service.Get(1);
+            var result = _service.Update(projectFromDB);
+            Assert.Null(result);
         }
     }
 }

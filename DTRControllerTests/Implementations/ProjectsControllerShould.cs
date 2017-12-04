@@ -21,8 +21,8 @@ namespace DTRControllerTests.Implementations
             End = new DateTime(2017, 1, 2, 1, 1, 1),
             Start = new DateTime(2017, 1, 1, 1, 1, 1),
             Title = "Test",
-            WantedSuporvisorId = 1,
-            AssignedSuporvisorId = 1
+            WantedSupervisorId = 1,
+            AssignedSupervisorId = 1
         };
 
         public ProjectsControllerShould()
@@ -66,7 +66,6 @@ namespace DTRControllerTests.Implementations
         [Fact]
         public void NotPostWithInvalidObject_ReturnBadRequest()
         {
-            _service.Setup(s => s.Create(It.IsAny<ProjectBO>())).Returns(() => null);
             _controller.ModelState.AddModelError("", "");
             var result = _controller.Post(_mockBo);
             Assert.IsType<BadRequestObjectResult>(result);
@@ -89,29 +88,60 @@ namespace DTRControllerTests.Implementations
             throw new NotImplementedException();
         }
 
+        [Fact]
         public void UpdateWithValidObject_ReturnOk()
         {
-            throw new NotImplementedException();
+            _service.Setup(r => r.Update(It.IsAny<ProjectBO>())).Returns((ProjectBO project) => project);
+            var result = _controller.Put(1, new ProjectBO
+            {
+                Id = 1,
+                WantedSupervisorId = 1,
+                AssignedSupervisorId = 1,
+                Title = "Test",
+                Description = "Test",
+                Start = new DateTime(2017, 1, 1, 1, 1, 1),
+                End = new DateTime(2017, 1, 1, 1, 1, 1)
+            });
+            Assert.IsType<OkObjectResult>(result);
         }
 
+        [Fact]
         public void NotUpdateWithNull_ReturnBadRequest()
         {
-            throw new NotImplementedException();
+            var result = _controller.Put(1, null);
+            Assert.IsType<BadRequestResult>(result);
         }
 
+        [Fact]
         public void NotUpdateWithMisMatchingIds_ReturnBadRequest()
         {
-            throw new NotImplementedException();
+            var result = _controller.Put(0, new ProjectBO
+            {
+                Id = 1,
+                WantedSupervisorId = 1,
+                AssignedSupervisorId = 1,
+                Title = "Test",
+                Description = "Test",
+                Start = new DateTime(2017, 1, 1, 1, 1, 1),
+                End = new DateTime(2017, 1, 1, 1, 1, 1)
+            });
+            Assert.IsType<BadRequestResult>(result);
         }
 
+        [Fact]
         public void NotUpdateWithInvalidObject_ReturnBadRequest()
         {
-            throw new NotImplementedException();
+            _controller.ModelState.AddModelError("", "");
+            var result = _controller.Put(1, new ProjectBO { Id = 1 });
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
+        [Fact]
         public void NotUpdateWithNonExistingId_ReturnNotFound()
         {
-            throw new NotImplementedException();
+            _service.Setup(r => r.Update(It.IsAny<ProjectBO>())).Returns(() => null);
+            var result = _controller.Put(1, new ProjectBO { Id = 1 });
+            Assert.IsType<NotFoundObjectResult>(result);
         }
     }
 }

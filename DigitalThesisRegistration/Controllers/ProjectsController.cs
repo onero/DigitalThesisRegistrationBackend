@@ -50,8 +50,14 @@ namespace DigitalThesisRegistration.Controllers
         
         // PUT: api/AssignedProjects/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody]ProjectBO value)
         {
+            if (value == null) return new BadRequestResult();
+            if (id != value.Id) return new BadRequestResult();
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
+            var result = _service.Update(value);
+            if (result == null) return new NotFoundObjectResult(result);
+            return new OkObjectResult(result);
         }
         
         // DELETE: api/ApiWithActions/5

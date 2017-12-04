@@ -19,6 +19,6 @@ namespace DTRBLL.BusinessObjects
         public string ContactEmail { get; set; }
         [Required]
         [MinLength(2)]
-        public int ContactPhone { get; set; }
+        public string ContactPhone { get; set; }
     }
 }

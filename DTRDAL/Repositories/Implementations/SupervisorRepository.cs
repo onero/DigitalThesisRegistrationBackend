@@ -24,7 +24,10 @@ namespace DTRDAL.Repositories.Implementations
 
         public Supervisor Get(int id)
         {
-            return _context.Supervisors.Include(s => s.WantedProjects).Include(s => s.AssignedProjects).FirstOrDefault(s => s.Id == id);
+            return _context.Supervisors
+                .Include(s => s.WantedProjects)
+                .Include(s => s.AssignedProjects)
+                .FirstOrDefault(s => s.Id == id);
         }
 
         public IEnumerable<Supervisor> GetAll()
