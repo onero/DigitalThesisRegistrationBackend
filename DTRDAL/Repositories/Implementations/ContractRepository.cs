@@ -19,9 +19,10 @@ namespace DTRDAL.Repositories.Implementations
             return _context.Contracts.Add(ent).Entity;
         }
 
-        public Contract Get(int id)
+        public Contract Get(int groupId)
         {
-            throw new System.NotImplementedException();
+            return _context.Contracts
+                .FirstOrDefault(c => c.GroupId == groupId);
         }
 
         public Contract Get(int projectId, int groupId, int companyId)

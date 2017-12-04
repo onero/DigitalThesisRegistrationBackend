@@ -14,8 +14,9 @@ namespace DigitalThesisRegistration.Controllers
     [Route("Login")]
     public class LoginController : Controller
     {
-        private IGroupService _groupService;
+        private readonly IGroupService _groupService;
 
+        private const string Group = "Group";
         private const string GroupPassword = "1234";
         private const string Supervisor = "Supervisor";
         private const string SupervisorPassword = "supervisorSecret";
@@ -35,6 +36,8 @@ namespace DigitalThesisRegistration.Controllers
         [HttpPost]
         public IActionResult Login([FromBody] UserBO user)
         {
+            if (user == null) return new BadRequestObjectResult(ErrorMessages.InvalidEntityString);
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
             switch (user.Username)
             {
                 case Supervisor:
@@ -42,10 +45,11 @@ namespace DigitalThesisRegistration.Controllers
                     return HandleSupervisorLogin(user);
                 case Administrator:
                     // Handle admin login
-                    return HandleAdminLogin(user.Password);
+                    return HandleAdminLogin(user);
                 default:
-                    // Handle group login
-                    return HandleGroupLogin(user);
+                    var group = _groupService.Get(user.Username);
+                    if (group == null) return Unauthorized();
+                    return HandleGroupLogin(user, group);
             }
         }
 
@@ -53,12 +57,17 @@ namespace DigitalThesisRegistration.Controllers
         /// Verify group password
         /// </summary>
         /// <param name="user"></param>
+        /// <param name="group"></param>
         /// <returns></returns>
-        private IActionResult HandleGroupLogin(UserBO user)
+        private IActionResult HandleGroupLogin(UserBO user, GroupBO group)
         {
-            // TODO ALH: Fix!
             if (user.Password.Equals(GroupPassword))
-                return Ok(GenerateToken(user));
+                return Ok(new
+                {
+                    token = GenerateToken(user),
+                    role = Group,
+                    group
+                });
             return Unauthorized();
         }
 
@@ -95,7 +104,7 @@ namespace DigitalThesisRegistration.Controllers
                     claims.Add(new Claim(ClaimTypes.Role, "Administrator"));
                     break;
                 default:
-                    claims.Add(new Claim(ClaimTypes.Role, "Group"));
+                    claims.Add(new Claim(ClaimTypes.Role, Group));
                     break;
             }
 
@@ -112,18 +121,16 @@ namespace DigitalThesisRegistration.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+
         /// <summary>
         /// Verify admin password
         /// </summary>
         /// <param name="password"></param>
         /// <returns></returns>
-        private IActionResult HandleAdminLogin(string password)
+        private IActionResult HandleAdminLogin(UserBO user)
         {
-            if (password.Equals(AdminPassword))
-            {
-                //Handle authorized login
-                return Ok();
-            }
+            if (user.Password.Equals(AdminPassword))
+                return Ok(GenerateToken(user));
             return Unauthorized();
         }
     }
