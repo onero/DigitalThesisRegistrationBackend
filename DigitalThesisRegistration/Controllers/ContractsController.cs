@@ -98,7 +98,15 @@ namespace DigitalThesisRegistration.Controllers
         [HttpPut("{projectId},{groupId},{companyId}")]
         public IActionResult Put(int projectId, int groupId, int companyId, [FromBody] ContractBO value)
         {
-            throw new NotImplementedException();
+            if (value == null) return new BadRequestObjectResult(ErrorMessages.InvalidEntityString);
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
+            if (projectId != value.ProjectId ||
+                groupId != value.GroupId ||
+                companyId != value.CompanyId)
+                return new BadRequestObjectResult(ErrorMessages.MismatchingIdString);
+            var result = _service.Update(value);
+            if (result == null) return new NotFoundObjectResult(ErrorMessages.NotFoundString);
+            return new OkObjectResult(result);
         }
 
         // DELETE: api/ApiWithActions/5
