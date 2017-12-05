@@ -19,14 +19,16 @@ namespace DTRBLLTests.Implementations.Converters
             CompanyId = 1,
             GroupId = 1,
             ProjectId = 1,
-            IsApproved = true
+            SupervisorApproved = true,
+            AdminApproved = true
         };
         private readonly ContractBO MockContractBO = new ContractBO
         {
             CompanyId = 1,
             GroupId = 1,
             ProjectId = 1,
-            IsApproved = true
+            SupervisorApproved = true,
+            AdminApproved = true
         };
 
         [Fact]

@@ -65,7 +65,15 @@ namespace DTRBLL.Services.Implementations
 
         public ContractBO Update(ContractBO bo)
         {
-            throw new System.NotImplementedException();
+            using (var unitOfWork = _uow)
+            {
+                var contractFromDB = unitOfWork.ContractRepository.Get(bo.ProjectId, bo.GroupId, bo.CompanyId);
+                if (contractFromDB == null) return null;
+                contractFromDB.AdminApproved = bo.AdminApproved;
+                contractFromDB.SupervisorApproved = bo.SupervisorApproved;
+                unitOfWork.Complete();
+                return _converter.Convert(contractFromDB);
+            }
         }
     }
 }
