@@ -6,11 +6,13 @@ using DigitalThesisRegistration.Helpers;
 using DTRBLL.BusinessObjects;
 using DTRBLL.Services;
 using DTRBLL.Services.Implementations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DigitalThesisRegistration.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/Companies")]
     public class CompaniesController : Controller
