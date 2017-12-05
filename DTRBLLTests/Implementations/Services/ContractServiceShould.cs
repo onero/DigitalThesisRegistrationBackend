@@ -123,9 +123,44 @@ namespace DTRBLLTests.Implementations.Services
             Assert.NotNull(updatedBO);
             Assert.False(updatedBO.SupervisorApproved);
         }
+
+        [Fact]
+        public void AdminUnapprove()
+        {
+            _repository.Setup(r => r.Create(It.IsAny<Contract>())).Returns((Contract contract) => contract);
+            var createdBO = _service.Create(MockContractBO);
+            _repository.Setup(r => r.Get(
+                createdBO.ProjectId,
+                createdBO.GroupId,
+                createdBO.CompanyId
+            )).Returns(new Contract
+            {
+                ProjectId = createdBO.ProjectId,
+                CompanyId = createdBO.CompanyId,
+                GroupId = createdBO.GroupId,
+                SupervisorApproved = true,
+                AdminApproved = true
+            });
+            var newContractBO = MockContractBO;
+            newContractBO.SupervisorApproved = true;
+            newContractBO.AdminApproved = false;
+            var updatedBO = _service.Update(newContractBO);
+
+            Assert.NotNull(updatedBO);
+            Assert.True(updatedBO.SupervisorApproved);
+            Assert.False(updatedBO.AdminApproved);
+        }
+        [Fact]
         public void NotUpdateByNonExistingId()
         {
-            throw new System.NotImplementedException();
+            _repository.Setup(r => r.Get(0, 0, 0)).Returns(() => null);
+            var updatedBO = _service.Update(new ContractBO
+            {
+                CompanyId = 0,
+                GroupId = 0,
+                ProjectId = 0
+            });
+            Assert.Null(updatedBO);
         }
     }
 }
