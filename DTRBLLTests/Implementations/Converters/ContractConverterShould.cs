@@ -3,7 +3,7 @@ using DTRBLL.Converters.Implementations;
 using DTRDAL.Entities;
 using Xunit;
 
-namespace DTRBLLTests.Implementations
+namespace DTRBLLTests.Implementations.Converters
 {
     public class ContractConverterShould : IConverterTest
     {
@@ -19,14 +19,16 @@ namespace DTRBLLTests.Implementations
             CompanyId = 1,
             GroupId = 1,
             ProjectId = 1,
-            IsApproved = true
+            SupervisorApproved = true,
+            AdminApproved = true
         };
         private readonly ContractBO MockContractBO = new ContractBO
         {
             CompanyId = 1,
             GroupId = 1,
             ProjectId = 1,
-            IsApproved = true
+            SupervisorApproved = true,
+            AdminApproved = true
         };
 
         [Fact]

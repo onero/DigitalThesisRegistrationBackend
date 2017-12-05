@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DigitalThesisRegistration.Controllers;
 using DTRBLL.BusinessObjects;
 using DTRBLL.Services;
@@ -11,11 +12,12 @@ namespace DTRControllerTests.Implementations
     public class ContractsControllerShould : IControllerTest
     {
         private readonly Mock<IContractService> _service = new Mock<IContractService>();
+        private readonly Mock<IProjectService> _projectService = new Mock<IProjectService>();
         private readonly ContractsController _controller;
 
         public ContractsControllerShould()
         {
-            _controller = new ContractsController(_service.Object);
+            _controller = new ContractsController(_service.Object, _projectService.Object);
         }
 
         [Fact]
@@ -33,6 +35,15 @@ namespace DTRControllerTests.Implementations
             var result = _controller.Get(1, 1, 1);
             Assert.IsType<OkObjectResult>(result);
         }
+
+        [Fact]
+        public void GetByGroupId()
+        {
+            _service.Setup(s => s.Get(1)).Returns(new ContractBO());
+            var result = _controller.Get(1);
+            Assert.IsType<OkObjectResult>(result);
+        }
+
         [Fact]
         public void NotGetByNonExistingId_ReturnNotFound()
         {
@@ -44,7 +55,10 @@ namespace DTRControllerTests.Implementations
         public void PostWithValidObject()
         {
             _service.Setup(r => r.Create(It.IsAny<ContractBO>())).Returns(new ContractBO());
-            var result = _controller.Post(new ContractBO());
+            var result = _controller.Post(new ContractBO
+            {
+                ProjectId = 1
+            });
             Assert.IsType<OkObjectResult>(result);
         }
         [Fact]
@@ -58,7 +72,24 @@ namespace DTRControllerTests.Implementations
         public void NotPostWithNull_ReturnBadRequest()
         {
             var result = _controller.Post(null);
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        [Fact]
+        public void CreateProjectWithWhenProjectIdIsZero()
+        {
+            var projectID = 1;
+            _projectService.Setup(s => s.Create(It.IsAny<ProjectBO>())).Returns(new ProjectBO
+            {
+                Id = projectID
+            });
+            _service.Setup(s => s.Create(It.IsAny<ContractBO>())).Returns((ContractBO contract) => contract);
+            var result = (OkObjectResult) _controller.Post(new ContractBO
+            {
+                CompanyId = 1,
+                GroupId = 1,
+            });
+            Assert.True(projectID == ((ContractBO) result.Value).ProjectId);
         }
 
         public void DeleteByExistingId_ReturnOk()

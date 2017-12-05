@@ -10,6 +10,7 @@ namespace DTRDAL.Context
         public DbSet<Group> Groups { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Supervisor> Supervisors { get; set; }
+        public DbSet<Project> Projects { get; set; }
 
         public DbSet<Contract> Contracts { get; set; }
 
@@ -28,8 +29,18 @@ namespace DTRDAL.Context
                 .HasOne(s => s.Group)
                 .WithMany(g => g.Students)
                 .HasForeignKey(g => g.GroupId);
+            
+            // Define Project relation with Supervisor
+            modelBuilder.Entity<Project>()
+                .HasOne(p => p.AssignedSupervisor)
+                .WithMany(s => s.AssignedProjects)
+                .HasForeignKey(p => p.AssignedSupervisorId);
+            modelBuilder.Entity<Project>()
+                .HasOne(p => p.WantedSupervisor)
+                .WithMany(s => s.WantedProjects)
+                .HasForeignKey(p => p.WantedSupervisorId);
 
-            // Define contract relation with Group, Company, Project
+            // Define contract primary key
             modelBuilder.Entity<Contract>()
                 .HasKey(c => new {c.GroupId, c.CompanyId, c.ProjectId});
         }

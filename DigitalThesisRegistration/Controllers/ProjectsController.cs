@@ -8,35 +8,36 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DigitalThesisRegistration.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
-    [Route("api/Groups")]
-    public class GroupsController : Controller
+    [Route("api/Projects")]
+    public class ProjectsController : Controller
     {
-        private readonly IGroupService _service;
+        private readonly IProjectService _service;
 
-        public GroupsController(IGroupService service)
+        public ProjectsController(IProjectService service)
         {
             _service = service;
         }
 
         /// <summary>
-        /// GET all groups
+        ///     GET all projects
         /// </summary>
-        /// <returns>Collection of GroupBOs</returns>
-        // GET: api/Groups
+        /// <returns>Collection of ProjectBOs</returns>
+        // GET: api/AssignedProjects
         [HttpGet]
-        public IEnumerable<GroupBO> Get()
+        public IEnumerable<ProjectBO> Get()
         {
             return _service.GetAll();
         }
 
         /// <summary>
-        /// GET a group by id
+        ///     GET a project by id
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>StudentBO, if id exists</returns>
-        // GET: api/Groups/5
-        [HttpGet("{id}", Name = "GetGroup")]
+        /// <returns>ProjectBO, if id exists</returns>
+        // GET: api/AssignedProjects/5
+        [HttpGet("{id}", Name = "GetProject")]
         public IActionResult Get(int id)
         {
             var result = _service.Get(id);
@@ -46,59 +47,56 @@ namespace DigitalThesisRegistration.Controllers
         }
 
         /// <summary>
-        /// POST a new group
+        ///     POST a new project
         /// </summary>
         /// <param name="value"></param>
-        /// <returns>Created GroupBO, if correct format is used</returns>
+        /// <returns>Created ProjectBO, if correct format is used</returns>
         /// <remarks>
-        /// Sample request:
-        ///
-        ///     POST api/Groups
+        ///     Sample request:
+        ///     POST api/Projects
         ///     {
-        ///        "contactEmail": "D4FF"
         ///     }
-        ///
         /// </remarks>
-        // POST: api/Groups
-        [AllowAnonymous]
+        // POST: api/AssignedProjects
         [HttpPost]
-        public IActionResult Post([FromBody] GroupBO value)
+        public IActionResult Post([FromBody] ProjectBO value)
         {
-            if (value == null) return BadRequest(ErrorMessages.InvalidEntityString);
-            var createdEntity = _service.Create(value);
+            if (value == null) return new BadRequestObjectResult(ErrorMessages.InvalidEntityString);
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
-            return new OkObjectResult(createdEntity);
+            return new OkObjectResult(_service.Create(value));
         }
 
         /// <summary>
-        /// PUT updated information on a group by id
+        ///     PUT updated information on a project by id
         /// </summary>
         /// <param name="id"></param>
         /// <param name="value"></param>
-        /// <returns>Updated GroupBO, if correct format is used</returns>
+        /// <returns>Updated ProjectBO, if correct format is used</returns>
         /// <remarks>
-        /// Sample request:
-        ///
-        ///     PUT api/Groups/1
+        ///     Sample request:
+        ///     PUT api/Projects/1
         ///     {
-        ///        "id": 1,
-        ///        "contactEmail": "D4MegaFF"
+        ///     "id": 1,
+        ///     "description": "Description,
+        ///     "start": "2017-12-19T23:00:00",
+        ///     "end": "2018-01-19T23:00:00",
+        ///     "title": "Digital Thesis Registration",
+        ///     "wantedSupervisorId": 1,
+        ///     "assignedSupervisorId": 1
         ///     }
-        ///
-        /// Validation performed upon request:
-        /// 
+        ///     Validation performed upon request:
         ///     - entity cannot be null, returns BadRequestResult
         ///     - id must match id of provided entity, returns BadRequestResult
         ///     - The [Required] attributes of entity must be provided, returns BadRequestResult
         ///     - id of entity must exist, returns NotFoundObjectResult
         /// </remarks>
-        // PUT: api/Groups/5
+        // PUT: api/AssignedProjects/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] GroupBO value)
+        public IActionResult Put(int id, [FromBody] ProjectBO value)
         {
             if (value == null) return new BadRequestObjectResult(ErrorMessages.InvalidEntityString);
-            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
             if (id != value.Id) return new BadRequestObjectResult(ErrorMessages.MismatchingIdString);
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
             var result = _service.Update(value);
             if (result == null) return new NotFoundObjectResult(ErrorMessages.NotFoundString);
             return new OkObjectResult(result);

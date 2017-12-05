@@ -8,7 +8,7 @@ using DTRDAL.UOW;
 using Moq;
 using Xunit;
 
-namespace DTRBLLTests.Implementations
+namespace DTRBLLTests.Implementations.Services
 {
     public class GroupServiceShould : IServiceTest
     {
@@ -25,7 +25,6 @@ namespace DTRBLLTests.Implementations
         private readonly GroupBO MockGroupBO = new GroupBO
         {
             Id = 1,
-            Name = "D4FF",
             ContactEmail = "Test",
             Students = new List<StudentBO>{new StudentBO()}
         };
@@ -51,7 +50,6 @@ namespace DTRBLLTests.Implementations
             _repo.Setup(r => r.Get(It.IsAny<int>())).Returns(new Group
             {
                 Id = 1,
-                Name = "Test",
                 ContactEmail = "Test",
                 Students = new List<Student>
                 {
@@ -96,14 +94,24 @@ namespace DTRBLLTests.Implementations
             throw new System.NotImplementedException();
         }
 
+        [Fact]
         public void UpdateByExistingId()
         {
-            throw new System.NotImplementedException();
+            _repo.Setup(r => r.Create(It.IsAny<Group>())).Returns((Group group) => group);
+            var createdEntity = CreateMockGroupBO();
+            _repo.Setup(r => r.Get(It.IsAny<int>())).Returns(new Group{ContactEmail = createdEntity.ContactEmail});
+            var updatedContactEmail = "Updated!";
+            createdEntity.ContactEmail = updatedContactEmail;
+            var updatedEntity = _service.Update(createdEntity);
+            Assert.NotNull(updatedEntity);
+            Assert.Contains(updatedContactEmail, updatedEntity.ContactEmail);
         }
-
+        [Fact]
         public void NotUpdateByNonExistingId()
         {
-            throw new System.NotImplementedException();
+            _repo.Setup(r => r.Get(0)).Returns(() => null);
+            var result = _service.Update(new GroupBO());
+            Assert.Null(result);
         }
     }
 }

@@ -4,7 +4,7 @@ using DTRBLL.Converters.Implementations;
 using DTRDAL.Entities;
 using Xunit;
 
-namespace DTRBLLTests.Implementations
+namespace DTRBLLTests.Implementations.Converters
 {
     public class GroupConverterShould : IConverterTest
     {
@@ -18,7 +18,6 @@ namespace DTRBLLTests.Implementations
         private readonly Group MockGroup = new Group
         {
             Id = 1,
-            Name = "D4FF",
             ContactEmail = "Test",
             Students = new List<Student> { new Student()}
         };
@@ -26,7 +25,6 @@ namespace DTRBLLTests.Implementations
         private readonly GroupBO MockGroupBO = new GroupBO
         {
             Id = 1,
-            Name = "D4FF",
             ContactEmail = "Test",
             Students = new List<StudentBO> { new StudentBO()}
         };

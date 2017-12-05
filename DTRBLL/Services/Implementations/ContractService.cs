@@ -28,9 +28,15 @@ namespace DTRBLL.Services.Implementations
             }
         }
 
-        public ContractBO Get(int id)
+        public ContractBO Get(int groupId)
         {
-            throw new System.NotImplementedException();
+            using (var unitOfWork = _uow)
+            {
+                var resultFromDB = unitOfWork.ContractRepository.Get(groupId);
+                return resultFromDB == null ? 
+                    null : 
+                    _converter.Convert(resultFromDB);
+            }
         }
 
         public ContractBO Get(int projectId, int groupId, int companyId)
@@ -59,7 +65,15 @@ namespace DTRBLL.Services.Implementations
 
         public ContractBO Update(ContractBO bo)
         {
-            throw new System.NotImplementedException();
+            using (var unitOfWork = _uow)
+            {
+                var contractFromDB = unitOfWork.ContractRepository.Get(bo.ProjectId, bo.GroupId, bo.CompanyId);
+                if (contractFromDB == null) return null;
+                contractFromDB.AdminApproved = bo.AdminApproved;
+                contractFromDB.SupervisorApproved = bo.SupervisorApproved;
+                unitOfWork.Complete();
+                return _converter.Convert(contractFromDB);
+            }
         }
     }
 }

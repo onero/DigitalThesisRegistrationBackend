@@ -10,11 +10,13 @@ namespace DTRBLL.Services.Implementations
     {
         private readonly IUnitOfWork _uow;
         private readonly GroupConverter _converter;
+        private readonly StudentConverter _studentConverter;
 
         public GroupService(IUnitOfWork uow)
         {
             _uow = uow;
             _converter = new GroupConverter();
+            _studentConverter = new StudentConverter();
         }
 
         public GroupBO Create(GroupBO bo)
@@ -37,6 +39,17 @@ namespace DTRBLL.Services.Implementations
             }
         }
 
+        public GroupBO Get(string contactEmail)
+        {
+            using (var unitOfWork = _uow)
+            {
+                var entityFromDB = unitOfWork.GroupRepository.Get(contactEmail);
+                return entityFromDB == null ? 
+                    null : 
+                    _converter.Convert(entityFromDB);
+            }
+        }
+
         public IList<GroupBO> GetAll()
         {
             using (var unitOfWork = _uow)
@@ -52,7 +65,17 @@ namespace DTRBLL.Services.Implementations
 
         public GroupBO Update(GroupBO bo)
         {
-            throw new System.NotImplementedException();
+            using (var unitOfWork = _uow)
+            {
+                var convertedEntity = _converter.Convert(bo);
+                var entityFromDB = unitOfWork.GroupRepository.Get(convertedEntity.Id);
+                if (entityFromDB == null) return null;
+
+                entityFromDB.ContactEmail = bo.ContactEmail;
+                
+                unitOfWork.Complete();
+                return bo;
+            }
         }
     }
 }
