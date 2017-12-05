@@ -41,11 +41,10 @@ namespace DigitalThesisRegistration.Controllers
             switch (user.Username)
             {
                 case Supervisor:
-                    // Handle supervisor login
                     return HandleSupervisorLogin(user);
                 case Administrator:
-                    // Handle admin login
                     return HandleAdminLogin(user);
+                    // If not Supervisor or Admin, only groups can login
                 default:
                     var group = _groupService.Get(user.Username);
                     if (group == null) return Unauthorized();
@@ -62,12 +61,14 @@ namespace DigitalThesisRegistration.Controllers
         private IActionResult HandleGroupLogin(UserBO user, GroupBO group)
         {
             if (user.Password.Equals(GroupPassword))
+                // If the group password checks out, resond with new JSON object
                 return Ok(new
                 {
                     token = GenerateToken(user),
                     role = Group,
                     group
                 });
+            // Else YOU SHALL NOT PASS!
             return Unauthorized();
         }
 
@@ -125,7 +126,7 @@ namespace DigitalThesisRegistration.Controllers
         /// <summary>
         /// Verify admin password
         /// </summary>
-        /// <param user="user"></param>
+        /// <param name="user"></param>
         /// <returns></returns>
         private IActionResult HandleAdminLogin(UserBO user)
         {
