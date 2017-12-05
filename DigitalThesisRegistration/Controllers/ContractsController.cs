@@ -41,7 +41,7 @@ namespace DigitalThesisRegistration.Controllers
         /// <param name="companyId"></param>
         /// <returns>ContractBO, if id exists</returns>
         // GET: api/Contracts/5
-        [HttpGet("{projectId}, {groupId}, {companyId}", Name = "GetContract")]
+        [HttpGet("{projectId},{groupId},{companyId}", Name = "GetContract")]
         public IActionResult Get(int projectId, int groupId, int companyId)
         {
             var result = _service.Get(projectId, groupId, companyId);
@@ -94,8 +94,8 @@ namespace DigitalThesisRegistration.Controllers
         }
 
         // PUT: api/Contracts/5
-        [Authorize(Roles = LoginController.Administrator)]
-        [HttpPut("{id}")]
+        [Authorize(Roles = "Administrator, Supervisor")]
+        [HttpPut("{projectId},{groupId},{companyId}")]
         public IActionResult Put(int projectId, int groupId, int companyId, [FromBody] ContractBO value)
         {
             throw new NotImplementedException();

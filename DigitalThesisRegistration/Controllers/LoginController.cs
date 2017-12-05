@@ -20,7 +20,7 @@ namespace DigitalThesisRegistration.Controllers
         private const string GroupPassword = "1234";
         private const string Supervisor = "Supervisor";
         private const string SupervisorPassword = "supervisorSecret";
-        public const string Administrator = "Administrator";
+        private const string Administrator = "Administrator";
         private const string AdminPassword = "adminSecret";
 
         public LoginController(IGroupService groupService)
