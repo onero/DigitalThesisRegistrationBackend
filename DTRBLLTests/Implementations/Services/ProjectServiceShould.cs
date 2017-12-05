@@ -102,8 +102,8 @@ namespace DTRBLLTests.Implementations.Services
         public void NotUpdateByNonExistingId()
         {
             _repo.Setup(r => r.Get(It.IsAny<int>())).Returns(() => null);
-            var projectFromDB = _service.Get(1);
-            var result = _service.Update(projectFromDB);
+            var projectToUpdate = new ProjectBO{Id = 1};
+            var result = _service.Update(projectToUpdate);
             Assert.Null(result);
         }
     }

@@ -57,7 +57,6 @@ namespace DTRControllerTests.Implementations
         [Fact]
         public void NotPostWithInvalidObject_ReturnBadRequest()
         {
-            _service.Setup(s => s.Create(It.IsAny<SupervisorBO>())).Returns(() => null);
             _controller.ModelState.AddModelError("", "");
             var result = _controller.Post(_mockBo);
             Assert.IsType<BadRequestObjectResult>(result);

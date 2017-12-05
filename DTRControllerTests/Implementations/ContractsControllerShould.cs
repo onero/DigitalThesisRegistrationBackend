@@ -35,6 +35,15 @@ namespace DTRControllerTests.Implementations
             var result = _controller.Get(1, 1, 1);
             Assert.IsType<OkObjectResult>(result);
         }
+
+        [Fact]
+        public void GetByGroupId()
+        {
+            _service.Setup(s => s.Get(1)).Returns(new ContractBO());
+            var result = _controller.Get(1);
+            Assert.IsType<OkObjectResult>(result);
+        }
+
         [Fact]
         public void NotGetByNonExistingId_ReturnNotFound()
         {

@@ -51,6 +51,15 @@ namespace DTRDALTests.Implementations
             var entityToGet = _repository.Get(0, 0, 0);
             Assert.Null(entityToGet);
         }
+
+        [Fact]
+        public void GetOneByGroupId()
+        {
+            var createdEntity = createMockContract();
+            var entity = _repository.Get(createdEntity.GroupId);
+            Assert.NotNull(entity);
+        }
+
         [Fact]
         public void GetAll()
         {
