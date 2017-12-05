@@ -94,6 +94,7 @@ namespace DigitalThesisRegistration.Controllers
         }
 
         // PUT: api/Contracts/5
+        [Authorize(Roles = LoginController.Administrator)]
         [HttpPut("{id}")]
         public IActionResult Put(int projectId, int groupId, int companyId, [FromBody] ContractBO value)
         {

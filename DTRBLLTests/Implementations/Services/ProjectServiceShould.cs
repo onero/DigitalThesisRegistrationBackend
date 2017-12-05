@@ -106,5 +106,32 @@ namespace DTRBLLTests.Implementations.Services
             var result = _service.Update(projectToUpdate);
             Assert.Null(result);
         }
+
+        [Fact]
+        public void UnassignASupervisor()
+        {
+            _repo.Setup(r => r.Get(It.IsAny<int>())).Returns(new Project
+            {
+                Id = 1,
+                Title = "Test",
+                AssignedSupervisorId = 1,
+                Description = "Test",
+                WantedSupervisorId = 1,
+                Start = new DateTime(2017, 1, 1, 1, 1, 1),
+                End = new DateTime(2017, 1, 1, 1, 1, 1)
+            });
+            var projectFromDB = _service.Get(1);
+            var updatedProject = new ProjectBO
+            {
+                Id = projectFromDB.Id,
+                Title = "Test",
+                Description = "Test",
+                WantedSupervisorId = 1,
+                Start = new DateTime(2017, 1, 1, 1, 1, 1),
+                End = new DateTime(2017, 1, 1, 1, 1, 1)
+            };
+            var result = _service.Update(updatedProject);
+            Assert.Null(result.AssignedSupervisorId);
+        }
     }
 }
