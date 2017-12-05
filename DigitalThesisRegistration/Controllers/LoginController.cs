@@ -80,7 +80,12 @@ namespace DigitalThesisRegistration.Controllers
         private IActionResult HandleSupervisorLogin(UserBO user)
         {
             if (user.Password.Equals(SupervisorPassword))
-                return Ok(GenerateToken(user));
+                return Ok(new
+                {
+                    token = GenerateToken(user),
+                    role = Supervisor
+                });
+                
             return Unauthorized();
         }
 
@@ -131,7 +136,11 @@ namespace DigitalThesisRegistration.Controllers
         private IActionResult HandleAdminLogin(UserBO user)
         {
             if (user.Password.Equals(AdminPassword))
-                return Ok(GenerateToken(user));
+                return Ok(new
+                {
+                    token = GenerateToken(user),
+                    role = Administrator
+                });
             return Unauthorized();
         }
     }
