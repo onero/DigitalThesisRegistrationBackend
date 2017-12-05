@@ -44,7 +44,7 @@ namespace DigitalThesisRegistration.Controllers
                     return HandleSupervisorLogin(user);
                 case Administrator:
                     return HandleAdminLogin(user);
-                    // If not Supervisor or Admin, only groups can login
+                // If not Supervisor or Admin, only groups can login
                 default:
                     var group = _groupService.Get(user.Username);
                     if (group == null) return Unauthorized();
@@ -85,7 +85,7 @@ namespace DigitalThesisRegistration.Controllers
                     token = GenerateToken(user),
                     role = Supervisor
                 });
-                
+
             return Unauthorized();
         }
 

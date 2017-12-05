@@ -25,7 +25,8 @@ namespace DTRDALTests.Implementations
                 GroupId = 1,
                 CompanyId = 1,
                 ProjectId = 1,
-                IsApproved = true
+                SupervisorApproved = true,
+                AdminApproved = true
             };
             _repository.Create(entity);
             _context.SaveChanges();

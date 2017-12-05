@@ -27,14 +27,16 @@ namespace DTRBLLTests.Implementations.Services
             ProjectId = 1,
             GroupId = 1,
             CompanyId = 1,
-            IsApproved = true
+            SupervisorApproved = true,
+            AdminApproved = true
         };
         private readonly ContractBO MockContractBO = new ContractBO
         {
             ProjectId = 1,
             GroupId = 1,
             CompanyId = 1,
-            IsApproved = true
+            SupervisorApproved = true,
+            AdminApproved = true
         };
 
         [Fact]
