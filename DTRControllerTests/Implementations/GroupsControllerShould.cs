@@ -83,15 +83,14 @@ namespace DTRControllerTests.Implementations
         [Fact]
         public void NotUpdateWithNull_ReturnBadRequest()
         {
-            _service.Setup(r => r.Update(It.IsAny<GroupBO>())).Returns(() => null);
             var result = _controller.Put(0, null);
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
         [Fact]
         public void NotUpdateWithMisMatchingIds_ReturnBadRequest()
         {
             var result = _controller.Put(0, new GroupBO {Id = 1});
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
         [Fact]
         public void NotUpdateWithInvalidObject_ReturnBadRequest()
@@ -103,7 +102,6 @@ namespace DTRControllerTests.Implementations
         [Fact]
         public void NotUpdateWithNonExistingId_ReturnNotFound()
         {
-            _service.Setup(r => r.Get(0)).Returns(() => null);
             var result = _controller.Put(0, new GroupBO{Id = 0, ContactEmail = "D4ff"});
             Assert.IsType<NotFoundObjectResult>(result);
         }

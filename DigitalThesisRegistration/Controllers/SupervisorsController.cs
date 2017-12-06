@@ -1,94 +1,85 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using DigitalThesisRegistration.Helpers;
 using DTRBLL.BusinessObjects;
 using DTRBLL.Services;
-using DTRBLL.Services.Implementations;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DigitalThesisRegistration.Controllers
 {
     [Authorize]
     [Produces("application/json")]
-    [Route("api/Companies")]
-    public class CompaniesController : Controller
+    [Route("api/Supervisors")]
+    public class SupervisorsController : Controller
     {
-        private ICompanyService _service;
+        private readonly ISupervisorService _service;
 
-        public CompaniesController(ICompanyService service)
+        public SupervisorsController(ISupervisorService service)
         {
             _service = service;
         }
 
         /// <summary>
-        /// GET all companies
+        /// GET all supervisors
         /// </summary>
-        /// <returns>Collection of CaompanyBOs</returns>
-        // GET: api/Companies
+        /// <returns>Collection of SupervisorBOs</returns>
+        // GET: api/Supervisors
         [HttpGet]
-        public IEnumerable<CompanyBO> Get()
+        public IEnumerable<SupervisorBO> Get()
         {
             return _service.GetAll();
         }
 
         /// <summary>
-        /// GET a Company by id
+        /// GET a supervisor by id
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>CompanyBO, if id exists</returns>
-        // GET: api/Companies/5
-        [HttpGet("{id}", Name = "GetCompany")]
+        /// <returns>SupervisorBO, if id exists</returns>
+        // GET: api/Supervisors/5
+        [HttpGet("{id}", Name = "GetSupervisor")]
         public IActionResult Get(int id)
         {
             var result = _service.Get(id);
             if (result == null)
-            {
                 return new NotFoundObjectResult(ErrorMessages.NotFoundString);
-            }
             return new OkObjectResult(result);
         }
 
         /// <summary>
-        /// POST a new company
+        /// POST a new supervisor
         /// </summary>
         /// <param name="value"></param>
-        /// <returns>Created CompanyBO, if correct format is used</returns>
+        /// <returns>Created SupervisorBO, if correct format is used</returns>
         /// <remarks>
         /// Sample request:
         ///
-        ///     POST api/Companies
+        ///     POST api/Supervisors
         ///     {
-        ///         "Name": "Test",
-        ///         "ContactName": "Test",
-        ///         "ContactEmail": "Test.dk",
-        ///         "ContactPhone": "1235678"
+        ///        "FirstName": "Mathias",
+        ///        "LastName": "Sejrup"
         ///     }
         ///
         /// </remarks>
-        // POST: api/Companies
+        // POST: api/Supervisors
         [HttpPost]
-        public IActionResult Post([FromBody]CompanyBO value)
+        public IActionResult Post([FromBody] SupervisorBO value)
         {
             if (value == null) return new BadRequestObjectResult(ErrorMessages.InvalidEntityString);
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
             return new OkObjectResult(_service.Create(value));
         }
-        
 
-        // PUT: api/Companies/5
+        // PUT: api/Supervisors/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody] string value)
         {
             throw new NotImplementedException();
         }
-        
+
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
             throw new NotImplementedException();
         }

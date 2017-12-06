@@ -11,9 +11,9 @@ namespace DTRDAL.Entities
         public DateTime? Start { get; set; }
         public DateTime? End { get; set; }
         public string Title { get; set; }
-        public int? WantedSuporvisorId { get; set; }
-        public Supervisor WantedSuporvisor { get; set; }
-        public int? AssignedSuporvisorId { get; set; }
-        public Supervisor AssignedSuporvisor { get; set; }
+        public int? WantedSupervisorId { get; set; }
+        public Supervisor WantedSupervisor { get; set; }
+        public int? AssignedSupervisorId { get; set; }
+        public Supervisor AssignedSupervisor { get; set; }
     }
 }

@@ -59,12 +59,19 @@ namespace DTRBLL.Services.Implementations
                 var convertedProject = _converter.Convert(bo);
                 var projectFromDB = _uow.ProjectRepository.Get(convertedProject.Id);
                 if (projectFromDB == null) return null;
+
+                if (convertedProject.AssignedSupervisorId != null)
+                {
+                    projectFromDB.AssignedSupervisorId = convertedProject.AssignedSupervisorId;
+                }
+                else
+                {
+                    projectFromDB.AssignedSupervisorId = null;
+                }
+                    
                 
-                if (convertedProject.AssignedSuporvisorId != null)
-                    projectFromDB.AssignedSuporvisorId = convertedProject.AssignedSuporvisorId;
-                
-                if (convertedProject.WantedSuporvisorId != null)
-                    projectFromDB.WantedSuporvisorId = convertedProject.WantedSuporvisorId;
+                if (convertedProject.WantedSupervisorId != null)
+                    projectFromDB.WantedSupervisorId = convertedProject.WantedSupervisorId;
 
                 if (convertedProject.Title != null)
                     projectFromDB.Title = convertedProject.Title;

@@ -13,7 +13,8 @@ namespace DTRBLL.Converters.Implementations
                 CompanyId = bo.CompanyId,
                 GroupId = bo.GroupId,
                 ProjectId = bo.ProjectId,
-                IsApproved = bo.IsApproved
+                SupervisorApproved = bo.SupervisorApproved,
+                AdminApproved = bo.AdminApproved
             };
         }
 
@@ -25,7 +26,8 @@ namespace DTRBLL.Converters.Implementations
                 CompanyId = entity.CompanyId,
                 GroupId = entity.GroupId,
                 ProjectId = entity.ProjectId,
-                IsApproved = entity.IsApproved
+                SupervisorApproved = entity.SupervisorApproved,
+                AdminApproved = entity.AdminApproved
             };
         }
     }

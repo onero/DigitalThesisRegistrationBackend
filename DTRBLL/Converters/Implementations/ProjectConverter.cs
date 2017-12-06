@@ -15,11 +15,11 @@ namespace DTRBLL.Converters.Implementations
             return new Project
             {
                 Id = bo.Id,
-                AssignedSuporvisorId = bo.AssignedSuporvisorId,
+                AssignedSupervisorId = bo.AssignedSupervisorId,
                 Description = bo.Description,
                 Title = bo.Title,
                 Start = bo.Start,
-                WantedSuporvisorId = bo.WantedSuporvisorId,
+                WantedSupervisorId = bo.WantedSupervisorId,
                 End = bo.End
             };
         }
@@ -30,11 +30,11 @@ namespace DTRBLL.Converters.Implementations
             return new ProjectBO
             {
                 Id = entity.Id,
-                AssignedSuporvisorId = entity.AssignedSuporvisorId,
+                AssignedSupervisorId = entity.AssignedSupervisorId,
                 Description = entity.Description,
                 Title = entity.Title,
                 Start = entity.Start,
-                WantedSuporvisorId = entity.WantedSuporvisorId,
+                WantedSupervisorId = entity.WantedSupervisorId,
                 End = entity.End
             };
         }

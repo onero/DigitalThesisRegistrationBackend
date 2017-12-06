@@ -26,15 +26,13 @@ namespace DTRBLLTests.Implementations.Services
         {
             ProjectId = 1,
             GroupId = 1,
-            CompanyId = 1,
-            IsApproved = true
+            CompanyId = 1
         };
         private readonly ContractBO MockContractBO = new ContractBO
         {
             ProjectId = 1,
             GroupId = 1,
-            CompanyId = 1,
-            IsApproved = true
+            CompanyId = 1
         };
 
         [Fact]
@@ -77,14 +75,92 @@ namespace DTRBLLTests.Implementations.Services
             throw new System.NotImplementedException();
         }
 
+        [Fact]
         public void UpdateByExistingId()
         {
-            throw new System.NotImplementedException();
+            _repository.Setup(r => r.Create(It.IsAny<Contract>())).Returns((Contract contract) => contract);
+            var createdBO = _service.Create(MockContractBO);
+            _repository.Setup(r => r.Get(
+                createdBO.ProjectId,
+                createdBO.GroupId,
+                createdBO.CompanyId
+                )).Returns(new Contract
+            {
+                ProjectId = createdBO.ProjectId,
+                CompanyId = createdBO.CompanyId,
+                GroupId = createdBO.GroupId
+            });
+            var newContractBO = MockContractBO;
+            newContractBO.AdminApproved = true;
+            newContractBO.SupervisorApproved = true;
+            var updatedBO = _service.Update(newContractBO);
+
+            Assert.NotNull(updatedBO);
+            Assert.True(updatedBO.AdminApproved);
+            Assert.True(updatedBO.SupervisorApproved);
         }
 
+        [Fact]
+        public void SupervisorUnapprove()
+        {
+            _repository.Setup(r => r.Create(It.IsAny<Contract>())).Returns((Contract contract) => contract);
+            var createdBO = _service.Create(MockContractBO);
+            _repository.Setup(r => r.Get(
+                createdBO.ProjectId,
+                createdBO.GroupId,
+                createdBO.CompanyId
+            )).Returns(new Contract
+            {
+                ProjectId = createdBO.ProjectId,
+                CompanyId = createdBO.CompanyId,
+                GroupId = createdBO.GroupId,
+                SupervisorApproved = true
+            });
+            var newContractBO = MockContractBO;
+            newContractBO.SupervisorApproved = false;
+            var updatedBO = _service.Update(newContractBO);
+
+            Assert.NotNull(updatedBO);
+            Assert.False(updatedBO.SupervisorApproved);
+        }
+
+        [Fact]
+        public void AdminUnapprove()
+        {
+            _repository.Setup(r => r.Create(It.IsAny<Contract>())).Returns((Contract contract) => contract);
+            var createdBO = _service.Create(MockContractBO);
+            _repository.Setup(r => r.Get(
+                createdBO.ProjectId,
+                createdBO.GroupId,
+                createdBO.CompanyId
+            )).Returns(new Contract
+            {
+                ProjectId = createdBO.ProjectId,
+                CompanyId = createdBO.CompanyId,
+                GroupId = createdBO.GroupId,
+                SupervisorApproved = true,
+                AdminApproved = true
+            });
+            var newContractBO = MockContractBO;
+            newContractBO.SupervisorApproved = true;
+            newContractBO.AdminApproved = false;
+            var updatedBO = _service.Update(newContractBO);
+
+            Assert.NotNull(updatedBO);
+            Assert.True(updatedBO.SupervisorApproved);
+            Assert.False(updatedBO.AdminApproved);
+        }
+        [Fact]
         public void NotUpdateByNonExistingId()
         {
-            throw new System.NotImplementedException();
+            _repository.Setup(r => r.Get(0, 0, 0)).Returns(() => null);
+            var updatedBO = _service.Update(new ContractBO
+            {
+                CompanyId = 0,
+                GroupId = 0,
+                ProjectId = 0
+            });
+            Assert.Null(updatedBO);
         }
     }
 }

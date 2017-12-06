@@ -20,5 +20,6 @@ namespace DTRDAL.UOW
         IGroupRepository GroupRepository { get; }
         IProjectRepository ProjectRepository { get; }
         IContractRepository ContractRepository { get; }
+        IAppendixRepository AppendixRepository { get; }
     }
 }

@@ -12,8 +12,8 @@ namespace DTRControllerTests.Implementations
 {
     public class ProjectsControllerShould : IControllerTest
     {
-        private Mock<IProjectService> _service = new Mock<IProjectService>();
-        private ProjectsController _controller;
+        private readonly Mock<IProjectService> _service = new Mock<IProjectService>();
+        private readonly ProjectsController _controller;
         private readonly ProjectBO _mockBo = new ProjectBO()
         {
             Id = 1,
@@ -21,8 +21,8 @@ namespace DTRControllerTests.Implementations
             End = new DateTime(2017, 1, 2, 1, 1, 1),
             Start = new DateTime(2017, 1, 1, 1, 1, 1),
             Title = "Test",
-            WantedSuporvisorId = 1,
-            AssignedSuporvisorId = 1
+            WantedSupervisorId = 1,
+            AssignedSupervisorId = 1
         };
 
         public ProjectsControllerShould()
@@ -52,7 +52,7 @@ namespace DTRControllerTests.Implementations
         {
             _service.Setup(s => s.Get(0)).Returns(() => null);
             var result = _controller.Get(0);
-            Assert.IsType<NotFoundResult>(result);
+            Assert.IsType<NotFoundObjectResult>(result);
         }
 
         [Fact]
@@ -66,7 +66,6 @@ namespace DTRControllerTests.Implementations
         [Fact]
         public void NotPostWithInvalidObject_ReturnBadRequest()
         {
-            _service.Setup(s => s.Create(It.IsAny<ProjectBO>())).Returns(() => null);
             _controller.ModelState.AddModelError("", "");
             var result = _controller.Post(_mockBo);
             Assert.IsType<BadRequestObjectResult>(result);
@@ -76,7 +75,7 @@ namespace DTRControllerTests.Implementations
         public void NotPostWithNull_ReturnBadRequest()
         {
             var result = _controller.Post(null);
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
         public void DeleteByExistingId_ReturnOk()
@@ -96,8 +95,8 @@ namespace DTRControllerTests.Implementations
             var result = _controller.Put(1, new ProjectBO
             {
                 Id = 1,
-                WantedSuporvisorId = 1,
-                AssignedSuporvisorId = 1,
+                WantedSupervisorId = 1,
+                AssignedSupervisorId = 1,
                 Title = "Test",
                 Description = "Test",
                 Start = new DateTime(2017, 1, 1, 1, 1, 1),
@@ -110,7 +109,7 @@ namespace DTRControllerTests.Implementations
         public void NotUpdateWithNull_ReturnBadRequest()
         {
             var result = _controller.Put(1, null);
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
         [Fact]
@@ -119,14 +118,14 @@ namespace DTRControllerTests.Implementations
             var result = _controller.Put(0, new ProjectBO
             {
                 Id = 1,
-                WantedSuporvisorId = 1,
-                AssignedSuporvisorId = 1,
+                WantedSupervisorId = 1,
+                AssignedSupervisorId = 1,
                 Title = "Test",
                 Description = "Test",
                 Start = new DateTime(2017, 1, 1, 1, 1, 1),
                 End = new DateTime(2017, 1, 1, 1, 1, 1)
             });
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
         [Fact]
