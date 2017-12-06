@@ -13,6 +13,7 @@ namespace DTRControllerTests.Implementations
     public class ContractsControllerShould : IControllerTest
     {
         private readonly Mock<IContractService> _service = new Mock<IContractService>();
+        private readonly Mock<IContractGridService> _contractGridservice = new Mock<IContractGridService>();
         private readonly Mock<IProjectService> _projectService = new Mock<IProjectService>();
         private readonly ContractsController _controller;
         private readonly ContractBO _mockContractBo = new ContractBO
@@ -24,7 +25,7 @@ namespace DTRControllerTests.Implementations
 
         public ContractsControllerShould()
         {
-            _controller = new ContractsController(_service.Object, _projectService.Object);
+            _controller = new ContractsController(_service.Object, _projectService.Object, _contractGridservice.Object);
         }
 
         [Fact]

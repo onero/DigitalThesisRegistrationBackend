@@ -71,6 +71,7 @@ namespace DigitalThesisRegistration
             services.AddScoped<ISupervisorService, SupervisorService>();
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IContractService, ContractService>();
+            services.AddScoped<IContractGridService, ContractGridService>();
 
             // Register the Swagger generator, defining one or more Swagger documents
             services.AddSwaggerGen(c =>
