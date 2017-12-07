@@ -40,6 +40,15 @@ namespace DTRControllerTests.Implementations
         }
 
         [Fact]
+        public void GetAllWithAssignedSupervisor()
+        {
+            _service.Setup(s => s.GetAllWithAssignedSupervisor()).Returns(new List<ProjectBO> { _mockBo });
+            var result = _controller.GetAllWithAssignedSupervisor();
+            Assert.NotNull(result);
+            Assert.NotEmpty(result);
+        }
+
+        [Fact]
         public void GetByExistingId()
         {
             _service.Setup(s => s.Get(It.IsAny<int>())).Returns(_mockBo);

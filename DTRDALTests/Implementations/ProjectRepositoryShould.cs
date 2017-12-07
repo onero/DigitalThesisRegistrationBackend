@@ -62,7 +62,16 @@ namespace DTRDALTests.Implementations
             Assert.NotNull(entities);
             Assert.NotEmpty(entities);
         }
-        
+
+        [Fact]
+        public void GetAllWithAssignedSupervisor()
+        {
+            CreateMockProject();
+            var entities = _repository.GetAllWithAssignedSupervisor();
+            Assert.NotNull(entities);
+            Assert.NotEmpty(entities);
+        }
+
         public void DeleteByExistingId()
         {
             throw new NotImplementedException();
