@@ -35,7 +35,7 @@ namespace DigitalThesisRegistration.Controllers
         /// EGT all projects with assigned supervisors
         /// </summary>
         /// <returns>Collection of ProjectBOs with assigned supervisors</returns>
-        [HttpGet("{withAssignedSupervisor}")]
+        [HttpGet("{with},{assignedSupervisor}")]
         public IEnumerable<ProjectBO> GetAllWithAssignedSupervisor()
         {
             return _service.GetAllWithAssignedSupervisor();
