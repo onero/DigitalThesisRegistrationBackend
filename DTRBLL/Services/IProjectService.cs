@@ -8,5 +8,6 @@ namespace DTRBLL.Services
 {
     public interface IProjectService : IService<ProjectBO>
     {
+        IList<ProjectBO> GetAllWithAssignedSupervisor();
     }
 }

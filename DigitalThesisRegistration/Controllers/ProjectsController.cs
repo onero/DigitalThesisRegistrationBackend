@@ -32,6 +32,16 @@ namespace DigitalThesisRegistration.Controllers
         }
 
         /// <summary>
+        /// EGT all projects with assigned supervisors
+        /// </summary>
+        /// <returns>Collection of ProjectBOs with assigned supervisors</returns>
+        [HttpGet("{with},{assignedSupervisor}")]
+        public IEnumerable<ProjectBO> GetAllWithAssignedSupervisor()
+        {
+            return _service.GetAllWithAssignedSupervisor();
+        }
+
+        /// <summary>
         ///     GET a project by id
         /// </summary>
         /// <param name="id"></param>

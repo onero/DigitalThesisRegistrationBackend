@@ -36,7 +36,7 @@ namespace DigitalThesisRegistration.Controllers
             return _service.GetAll();
         }
 
-        [HttpGet("{grid}")]
+        [HttpGet("{grid},{specifier}")]
         public IEnumerable<ContractGridBO> GetGrid()
         {
             return _contractGridService.GetAll();

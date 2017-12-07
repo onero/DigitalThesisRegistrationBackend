@@ -87,5 +87,13 @@ namespace DTRBLL.Services.Implementations
                 return _converter.Convert(projectFromDB);
             }
         }
+
+        public IList<ProjectBO> GetAllWithAssignedSupervisor()
+        {
+            using (var unitOfWork = _uow)
+            {
+                return unitOfWork.ProjectRepository.GetAllWithAssignedSupervisor().Select(_converter.Convert).ToList();
+            }
+        }
     }
 }
