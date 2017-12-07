@@ -12,7 +12,8 @@ namespace DigitalThesisRegistration.Controllers
     [Authorize]
     [Produces("application/json")]
     [Route("api/Contracts")]
-    public class ContractsController : Controller
+    public class ContractsCo
+        ntroller : Controller
     {
         private readonly IProjectService _projectService;
         private readonly IContractService _service;
