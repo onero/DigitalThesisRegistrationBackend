@@ -61,7 +61,18 @@ namespace DTRBLLTests.Implementations.Services
             Assert.NotNull(entities);
             Assert.NotEmpty(entities);
         }
-        
+
+        [Fact]
+        public void GetAllWithAssignedSupervisor()
+        {
+            _repo.Setup(r => r.GetAllWithAssignedSupervisor()).Returns(new List<Project> { new Project() });
+
+            var entities = _service.GetAllWithAssignedSupervisor();
+
+            Assert.NotNull(entities);
+            Assert.NotEmpty(entities);
+        }
+
         public void DeleteByExistingId()
         {
             throw new NotImplementedException();

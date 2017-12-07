@@ -34,5 +34,11 @@ namespace DTRDAL.Repositories.Implementations
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<Project> GetAllWithAssignedSupervisor()
+        {
+            return _context.Projects.Where(p => p.AssignedSupervisorId != null);
+        }
+
     }
 }
