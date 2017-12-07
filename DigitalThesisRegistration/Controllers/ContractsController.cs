@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DigitalThesisRegistration.Helpers;
 using DTRBLL.BusinessObjects;
 using DTRBLL.Services;
+using DTRBLL.Services.Implementations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,11 +16,13 @@ namespace DigitalThesisRegistration.Controllers
     {
         private readonly IProjectService _projectService;
         private readonly IContractService _service;
+        private readonly IContractGridService _contractGridService;
 
-        public ContractsController(IContractService service, IProjectService projectService)
+        public ContractsController(IContractService service, IProjectService projectService, IContractGridService contractGridService)
         {
             _service = service;
             _projectService = projectService;
+            _contractGridService = contractGridService;
         }
 
         /// <summary>
@@ -31,6 +34,12 @@ namespace DigitalThesisRegistration.Controllers
         public IEnumerable<ContractBO> Get()
         {
             return _service.GetAll();
+        }
+
+        [HttpGet("{grid}")]
+        public IEnumerable<ContractGridBO> GetGrid()
+        {
+            return _contractGridService.GetAll();
         }
 
         /// <summary>
