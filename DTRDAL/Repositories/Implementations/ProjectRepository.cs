@@ -34,5 +34,10 @@ namespace DTRDAL.Repositories.Implementations
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<Project> GetAllWithAssignedSupervisor()
+        {
+        }
+
     }
 }
