@@ -12,8 +12,8 @@ namespace DTRControllerTests.Implementations
 {
     public class ProjectsControllerShould : IControllerTest
     {
-        private Mock<IProjectService> _service = new Mock<IProjectService>();
-        private ProjectsController _controller;
+        private readonly Mock<IProjectService> _service = new Mock<IProjectService>();
+        private readonly ProjectsController _controller;
         private readonly ProjectBO _mockBo = new ProjectBO()
         {
             Id = 1,
@@ -40,6 +40,15 @@ namespace DTRControllerTests.Implementations
         }
 
         [Fact]
+        public void GetAllWithAssignedSupervisor()
+        {
+            _service.Setup(s => s.GetAllWithAssignedSupervisor()).Returns(new List<ProjectBO> { _mockBo });
+            var result = _controller.GetAllWithAssignedSupervisor();
+            Assert.NotNull(result);
+            Assert.NotEmpty(result);
+        }
+
+        [Fact]
         public void GetByExistingId()
         {
             _service.Setup(s => s.Get(It.IsAny<int>())).Returns(_mockBo);
@@ -52,7 +61,7 @@ namespace DTRControllerTests.Implementations
         {
             _service.Setup(s => s.Get(0)).Returns(() => null);
             var result = _controller.Get(0);
-            Assert.IsType<NotFoundResult>(result);
+            Assert.IsType<NotFoundObjectResult>(result);
         }
 
         [Fact]
@@ -75,7 +84,7 @@ namespace DTRControllerTests.Implementations
         public void NotPostWithNull_ReturnBadRequest()
         {
             var result = _controller.Post(null);
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
         public void DeleteByExistingId_ReturnOk()
@@ -109,7 +118,7 @@ namespace DTRControllerTests.Implementations
         public void NotUpdateWithNull_ReturnBadRequest()
         {
             var result = _controller.Put(1, null);
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
         [Fact]
@@ -125,7 +134,7 @@ namespace DTRControllerTests.Implementations
                 Start = new DateTime(2017, 1, 1, 1, 1, 1),
                 End = new DateTime(2017, 1, 1, 1, 1, 1)
             });
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
         [Fact]

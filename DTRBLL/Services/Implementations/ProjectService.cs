@@ -59,9 +59,16 @@ namespace DTRBLL.Services.Implementations
                 var convertedProject = _converter.Convert(bo);
                 var projectFromDB = _uow.ProjectRepository.Get(convertedProject.Id);
                 if (projectFromDB == null) return null;
-                
+
                 if (convertedProject.AssignedSupervisorId != null)
+                {
                     projectFromDB.AssignedSupervisorId = convertedProject.AssignedSupervisorId;
+                }
+                else
+                {
+                    projectFromDB.AssignedSupervisorId = null;
+                }
+                    
                 
                 if (convertedProject.WantedSupervisorId != null)
                     projectFromDB.WantedSupervisorId = convertedProject.WantedSupervisorId;
@@ -78,6 +85,14 @@ namespace DTRBLL.Services.Implementations
 
                 unitOfWork.Complete();
                 return _converter.Convert(projectFromDB);
+            }
+        }
+
+        public IList<ProjectBO> GetAllWithAssignedSupervisor()
+        {
+            using (var unitOfWork = _uow)
+            {
+                return unitOfWork.ProjectRepository.GetAllWithAssignedSupervisor().Select(_converter.Convert).ToList();
             }
         }
     }

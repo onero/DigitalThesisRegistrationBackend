@@ -84,13 +84,13 @@ namespace DTRControllerTests.Implementations
         public void NotUpdateWithNull_ReturnBadRequest()
         {
             var result = _controller.Put(0, null);
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
         [Fact]
         public void NotUpdateWithMisMatchingIds_ReturnBadRequest()
         {
             var result = _controller.Put(0, new GroupBO {Id = 1});
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
         [Fact]
         public void NotUpdateWithInvalidObject_ReturnBadRequest()

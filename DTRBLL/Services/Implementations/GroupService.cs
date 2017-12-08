@@ -39,6 +39,17 @@ namespace DTRBLL.Services.Implementations
             }
         }
 
+        public GroupBO Get(string contactEmail)
+        {
+            using (var unitOfWork = _uow)
+            {
+                var entityFromDB = unitOfWork.GroupRepository.Get(contactEmail);
+                return entityFromDB == null ? 
+                    null : 
+                    _converter.Convert(entityFromDB);
+            }
+        }
+
         public IList<GroupBO> GetAll()
         {
             using (var unitOfWork = _uow)

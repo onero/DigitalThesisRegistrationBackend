@@ -44,7 +44,7 @@ namespace DTRControllerTests.Implementations
         {
             _service.Setup(s => s.Get(0)).Returns(() => null);
             var result = _controller.Get(0);
-            Assert.IsType<NotFoundResult>(result);
+            Assert.IsType<NotFoundObjectResult>(result);
         }
 
         [Fact]
@@ -58,7 +58,6 @@ namespace DTRControllerTests.Implementations
         [Fact]
         public void NotPostWithInvalidObject_ReturnBadRequest()
         {
-            _service.Setup(s => s.Create(It.IsAny<CompanyBO>())).Returns(() => null);
             _controller.ModelState.AddModelError("", "");
             var result = _controller.Post(_mockBo);
             Assert.IsType<BadRequestObjectResult>(result);
@@ -68,7 +67,7 @@ namespace DTRControllerTests.Implementations
         public void NotPostWithNull_ReturnBadRequest()
         {
             var result = _controller.Post(null);
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
         public void DeleteByExistingId_ReturnOk()
