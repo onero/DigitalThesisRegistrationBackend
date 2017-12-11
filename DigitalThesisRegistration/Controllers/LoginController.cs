@@ -28,6 +28,11 @@ namespace DigitalThesisRegistration.Controllers
             _groupService = groupService;
         }
 
+        /// <summary>
+        /// POST new user
+        /// </summary>
+        /// <param name="user">User to create</param>
+        /// <returns>Boolean for success</returns>
         [HttpPost]
         public IActionResult CreateUser([FromBody] UserBO user)
         {
