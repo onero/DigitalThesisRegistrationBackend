@@ -28,12 +28,28 @@ namespace DigitalThesisRegistration.Controllers
             _groupService = groupService;
         }
 
+        [HttpPost]
+        public IActionResult CreateUser([FromBody] UserBO user)
+        {
+            byte[] passwordHash;
+            byte[] passwordSalt;
+            UserHelper.CreatePasswordHash(user.Password, out passwordHash, out passwordSalt);
+            /*
+             * var newUserDB = new UserDBBO{
+             * PasswordHash = passwordHash,
+             * Salt = passwordSalt
+             * };
+             * var createdUser = _userService.Create(user, newUserDB);
+             * */
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         ///     Login
         /// </summary>
         /// <param name="user"></param>
         /// <returns>Authorized token upon successful login</returns>
-        [HttpPost]
+        [HttpGet]
         public IActionResult Login([FromBody] UserBO user)
         {
             if (user == null) return new BadRequestObjectResult(ErrorMessages.InvalidEntityString);
@@ -51,6 +67,7 @@ namespace DigitalThesisRegistration.Controllers
                     return HandleGroupLogin(user, group);
             }
         }
+
 
         /// <summary>
         /// Verify group password
@@ -152,32 +169,13 @@ namespace DigitalThesisRegistration.Controllers
         /// <returns></returns>
         private IActionResult HandleAdminLogin(UserBO user)
         {
-            if (VerifyPasswordHash(user.Password, user.PasswordHash, user.PasswordSalt))
+            if (UserHelper.VerifyPasswordHash(user.Password, user.PasswordHash, user.PasswordSalt))
                 return Ok(new
                 {
                     token = GenerateToken(user),
                     role = Administrator
                 });
             return Unauthorized();
-        }
-
-        // This method verifies that the password entered by a user corresponds to the stored
-        // password hash for this user. The method computes a Hash-based Message Authentication
-        // Code (HMAC) using the SHA512 hash function. The inputs to the computation is the
-        // password entered by the user and the stored password salt for this user. If the
-        // computed hash value is identical to the stored password hash, the password entered
-        // by the user is correct, and the method returns true.
-        private bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
-        {
-            using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
-            {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                for (var i = 0; i < computedHash.Length; i++)
-                {
-                    if (computedHash[i] != storedHash[i]) return false;
-                }
-            }
-            return true;
         }
     }
 }
