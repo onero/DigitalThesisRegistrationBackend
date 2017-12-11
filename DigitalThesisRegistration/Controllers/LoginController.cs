@@ -79,7 +79,24 @@ namespace DigitalThesisRegistration.Controllers
         /// <returns></returns>
         private IActionResult HandleSupervisorLogin(UserBO user)
         {
-            if (VerifyPasswordHash(user.Password, user.PasswordHash, user.PasswordSalt))
+            /*
+             * UserBO:
+             * Username
+             * Password
+             * 
+             * UserDBBO:
+             * PasswordHash
+             * Salt
+             * 
+             * User:
+             * Id
+             * Username
+             * PasswordHash
+             * Salt
+             * IsAdmin
+             * */
+            // UserDBBO userFromDB = _service.FindUser(Predicate<Query>);
+            if (VerifyPasswordHash(user.Password, userFromDB.PasswordHash, userFromDB.PasswordSalt))
                 return Ok(new
                 {
                     token = GenerateToken(user),
