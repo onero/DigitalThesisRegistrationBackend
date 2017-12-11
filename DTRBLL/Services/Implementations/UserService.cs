@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using DTRBLL.BusinessObjects;
+﻿using DTRBLL.BusinessObjects;
 using DTRBLL.Converters.Implementations;
 using DTRDAL.UOW;
 
 namespace DTRBLL.Services.Implementations
 {
-    class UserService : IUserService
+    internal class UserService : IUserService
     {
-        private readonly IUnitOfWork _uow;
         private readonly UserConverter _converter;
+        private readonly IUnitOfWork _uow;
 
         public UserService(IUnitOfWork uow)
         {

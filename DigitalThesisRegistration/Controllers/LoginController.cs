@@ -15,6 +15,7 @@ namespace DigitalThesisRegistration.Controllers
     public class LoginController : Controller
     {
         private readonly IGroupService _groupService;
+        private readonly IUserService _userService;
 
         private const string Group = "Group";
         private const string GroupPassword = "1234";
@@ -23,9 +24,10 @@ namespace DigitalThesisRegistration.Controllers
         private const string Administrator = "Administrator";
         private const string AdminPassword = "adminSecret";
 
-        public LoginController(IGroupService groupService)
+        public LoginController(IGroupService groupService, IUserService userService)
         {
             _groupService = groupService;
+            _userService = userService;
         }
 
         /// <summary>
@@ -39,14 +41,17 @@ namespace DigitalThesisRegistration.Controllers
             byte[] passwordHash;
             byte[] passwordSalt;
             UserHelper.CreatePasswordHash(user.Password, out passwordHash, out passwordSalt);
-            /*
-             * var newUserDB = new UserDBBO{
-             * PasswordHash = passwordHash,
-             * Salt = passwordSalt
-             * };
-             * var createdUser = _userService.Create(user, newUserDB);
-             * */
-            throw new NotImplementedException();
+            
+             var newUserDB = new UserDBBO{
+             PasswordHash = passwordHash,
+             Salt = passwordSalt
+             };
+             var userCreated = _userService.Create(user, newUserDB);
+            if (userCreated)
+            {
+                return new OkObjectResult(userCreated);
+            }
+            return new BadRequestObjectResult(userCreated);
         }
 
         /// <summary>
