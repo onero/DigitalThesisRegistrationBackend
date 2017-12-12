@@ -34,7 +34,7 @@ namespace DTRBLL.Services.Implementations
                     };
                     var convertedGroup = _groupConverter.Convert(newGroup);
                     unitOfWork.GroupRepository.Create(convertedGroup);
-                }
+                } 
                 unitOfWork.Complete();
                 return result;
             }
