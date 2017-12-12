@@ -10,6 +10,6 @@ namespace DTRDAL.Entities
         public string Username { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] Salt { get; set; }
-        public Boolean IsAdmin { get; set; }
+        public string Role { get; set; }
     }
 }

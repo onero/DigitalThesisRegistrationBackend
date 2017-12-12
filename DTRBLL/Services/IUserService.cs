@@ -1,4 +1,5 @@
 ﻿using DTRBLL.BusinessObjects;
+using DTRDAL.Entities;
 
 namespace DTRBLL.Services
 {
@@ -10,6 +11,6 @@ namespace DTRBLL.Services
         /// <param name="userBO"></param>
         /// <param name="userDBBO"></param>
         /// <returns></returns>
-        bool Create(UserBO userBO, UserDBBO userDBBO);
+        User Create(UserBO userBO, UserDBBO userDBBO);
     }
 }

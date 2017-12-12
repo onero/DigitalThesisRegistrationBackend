@@ -15,10 +15,10 @@ namespace DTRDAL.Repositories.Implementations
             _context = context;
         }
 
-        public bool Create(User ent)
+        public User Create(User ent)
         {
-            var result = _context.Users.Add(ent);
-            return result != null;
+            var result = _context.Users.Add(ent).Entity;
+            return result;
         }
         
     }

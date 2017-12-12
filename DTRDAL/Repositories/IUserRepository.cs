@@ -7,6 +7,6 @@ namespace DTRDAL.Repositories
 {
     public interface IUserRepository
     {
-        bool Create(User ent);
+        User Create(User ent);
     }
 }

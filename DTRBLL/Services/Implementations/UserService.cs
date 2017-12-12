@@ -1,5 +1,6 @@
 ﻿using DTRBLL.BusinessObjects;
 using DTRBLL.Converters.Implementations;
+using DTRDAL.Entities;
 using DTRDAL.UOW;
 
 namespace DTRBLL.Services.Implementations
@@ -15,7 +16,7 @@ namespace DTRBLL.Services.Implementations
             _converter = new UserConverter();
         }
 
-        public bool Create(UserBO userBO, UserDBBO userDBBO)
+        public User Create(UserBO userBO, UserDBBO userDBBO)
         {
             using (var unitOfWork = _uow)
             {
