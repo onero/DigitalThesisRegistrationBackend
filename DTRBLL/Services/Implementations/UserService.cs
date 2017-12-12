@@ -44,6 +44,7 @@ namespace DTRBLL.Services.Implementations
         public (UserBO userBo, UserDBBO userDbbo) Get(string username)
         {
             var userFromDB = _uow.UserRepository.Get(username);
+            if (userFromDB == null) return (null, null);
             if (!userFromDB.Role.Equals(Roles.Group))
             {
                 _uow.Dispose();

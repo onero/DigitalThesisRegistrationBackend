@@ -29,7 +29,7 @@ namespace DTRBLLTests.Implementations.Services
         [Fact]
         public void CreateOne()
         {
-            _repo.Setup(r => r.Create(It.IsAny<User>())).Returns(new User());
+            _repo.Setup(r => r.Create(It.IsAny<User>())).Returns((User user) => user);
 
             var entity = _service.Create(new UserBO
             {
@@ -48,7 +48,10 @@ namespace DTRBLLTests.Implementations.Services
         [Fact]
         public void GetOneByExistingUsername()
         {
-            _repo.Setup(r => r.Get(It.IsAny<string>())).Returns(new User());
+            _repo.Setup(r => r.Get(It.IsAny<string>())).Returns(new User
+            {
+                Role = ""
+            });
             
             var userBo = _service.Get("Test").userBo;
             var userDbbo = _service.Get("Test").userDbbo;
