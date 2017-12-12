@@ -25,7 +25,7 @@ namespace DTRBLL.Services.Implementations
                 var user = _converter.Convert(userBO, userDBBO);
                 var result = unitOfWork.UserRepository.Create(user);
                 unitOfWork.Complete();
-                if (result.Role.Equals("Group"))
+                if (result.Role.Equals(Roles.Group))
                 {
                     var newGroup = new GroupBO
                     {

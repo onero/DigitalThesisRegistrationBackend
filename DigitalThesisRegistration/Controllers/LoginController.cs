@@ -18,12 +18,6 @@ namespace DigitalThesisRegistration.Controllers
         private readonly IGroupService _groupService;
         private readonly IUserService _userService;
 
-        private const string Group = "Group";
-        private const string GroupPassword = "1234";
-        private const string Supervisor = "Supervisor";
-        private const string SupervisorPassword = "supervisorSecret";
-        private const string Administrator = "Administrator";
-        private const string AdminPassword = "adminSecret";
 
         public LoginController(IGroupService groupService, IUserService userService)
         {
@@ -67,9 +61,9 @@ namespace DigitalThesisRegistration.Controllers
 
             switch (user.Username)
             {
-                case Supervisor:
+                case Roles.Supervisor:
                     return HandleSupervisorLogin(user);
-                case Administrator:
+                case Roles.Administrator:
                     return HandleAdminLogin(user);
                 // If not Supervisor or Admin, only groups can login
                 default:
@@ -148,14 +142,14 @@ namespace DigitalThesisRegistration.Controllers
 
             switch (user.Username)
             {
-                case Supervisor:
-                    claims.Add(new Claim(ClaimTypes.Role, Supervisor));
+                case Roles.Supervisor:
+                    claims.Add(new Claim(ClaimTypes.Role, Roles.Supervisor));
                     break;
-                case Administrator:
-                    claims.Add(new Claim(ClaimTypes.Role, Administrator));
+                case Roles.Administrator:
+                    claims.Add(new Claim(ClaimTypes.Role, Roles.Administrator));
                     break;
                 default:
-                    claims.Add(new Claim(ClaimTypes.Role, Group));
+                    claims.Add(new Claim(ClaimTypes.Role, Roles.Group));
                     break;
             }
 

@@ -2,9 +2,6 @@
 {
     public static class UserHelper
     {
-        public static string AdminRole = "Administrator";
-        public static string SupervisorRole = "Supervisor";
-        public static string GroupRole = "Group";
         /// <summary>
         /// This method computes a hashed and salted password using the HMACSHA512 algorithm.
         /// The HMACSHA512 class computes a Hash-based Message Authentication Code (HMAC) using 
