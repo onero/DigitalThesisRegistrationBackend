@@ -13,6 +13,7 @@ namespace DTRDAL.UOW.Implementations
         public IProjectRepository ProjectRepository { get; }
         public IContractRepository ContractRepository { get; }
         public IAppendixRepository AppendixRepository { get; }
+        public IUserRepository UserRepository { get; }
         public ICompanyRepository CompanyRepository { get; }
         public ISupervisorRepository SupervisorRepository { get;  }
 
@@ -25,6 +26,7 @@ namespace DTRDAL.UOW.Implementations
             SupervisorRepository = new SupervisorRepository(_context);
             ProjectRepository = new ProjectRepository(_context);
             ContractRepository = new ContractRepository(_context);
+            UserRepository = new UserRepository(_context);
             AppendixRepository = new AppendixRepository();
         }
 

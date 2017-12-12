@@ -38,9 +38,7 @@ namespace DigitalThesisRegistration.Controllers
         [HttpPost]
         public IActionResult CreateUser([FromBody] UserBO user)
         {
-            byte[] passwordHash;
-            byte[] passwordSalt;
-            UserHelper.CreatePasswordHash(user.Password, out passwordHash, out passwordSalt);
+            UserHelper.CreatePasswordHash(user.Password, out var passwordHash, out var passwordSalt);
             
              var newUserDB = new UserDBBO{
              PasswordHash = passwordHash,
@@ -55,7 +53,7 @@ namespace DigitalThesisRegistration.Controllers
         }
 
         /// <summary>
-        ///     Login
+        /// Login
         /// </summary>
         /// <param name="user"></param>
         /// <returns>Authorized token upon successful login</returns>
@@ -87,7 +85,7 @@ namespace DigitalThesisRegistration.Controllers
         /// <returns></returns>
         private IActionResult HandleGroupLogin(UserBO user, GroupBO group)
         {
-            if (VerifyPasswordHash(user.Password, user.PasswordHash, user.PasswordSalt))
+            if (UserHelper.VerifyPasswordHash(user.Password, user.PasswordHash, user.PasswordSalt))
                 // If the group password checks out, resond with new JSON object
                 return Ok(new
                 {
@@ -123,7 +121,7 @@ namespace DigitalThesisRegistration.Controllers
              * IsAdmin
              * */
             // UserDBBO userFromDB = _service.FindUser(Predicate<Query>);
-            if (VerifyPasswordHash(user.Password, userFromDB.PasswordHash, userFromDB.PasswordSalt))
+            if (UserHelper.VerifyPasswordHash(user.Password, userFromDB.PasswordHash, userFromDB.PasswordSalt))
                 return Ok(new
                 {
                     token = GenerateToken(user),
