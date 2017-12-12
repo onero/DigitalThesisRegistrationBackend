@@ -49,10 +49,6 @@ namespace DigitalThesisRegistration.Controllers
             var userCreated = _userService.Create(user, newUserDB);
             if (userCreated != null)
             {
-                if (userCreated.Role.Equals(UserHelper.GroupRole))
-                {
-                    
-                }
                 return new OkObjectResult(userCreated);
             }
             return new BadRequestObjectResult(userCreated);
