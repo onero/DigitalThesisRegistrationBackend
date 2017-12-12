@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using DTRDAL.Context;
 using DTRDAL.Entities;
 
 namespace DTRDAL.Repositories.Implementations
 {
-    class UserRepository : IUserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly DTRContext _context;
 
@@ -20,6 +22,10 @@ namespace DTRDAL.Repositories.Implementations
             var result = _context.Users.Add(ent);
             return result != null;
         }
-        
+
+        public User Get(Expression<Func<User, bool>> predicate)
+        {
+            return _context.Users.FirstOrDefault(predicate);
+        }
     }
 }
