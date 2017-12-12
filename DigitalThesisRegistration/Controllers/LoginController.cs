@@ -6,6 +6,7 @@ using System.Security.Claims;
 using DigitalThesisRegistration.Helpers;
 using DTRBLL.BusinessObjects;
 using DTRBLL.Services;
+using DTRDAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -30,7 +31,7 @@ namespace DigitalThesisRegistration.Controllers
         /// </summary>
         /// <param name="user">User to create</param>
         /// <returns>Boolean for success</returns>
-        [HttpPost]
+        [HttpPost("{create}", Name = "CreateUser")]
         public IActionResult CreateUser([FromBody] UserBO user)
         {
             UserHelper.CreatePasswordHash(user.Password, out var passwordHash, out var passwordSalt);
@@ -53,24 +54,26 @@ namespace DigitalThesisRegistration.Controllers
         /// </summary>
         /// <param name="user"></param>
         /// <returns>Authorized token upon successful login</returns>
-        [HttpGet]
+        [HttpPost]
         public IActionResult Login([FromBody] UserBO user)
         {
             if (user == null) return new BadRequestObjectResult(ErrorMessages.InvalidEntityString);
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
-
-            switch (user.Username)
+            var userFromDB = _userService.Get(user.Username);
+            if (userFromDB.userBo == null) return new NotFoundObjectResult(ErrorMessages.NotFoundString);
+            switch (userFromDB.userBo.Role)
             {
                 case Roles.Supervisor:
-                    return HandleSupervisorLogin(user);
+                    return HandleSupervisorLogin(user, userFromDB.userDbbo);
                 case Roles.Administrator:
-                    return HandleAdminLogin(user);
-                // If not Supervisor or Admin, only groups can login
-                default:
+                    return HandleAdminLogin(user, userFromDB.userDbbo);
+                case Roles.Group:
                     var group = _groupService.Get(user.Username);
                     if (group == null) return Unauthorized();
-                    return HandleGroupLogin(user, group);
+                    return HandleGroupLogin(user, userFromDB.userDbbo, group);
             }
+            // YOU SHALL NOT PASS, because we don't know you :)
+            return Unauthorized();
         }
 
 
@@ -80,16 +83,16 @@ namespace DigitalThesisRegistration.Controllers
         /// <param name="user"></param>
         /// <param name="group"></param>
         /// <returns></returns>
-        private IActionResult HandleGroupLogin(UserBO user, GroupBO group)
+        private IActionResult HandleGroupLogin(UserBO user, UserDBBO security, GroupBO group)
         {
-            //if (UserHelper.VerifyPasswordHash(user.Password, user.PasswordHash, user.PasswordSalt))
-            //    // If the group password checks out, resond with new JSON object
-            //    return Ok(new
-            //    {
-            //        token = GenerateToken(user),
-            //        role = Group,
-            //        group
-            //    });
+            if (UserHelper.VerifyPasswordHash(user.Password, security.PasswordHash, security.Salt))
+                // If the group password checks out, resond with new JSON object
+                return Ok(new
+                {
+                    token = GenerateToken(user),
+                    role = Roles.Group,
+                    group
+                });
             // Else YOU SHALL NOT PASS!
             return Unauthorized();
         }
@@ -99,31 +102,14 @@ namespace DigitalThesisRegistration.Controllers
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        private IActionResult HandleSupervisorLogin(UserBO user)
+        private IActionResult HandleSupervisorLogin(UserBO user, UserDBBO security)
         {
-            /*
-             * UserBO:
-             * Username
-             * Password
-             * 
-             * UserDBBO:
-             * PasswordHash
-             * Salt
-             * 
-             * User:
-             * Id
-             * Username
-             * PasswordHash
-             * Salt
-             * IsAdmin
-             * */
-            // UserDBBO userFromDB = _service.FindUser(Predicate<Query>);
-            //if (UserHelper.VerifyPasswordHash(user.Password, userFromDB.PasswordHash, userFromDB.PasswordSalt))
-            //    return Ok(new
-            //    {
-            //        token = GenerateToken(user),
-            //        role = Supervisor
-            //    });
+            if (UserHelper.VerifyPasswordHash(user.Password, security.PasswordHash, security.Salt))
+                return Ok(new
+                {
+                    token = GenerateToken(user),
+                    role = Roles.Supervisor
+                });
 
             return Unauthorized();
         }
@@ -172,14 +158,14 @@ namespace DigitalThesisRegistration.Controllers
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        private IActionResult HandleAdminLogin(UserBO user)
+        private IActionResult HandleAdminLogin(UserBO user, UserDBBO security)
         {
-            //if (UserHelper.VerifyPasswordHash(user.Password, user.PasswordHash, user.PasswordSalt))
-            //    return Ok(new
-            //    {
-            //        token = GenerateToken(user),
-            //        role = Administrator
-            //    });
+            if (UserHelper.VerifyPasswordHash(user.Password, security.PasswordHash, security.Salt))
+                return Ok(new
+                {
+                    token = GenerateToken(user),
+                    role = Roles.Administrator
+                });
             return Unauthorized();
         }
     }
