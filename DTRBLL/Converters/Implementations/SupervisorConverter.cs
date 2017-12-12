@@ -16,6 +16,7 @@ namespace DTRBLL.Converters.Implementations
             return new Supervisor
             {
                 Id = bo.Id,
+                UserId = bo.UserId,
                 FirstName = bo.FirstName,
                 LastName = bo.LastName,
                 AssignedProjects = bo.AssignedProjects?.Select(_projectConverter.Convert).ToList(),
@@ -29,6 +30,7 @@ namespace DTRBLL.Converters.Implementations
             return new SupervisorBO
             {
                 Id = entity.Id,
+                UserId = entity.UserId,
                 FirstName = entity.FirstName,
                 LastName = entity.LastName,
                 AssignedProjects = entity.AssignedProjects?.Select(_projectConverter.Convert).ToList(),

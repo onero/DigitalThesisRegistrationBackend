@@ -11,8 +11,8 @@ namespace DTRDAL.Context
         public DbSet<Company> Companies { get; set; }
         public DbSet<Supervisor> Supervisors { get; set; }
         public DbSet<Project> Projects { get; set; }
-
         public DbSet<Contract> Contracts { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public DTRContext(DbContextOptions<DTRContext> options) : base(options)
         {
