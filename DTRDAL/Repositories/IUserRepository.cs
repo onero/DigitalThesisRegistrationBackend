@@ -9,6 +9,6 @@ namespace DTRDAL.Repositories
     public interface IUserRepository
     {
         User Create(User ent);
-        User Get(Expression<Func<User, bool>> predicate);
+        User Get(string username);
     }
 }

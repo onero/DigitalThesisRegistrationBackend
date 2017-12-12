@@ -27,17 +27,33 @@ namespace DTRDALTests.Implementations
                 Id = 1,
                 Username = "Test",
                 PasswordHash = new byte[1],
-                Salt = new byte[1] 
+                Salt = new byte[1],
+                Role = "Administrator"
             };
             var createdEntity = _repository.Create(entity);
             _context.SaveChanges();
-            //return createdEntity;
-            return entity;
+            return createdEntity;
         }
         [Fact]
         public void CreateOne()
         {
-            
+            var createdEntity = CreateMockUser();
+            Assert.NotNull(createdEntity);
+        }
+
+        [Fact]
+        public void GetUser()
+        {
+            var entityToSearchFor = CreateMockUser();
+            var result = _repository.Get(entityToSearchFor.Username);
+            Assert.NotNull(result);
+        }
+        
+        [Fact]
+        public void NotGetOneByNonExistingId()
+        {
+            var entity = _repository.Get("Test");
+            Assert.Null(entity);
         }
     }
 }

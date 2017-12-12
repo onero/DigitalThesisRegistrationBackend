@@ -23,9 +23,9 @@ namespace DTRDAL.Repositories.Implementations
             return result;
         }
 
-        public User Get(Expression<Func<User, bool>> predicate)
+        public User Get(string username)
         {
-            return _context.Users.FirstOrDefault(predicate);
+            return _context.Users.FirstOrDefault(u => u.Username == username);
         }
     }
 }
