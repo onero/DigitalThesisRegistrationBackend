@@ -10,6 +10,7 @@ namespace DTRBLL.Converters.Implementations
     {
         public User Convert(UserBO userBo, UserDBBO userDbbo)
         {
+            if (userBo == null || userDbbo == null) return null;
             return new User
             {
                 PasswordHash = userDbbo.PasswordHash,
@@ -21,6 +22,7 @@ namespace DTRBLL.Converters.Implementations
 
         public (UserBO userBo, UserDBBO userDbbo) Convert(User user)
         {
+            if (user == null) return (null, null);
             return (
                 new UserBO
                 {

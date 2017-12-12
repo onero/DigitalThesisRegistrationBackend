@@ -19,7 +19,7 @@ namespace DTRDAL.Repositories.Implementations
 
         public User Create(User ent)
         {
-            return _context.Users.Add(ent).Entity; ;
+            return _context.Users.Add(ent).Entity;
         }
 
         public User Get(string username)
