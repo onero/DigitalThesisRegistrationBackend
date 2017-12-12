@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using DigitalThesisRegistration.Helpers;
@@ -39,14 +40,19 @@ namespace DigitalThesisRegistration.Controllers
         public IActionResult CreateUser([FromBody] UserBO user)
         {
             UserHelper.CreatePasswordHash(user.Password, out var passwordHash, out var passwordSalt);
-            
-             var newUserDB = new UserDBBO{
-             PasswordHash = passwordHash,
-             Salt = passwordSalt
-             };
-             var userCreated = _userService.Create(user, newUserDB);
-            if (userCreated)
+
+            var newUserDB = new UserDBBO
             {
+                PasswordHash = passwordHash,
+                Salt = passwordSalt
+            };
+            var userCreated = _userService.Create(user, newUserDB);
+            if (userCreated != null)
+            {
+                if (userCreated.Role.Equals(UserHelper.GroupRole))
+                {
+                    
+                }
                 return new OkObjectResult(userCreated);
             }
             return new BadRequestObjectResult(userCreated);
@@ -62,6 +68,7 @@ namespace DigitalThesisRegistration.Controllers
         {
             if (user == null) return new BadRequestObjectResult(ErrorMessages.InvalidEntityString);
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
+
             switch (user.Username)
             {
                 case Supervisor:
@@ -85,14 +92,14 @@ namespace DigitalThesisRegistration.Controllers
         /// <returns></returns>
         private IActionResult HandleGroupLogin(UserBO user, GroupBO group)
         {
-            if (UserHelper.VerifyPasswordHash(user.Password, user.PasswordHash, user.PasswordSalt))
-                // If the group password checks out, resond with new JSON object
-                return Ok(new
-                {
-                    token = GenerateToken(user),
-                    role = Group,
-                    group
-                });
+            //if (UserHelper.VerifyPasswordHash(user.Password, user.PasswordHash, user.PasswordSalt))
+            //    // If the group password checks out, resond with new JSON object
+            //    return Ok(new
+            //    {
+            //        token = GenerateToken(user),
+            //        role = Group,
+            //        group
+            //    });
             // Else YOU SHALL NOT PASS!
             return Unauthorized();
         }
@@ -121,12 +128,12 @@ namespace DigitalThesisRegistration.Controllers
              * IsAdmin
              * */
             // UserDBBO userFromDB = _service.FindUser(Predicate<Query>);
-            if (UserHelper.VerifyPasswordHash(user.Password, userFromDB.PasswordHash, userFromDB.PasswordSalt))
-                return Ok(new
-                {
-                    token = GenerateToken(user),
-                    role = Supervisor
-                });
+            //if (UserHelper.VerifyPasswordHash(user.Password, userFromDB.PasswordHash, userFromDB.PasswordSalt))
+            //    return Ok(new
+            //    {
+            //        token = GenerateToken(user),
+            //        role = Supervisor
+            //    });
 
             return Unauthorized();
         }
@@ -177,12 +184,12 @@ namespace DigitalThesisRegistration.Controllers
         /// <returns></returns>
         private IActionResult HandleAdminLogin(UserBO user)
         {
-            if (UserHelper.VerifyPasswordHash(user.Password, user.PasswordHash, user.PasswordSalt))
-                return Ok(new
-                {
-                    token = GenerateToken(user),
-                    role = Administrator
-                });
+            //if (UserHelper.VerifyPasswordHash(user.Password, user.PasswordHash, user.PasswordSalt))
+            //    return Ok(new
+            //    {
+            //        token = GenerateToken(user),
+            //        role = Administrator
+            //    });
             return Unauthorized();
         }
     }

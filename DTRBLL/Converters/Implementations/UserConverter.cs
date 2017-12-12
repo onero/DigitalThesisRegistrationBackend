@@ -14,7 +14,8 @@ namespace DTRBLL.Converters.Implementations
             {
                 PasswordHash = userDbbo.PasswordHash,
                 Salt = userDbbo.Salt,
-                Username = userBo.Username
+                Username = userBo.Username,
+                Role = userBo.Role
             };
         }
     }

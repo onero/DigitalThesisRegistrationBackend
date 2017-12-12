@@ -8,5 +8,7 @@ namespace DTRBLL.BusinessObjects
         public string Username { get; set; }
         [Required]
         public string Password { get; set; }
+
+        public string Role { get; set; } = "Group";
     }
 }
