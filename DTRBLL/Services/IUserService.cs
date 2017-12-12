@@ -13,5 +13,7 @@ namespace DTRBLL.Services
         /// <returns>Created user</returns>
         /// <remarks>If User role is "Group" the new group is created</remarks>
         User Create(UserBO userBO, UserDBBO userDBBO);
+
+        (UserBO userBo, UserDBBO userDbbo) Get(string username);
     }
 }

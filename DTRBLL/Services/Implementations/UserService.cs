@@ -1,6 +1,7 @@
 ﻿using DTRBLL.BusinessObjects;
 using DTRBLL.Converters.Implementations;
 using DTRDAL.Entities;
+using DTRDAL.Repositories.Implementations;
 using DTRDAL.UOW;
 
 namespace DTRBLL.Services.Implementations
@@ -37,6 +38,14 @@ namespace DTRBLL.Services.Implementations
                 } 
                 unitOfWork.Complete();
                 return result;
+            }
+        }
+
+        public (UserBO userBo, UserDBBO userDbbo) Get(string username)
+        {
+            using (var unitOfWork = _uow)
+            {
+                return _converter.Convert(unitOfWork.UserRepository.Get(username));
             }
         }
     }

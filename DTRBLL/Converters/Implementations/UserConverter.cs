@@ -18,5 +18,20 @@ namespace DTRBLL.Converters.Implementations
                 Role = userBo.Role
             };
         }
+
+        public (UserBO userBo, UserDBBO userDbbo) Convert(User user)
+        {
+            return (
+                new UserBO
+                {
+                    Username = user.Username,
+                    Role = user.Role
+                },
+                new UserDBBO
+                {
+                    Salt = user.Salt,
+                    PasswordHash = user.PasswordHash
+                });
+        }
     }
 }
