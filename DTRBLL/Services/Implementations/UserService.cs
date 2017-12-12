@@ -35,7 +35,7 @@ namespace DTRBLL.Services.Implementations
                     };
                     var convertedGroup = _groupConverter.Convert(newGroup);
                     unitOfWork.GroupRepository.Create(convertedGroup);
-                } 
+                }
                 unitOfWork.Complete();
                 return result;
             }
@@ -43,10 +43,12 @@ namespace DTRBLL.Services.Implementations
 
         public (UserBO userBo, UserDBBO userDbbo) Get(string username)
         {
-            using (var unitOfWork = _uow)
+            var userFromDB = _uow.UserRepository.Get(username);
+            if (!userFromDB.Role.Equals(Roles.Group))
             {
-                return _converter.Convert(unitOfWork.UserRepository.Get(username));
+                _uow.Dispose();
             }
+            return _converter.Convert(userFromDB);
         }
     }
 }
