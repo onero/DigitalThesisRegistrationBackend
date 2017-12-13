@@ -61,6 +61,7 @@ namespace DigitalThesisRegistration.Controllers
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
             var userFromDB = _userService.Get(user.Username);
             if (userFromDB.userBo == null) return new NotFoundObjectResult(ErrorMessages.NotFoundString);
+            user.Role = userFromDB.userBo.Role;
             switch (userFromDB.userBo.Role)
             {
                 case Roles.Supervisor:
