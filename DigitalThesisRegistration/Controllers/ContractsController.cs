@@ -102,6 +102,14 @@ namespace DigitalThesisRegistration.Controllers
             return new OkObjectResult(result);
         }
 
+        /// <summary>
+        /// PUT updates to the contract
+        /// </summary>
+        /// <param name="projectId">Project id</param>
+        /// <param name="groupId">Group id</param>
+        /// <param name="companyId">Company id</param>
+        /// <param name="value">Contract</param>
+        /// <returns>Updated contract</returns>
         // PUT: api/Contracts/5
         [Authorize(Roles = "Administrator, Supervisor")]
         [HttpPut("{projectId},{groupId},{companyId}")]

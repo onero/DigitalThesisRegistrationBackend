@@ -6,6 +6,7 @@ namespace DTRBLL.BusinessObjects
     public class GroupBO
     {
         public int Id { get; set; }
+        public int UserId { get; set; }
         [Required]
         [MinLength(2)]
         public string ContactEmail { get; set; }
