@@ -123,10 +123,10 @@ namespace DigitalThesisRegistration.Controllers
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, user.Role)
             };
 
-            switch (user.Username)
+            switch (user.Role)
             {
                 case Roles.Supervisor:
                     claims.Add(new Claim(ClaimTypes.Role, Roles.Supervisor));
